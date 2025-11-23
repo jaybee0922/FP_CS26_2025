@@ -52,6 +52,16 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\ProcessReservationBtn.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HotelManager_AdminAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HotelManager_AdminAccount.Designer.cs">
+      <DependentUpon>HotelManager_AdminAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginFormDesign\GradientBtn.cs" />
     <Compile Include="LoginFormDesign\LoginBtn.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -68,6 +78,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HotelManager_AdminAccount.resx">
+      <DependentUpon>HotelManager_AdminAccount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -91,5 +104,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
