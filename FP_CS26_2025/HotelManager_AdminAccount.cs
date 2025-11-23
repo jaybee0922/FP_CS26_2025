@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace FP_CS26_2025
 {
-    public partial class Form1 : Form
+    public partial class FrontDesk_ReceptionistAccoun : Form
     {
-        public Form1()
+        public FrontDesk_ReceptionistAccoun()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void clickableLabel2_Click(object sender, EventArgs e)
         {
 
         }
