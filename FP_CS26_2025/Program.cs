@@ -12,8 +12,18 @@ namespace FP_CS26_2025
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+<<<<<<< HEAD
             // Directly launch the Hotel Manager form for testing
             Application.Run(new FrontDesk_ReceptionistAccoun());
+=======
+            // To test frontdesk hotel 
+            //Application.Run(new FrontDesk_ReceptionistAccoun());
+            
+
+            //To test login form 
+            Application.Run(new Form1());
+
+>>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
         }
     }
 }
