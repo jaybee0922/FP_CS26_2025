@@ -21,5 +21,13 @@ namespace FP_CS26_2025
         {
 
         }
+<<<<<<< HEAD
+=======
+
+        private void FrontDesk_ReceptionistAccoun_Load(object sender, EventArgs e)
+        {
+
+        }
+>>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
     }
 }

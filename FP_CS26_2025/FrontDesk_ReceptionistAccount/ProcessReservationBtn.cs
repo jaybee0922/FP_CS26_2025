@@ -12,6 +12,12 @@ namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
         private Color normalBackColor = Color.White;
         private Color hoverBackColor = Color.FromArgb(230, 240, 255);
 
+<<<<<<< HEAD
+=======
+        private Timer clickAnimationTimer;
+        private float scaleFactor = 1f; // Default scale factor
+
+>>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
         // Default size
         protected override Size DefaultSize => new Size(250, 50);
 
@@ -39,12 +45,26 @@ namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
             this.MouseLeave += (s, e) => this.BackColor = normalBackColor;
 
             this.Cursor = Cursors.Hand;
+<<<<<<< HEAD
+=======
+
+            // Timer for the click animation
+            clickAnimationTimer = new Timer();
+            clickAnimationTimer.Interval = 50; // Timer interval for smooth animation
+            clickAnimationTimer.Tick += ClickAnimationTick;
+>>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
+<<<<<<< HEAD
+=======
+            // Apply scaling for animation
+            e.Graphics.ScaleTransform(scaleFactor, scaleFactor);
+
+>>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
             // Rounded rectangle background
             GraphicsPath path = new GraphicsPath();
             int diameter = BorderRadius * 2;
@@ -85,6 +105,27 @@ namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
         protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);
+<<<<<<< HEAD
         }
     }
 }
+=======
+
+            // Start the click animation
+            scaleFactor = 0.9f; // Shrink the button
+            Invalidate(); // Repaint the button with the new scale
+
+            clickAnimationTimer.Start(); // Start the timer for resetting the button
+        }
+
+        private void ClickAnimationTick(object sender, EventArgs e)
+        {
+            // After a short time, reset the scale factor
+            scaleFactor = 1f; // Reset to normal size
+            Invalidate(); // Repaint the button
+
+            clickAnimationTimer.Stop(); // Stop the timer
+        }
+    }
+}
+>>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
