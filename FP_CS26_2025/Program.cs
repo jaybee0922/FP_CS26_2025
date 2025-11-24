@@ -17,11 +17,11 @@ namespace FP_CS26_2025
             Application.Run(new FrontDesk_ReceptionistAccoun());
 
             // To test frontdesk hotel 
-            //Application.Run(new FrontDesk_ReceptionistAccoun());
-            
+            Application.Run(new FrontDesk_ReceptionistAccoun());
+
 
             //To test login form 
-            Application.Run(new Form1());
+            //Application.Run(new Form1());
 
 
         }
