@@ -21,8 +21,6 @@ namespace FP_CS26_2025
         {
 
         }
-<<<<<<< HEAD
-=======
         
         //for username field 
         private void usernameFieldBox_Load(object sender, EventArgs e)
@@ -46,6 +44,5 @@ namespace FP_CS26_2025
         {
         }
 
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
     }
 }

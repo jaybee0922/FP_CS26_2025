@@ -66,10 +66,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(432, 24);
             this.comboBox1.TabIndex = 3;
-<<<<<<< HEAD
-=======
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
             // 
             // passwordInputField1
             // 
@@ -78,22 +75,15 @@
             this.passwordInputField1.BorderFocusColor = System.Drawing.Color.DeepSkyBlue;
             this.passwordInputField1.BorderRadius = 20;
             this.passwordInputField1.BorderSize = 1;
-<<<<<<< HEAD
-            this.passwordInputField1.Icon = ((System.Drawing.Image)(resources.GetObject("passwordInputField1.Icon")));
-=======
             this.passwordInputField1.Icon = null;
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
             this.passwordInputField1.Location = new System.Drawing.Point(76, 166);
             this.passwordInputField1.Name = "passwordInputField1";
             this.passwordInputField1.Padding = new System.Windows.Forms.Padding(8);
             this.passwordInputField1.PlaceholderText = "Enter password";
             this.passwordInputField1.Size = new System.Drawing.Size(432, 54);
             this.passwordInputField1.TabIndex = 2;
-<<<<<<< HEAD
-=======
             this.passwordInputField1.Load += new System.EventHandler(this.passwordFieldBox_Load);
 
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
             // 
             // usernameInputField1
             // 
@@ -109,12 +99,6 @@
             this.usernameInputField1.PlaceholderText = "Enter username";
             this.usernameInputField1.Size = new System.Drawing.Size(432, 54);
             this.usernameInputField1.TabIndex = 1;
-<<<<<<< HEAD
-            // 
-            // loginBtn1
-            // 
-            this.loginBtn1.BorderRadius = 15;
-=======
             this.usernameInputField1.Load += new System.EventHandler(this.usernameFieldBox_Load);
 
             // 
@@ -125,18 +109,13 @@
             this.loginBtn1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.loginBtn1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loginBtn1.ForeColor = System.Drawing.Color.White;
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
             this.loginBtn1.Location = new System.Drawing.Point(76, 317);
             this.loginBtn1.Name = "loginBtn1";
             this.loginBtn1.Size = new System.Drawing.Size(432, 54);
             this.loginBtn1.TabIndex = 0;
             this.loginBtn1.Text = "Login";
             this.loginBtn1.UseVisualStyleBackColor = true;
-<<<<<<< HEAD
-=======
             this.loginBtn1.Click += new System.EventHandler(this.loginFormBtn_Click);
-
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
             // 
             // Form1
             // 
