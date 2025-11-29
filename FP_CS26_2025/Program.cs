@@ -1,29 +1,17 @@
-﻿using System;
+﻿// Program.cs
+using System;
 using System.Windows.Forms;
-//using FP_CS26_2025.HotelManager_AdminAccount; // ✅ correct namespace for your form
-using FP_CS26_2025.FrontDesk_ReceptionistAccount;
+
 namespace FP_CS26_2025
 {
-    internal static class Program
+    static class Program
     {
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-<<<<<<< HEAD
-            // Directly launch the Hotel Manager form for testing
-            Application.Run(new FrontDesk_ReceptionistAccoun());
-=======
-            // To test frontdesk hotel 
-            //Application.Run(new FrontDesk_ReceptionistAccoun());
-            
-
-            //To test login form 
-            Application.Run(new Form1());
-
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
+            Application.Run(new Form1());  // Start with the login form
         }
     }
 }
