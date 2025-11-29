@@ -1,4 +1,4 @@
-﻿namespace FP_CS26_2025
+namespace FP_CS26_2025
 {
     partial class Form1
     {
@@ -83,7 +83,6 @@
             this.passwordInputField1.Size = new System.Drawing.Size(432, 54);
             this.passwordInputField1.TabIndex = 2;
             this.passwordInputField1.Load += new System.EventHandler(this.passwordFieldBox_Load);
-
             // 
             // usernameInputField1
             // 
@@ -100,7 +99,6 @@
             this.usernameInputField1.Size = new System.Drawing.Size(432, 54);
             this.usernameInputField1.TabIndex = 1;
             this.usernameInputField1.Load += new System.EventHandler(this.usernameFieldBox_Load);
-
             // 
             // loginBtn1
             // 
@@ -140,4 +138,3 @@
         private System.Windows.Forms.ComboBox comboBox1;
     }
 }
-

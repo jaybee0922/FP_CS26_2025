@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,8 +33,6 @@ namespace FP_CS26_2025
         {
         }
 
-
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -43,6 +41,5 @@ namespace FP_CS26_2025
         private void loginFormBtn_Click(object sender, EventArgs e)
         {
         }
-
     }
 }
