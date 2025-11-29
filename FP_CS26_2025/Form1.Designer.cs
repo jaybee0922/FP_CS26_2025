@@ -66,7 +66,6 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(432, 24);
             this.comboBox1.TabIndex = 3;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // passwordInputField1
             // 
@@ -75,14 +74,13 @@
             this.passwordInputField1.BorderFocusColor = System.Drawing.Color.DeepSkyBlue;
             this.passwordInputField1.BorderRadius = 20;
             this.passwordInputField1.BorderSize = 1;
-            this.passwordInputField1.Icon = null;  // Choose appropriate Icon if needed
+            this.passwordInputField1.Icon = null;
             this.passwordInputField1.Location = new System.Drawing.Point(76, 166);
             this.passwordInputField1.Name = "passwordInputField1";
             this.passwordInputField1.Padding = new System.Windows.Forms.Padding(8);
             this.passwordInputField1.PlaceholderText = "Enter password";
             this.passwordInputField1.Size = new System.Drawing.Size(432, 54);
             this.passwordInputField1.TabIndex = 2;
-            this.passwordInputField1.Load += new System.EventHandler(this.passwordFieldBox_Load);
             // 
             // usernameInputField1
             // 
@@ -98,7 +96,7 @@
             this.usernameInputField1.PlaceholderText = "Enter username";
             this.usernameInputField1.Size = new System.Drawing.Size(432, 54);
             this.usernameInputField1.TabIndex = 1;
-            this.usernameInputField1.Load += new System.EventHandler(this.usernameFieldBox_Load);
+            this.usernameInputField1.Load += new System.EventHandler(this.usernameInputField1_Load);
             // 
             // loginBtn1
             // 
@@ -126,6 +124,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.loginFormContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         #endregion

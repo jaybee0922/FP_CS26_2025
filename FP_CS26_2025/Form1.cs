@@ -17,33 +17,24 @@ namespace FP_CS26_2025
             InitializeComponent();
         }
 
+        // Called when Form1 is loaded
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            // You can add any initialization logic here, if needed
         }
 
-        
-        //for username field 
-        private void usernameFieldBox_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        //for password field 
-        private void passwordFieldBox_Load(object sender, EventArgs e)
-        {
-        }
-
-
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        // Login Button Click Event
         private void loginFormBtn_Click(object sender, EventArgs e)
         {
+          
+
+            FrontDesk_ReceptionistAccoun front = new FrontDesk_ReceptionistAccoun();
+            front.Show();
         }
 
+        private void usernameInputField1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

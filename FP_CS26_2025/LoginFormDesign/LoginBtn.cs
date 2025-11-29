@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-﻿using System.Drawing;
-=======
-﻿using System;
+using System;
 using System.Drawing;
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
@@ -11,11 +7,7 @@ namespace FP_CS26_2025.LoginFormDesign
 {
     public class LoginBtn : Button
     {
-<<<<<<< HEAD
         // ✅ Add BorderRadius property
-        public int BorderRadius { get; set; } = 15;
-
-=======
         public int BorderRadius { get; set; } = 15;
 
         // Bounce Animation
@@ -49,7 +41,6 @@ namespace FP_CS26_2025.LoginFormDesign
             animationTimer.Interval = 15;
             animationTimer.Tick += Animate;
         }
-
 
         // Hover shadow
         protected override void OnMouseEnter(EventArgs e)
@@ -120,32 +111,10 @@ namespace FP_CS26_2025.LoginFormDesign
             Invalidate();
         }
 
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-<<<<<<< HEAD
-            // Create rounded rectangle path
-            GraphicsPath path = new GraphicsPath();
-            int radius = BorderRadius;
-            int diameter = radius * 2;
-
-            path.AddArc(0, 0, diameter, diameter, 180, 90);
-            path.AddArc(this.Width - diameter - 1, 0, diameter, diameter, 270, 90);
-            path.AddArc(this.Width - diameter - 1, this.Height - diameter - 1, diameter, diameter, 0, 90);
-            path.AddArc(0, this.Height - diameter - 1, diameter, diameter, 90, 90);
-            path.CloseFigure();
-
-            // Set button region to make rounded corners visible
-            this.Region = new Region(path);
-
-            // Fill gradient
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                this.ClientRectangle,
-                Color.FromArgb(0, 170, 255), // #00aaff
-                Color.FromArgb(0, 102, 255), // #0066ff
-=======
             // --- Hover Shadow Behind Button ---
             if (shadowOpacity > 0f)
             {
@@ -180,20 +149,11 @@ namespace FP_CS26_2025.LoginFormDesign
                 ClientRectangle,
                 Color.FromArgb(0, 170, 255),
                 Color.FromArgb(0, 102, 255),
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
                 135f))
             {
                 e.Graphics.FillPath(brush, path);
             }
 
-<<<<<<< HEAD
-            // Draw centered text
-            TextRenderer.DrawText(
-                e.Graphics,
-                this.Text,
-                this.Font,
-                this.ClientRectangle,
-=======
             // --- Ripple Effect ---
             if (rippleActive)
             {
@@ -223,18 +183,9 @@ namespace FP_CS26_2025.LoginFormDesign
                 Text,
                 Font,
                 ClientRectangle,
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
                 Color.White,
                 TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
             );
         }
     }
 }
-<<<<<<< HEAD
-
-
-
-
-
-=======
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)

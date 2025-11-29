@@ -52,9 +52,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrontDesk_ReceptionistAccount\ProcessReservationBtn.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="HotelManager_AdminAccount.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,10 +71,14 @@
     <Compile Include="LoginFormDesign\usernameInputField.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="LogoutBtn\LogOutBtn.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HotelManager_AdminAccount.resx">
       <DependentUpon>HotelManager_AdminAccount.cs</DependentUpon>
@@ -104,6 +105,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FrontDesk_ReceptionistAccount\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

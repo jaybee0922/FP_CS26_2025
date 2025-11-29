@@ -19,15 +19,72 @@ namespace FP_CS26_2025
 
         private void clickableLabel2_Click(object sender, EventArgs e)
         {
-
+            // Add your click logic here
         }
-<<<<<<< HEAD
-=======
 
         private void FrontDesk_ReceptionistAccoun_Load(object sender, EventArgs e)
         {
+            // Add your form load logic here
+        }
+
+        private void loginBtn1_Click(object sender, EventArgs e)
+        {
 
         }
->>>>>>> 77dd27b (Added some animation for button in front desk dashboard -Orpia)
+
+        private void loginBtn2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loginBtn3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loginBtn4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loginBtn5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void logOutBtn1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loginBtn5_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
     }
 }
