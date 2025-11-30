@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,6 +33,26 @@ namespace FP_CS26_2025
         }
 
         private void usernameInputField1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void passwordInputField1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void passwordInputField2_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void passwordInputField1_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
