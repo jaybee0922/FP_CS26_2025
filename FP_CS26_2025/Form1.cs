@@ -1,3 +1,4 @@
+using HotelManagementSystem;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,12 +27,17 @@ namespace FP_CS26_2025
         // Login Button Click Event
         private void loginFormBtn_Click(object sender, EventArgs e)
         {
-            FrontDesk_ReceptionistAccoun front = new FrontDesk_ReceptionistAccoun();
-            front.Show();
+            //FrontDesk_ReceptionistAccoun front = new FrontDesk_ReceptionistAccoun();
+            //front.Show();
+
+            HotelDashboardForm hdm = new HotelDashboardForm();
+            hdm.Show();
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Handle role selection change
         }
 
         private void usernameInputField1_Load(object sender, EventArgs e)
@@ -40,20 +46,17 @@ namespace FP_CS26_2025
 
         private void passwordInputField1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void passwordInputField2_Load(object sender, EventArgs e)
         {
-
         }
 
         private void passwordInputField1_Load_1(object sender, EventArgs e)
         {
-
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void loginFormContainer1_Paint(object sender, PaintEventArgs e)
         {
 
         }

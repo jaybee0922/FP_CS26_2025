@@ -58,6 +58,15 @@
     <Compile Include="HotelManager_AdminAccount.Designer.cs">
       <DependentUpon>HotelManager_AdminAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="HotelManager_AdminAccount\BookingManager.cs" />
+    <Compile Include="HotelManager_AdminAccount\DataManager.cs" />
+    <Compile Include="HotelManager_AdminAccount\HotelDashboardManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HotelManager_AdminAccount\MainContentManager.cs" />
+    <Compile Include="HotelManager_AdminAccount\QuickAccessManager.cs" />
+    <Compile Include="HotelManager_AdminAccount\SidebarManager.cs" />
+    <Compile Include="HotelManager_AdminAccount\StatsPanelManager.cs" />
     <Compile Include="LoginFormDesign\GradientBtn.cs" />
     <Compile Include="LoginFormDesign\LoginBtn.cs">
       <SubType>Component</SubType>
@@ -85,6 +94,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HotelManager_AdminAccount.resx">
       <DependentUpon>HotelManager_AdminAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HotelManager_AdminAccount\HotelDashboardManager.resx">
+      <DependentUpon>HotelDashboardManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
