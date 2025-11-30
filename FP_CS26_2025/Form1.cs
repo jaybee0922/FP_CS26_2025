@@ -26,15 +26,16 @@ namespace FP_CS26_2025
         // Login Button Click Event
         private void loginFormBtn_Click(object sender, EventArgs e)
         {
-          
-
             FrontDesk_ReceptionistAccoun front = new FrontDesk_ReceptionistAccoun();
             front.Show();
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
         private void usernameInputField1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void passwordInputField1_Load(object sender, EventArgs e)
