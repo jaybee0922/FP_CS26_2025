@@ -44,7 +44,8 @@ namespace FP_CS26_2025
             this.loginFormContainer1.Controls.Add(this.usernameInputField2);
             this.loginFormContainer1.Controls.Add(this.passwordInputField2);
             this.loginFormContainer1.Controls.Add(this.loginBtn1);
-            this.loginFormContainer1.Location = new System.Drawing.Point(148, 48);
+            this.loginFormContainer1.Location = new System.Drawing.Point(111, 39);
+            this.loginFormContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.loginFormContainer1.Name = "loginFormContainer1";
             this.loginFormContainer1.PanelColor = System.Drawing.Color.White;
             this.loginFormContainer1.ShadowBlur = 28;
@@ -52,8 +53,9 @@ namespace FP_CS26_2025
             this.loginFormContainer1.ShadowDepth = 7;
             this.loginFormContainer1.ShadowOffsetX = 0;
             this.loginFormContainer1.ShadowOffsetY = 7;
-            this.loginFormContainer1.Size = new System.Drawing.Size(590, 440);
+            this.loginFormContainer1.Size = new System.Drawing.Size(442, 358);
             this.loginFormContainer1.TabIndex = 0;
+            this.loginFormContainer1.Paint += new System.Windows.Forms.PaintEventHandler(this.loginFormContainer1_Paint);
             // 
             // roleComboBox1
             // 
@@ -62,10 +64,15 @@ namespace FP_CS26_2025
             this.roleComboBox1.BorderFocusColor = System.Drawing.Color.DeepSkyBlue;
             this.roleComboBox1.BorderRadius = 20;
             this.roleComboBox1.BorderSize = 1;
-            this.roleComboBox1.Location = new System.Drawing.Point(76, 243);
+            this.roleComboBox1.Location = new System.Drawing.Point(57, 197);
+            this.roleComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.roleComboBox1.Name = "roleComboBox1";
-            this.roleComboBox1.Size = new System.Drawing.Size(432, 45);
+            this.roleComboBox1.SelectedIndex = 0;
+            this.roleComboBox1.SelectedItem = "Super Admin";
+            this.roleComboBox1.SelectedText = "";
+            this.roleComboBox1.Size = new System.Drawing.Size(324, 37);
             this.roleComboBox1.TabIndex = 7;
+            this.roleComboBox1.TextLeftMargin = 12;
             // 
             // usernameInputField2
             // 
@@ -74,11 +81,13 @@ namespace FP_CS26_2025
             this.usernameInputField2.BorderFocusColor = System.Drawing.Color.DeepSkyBlue;
             this.usernameInputField2.BorderRadius = 20;
             this.usernameInputField2.BorderSize = 1;
-            this.usernameInputField2.Location = new System.Drawing.Point(76, 74);
+            this.usernameInputField2.Location = new System.Drawing.Point(57, 60);
+            this.usernameInputField2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.usernameInputField2.Name = "usernameInputField2";
             this.usernameInputField2.PlaceholderText = "Enter username";
-            this.usernameInputField2.Size = new System.Drawing.Size(432, 50);
+            this.usernameInputField2.Size = new System.Drawing.Size(324, 41);
             this.usernameInputField2.TabIndex = 6;
+            this.usernameInputField2.TextLeftMargin = 20;
             // 
             // passwordInputField2
             // 
@@ -87,11 +96,14 @@ namespace FP_CS26_2025
             this.passwordInputField2.BorderFocusColor = System.Drawing.Color.DeepSkyBlue;
             this.passwordInputField2.BorderRadius = 20;
             this.passwordInputField2.BorderSize = 1;
-            this.passwordInputField2.Location = new System.Drawing.Point(76, 160);
+            this.passwordInputField2.IconRightMargin = 12;
+            this.passwordInputField2.Location = new System.Drawing.Point(57, 130);
+            this.passwordInputField2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.passwordInputField2.Name = "passwordInputField2";
             this.passwordInputField2.PlaceholderText = "Enter password";
-            this.passwordInputField2.Size = new System.Drawing.Size(432, 50);
+            this.passwordInputField2.Size = new System.Drawing.Size(324, 41);
             this.passwordInputField2.TabIndex = 5;
+            this.passwordInputField2.TextLeftMargin = 20;
             // 
             // loginBtn1
             // 
@@ -100,9 +112,10 @@ namespace FP_CS26_2025
             this.loginBtn1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.loginBtn1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loginBtn1.ForeColor = System.Drawing.Color.White;
-            this.loginBtn1.Location = new System.Drawing.Point(76, 317);
+            this.loginBtn1.Location = new System.Drawing.Point(57, 258);
+            this.loginBtn1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.loginBtn1.Name = "loginBtn1";
-            this.loginBtn1.Size = new System.Drawing.Size(432, 54);
+            this.loginBtn1.Size = new System.Drawing.Size(324, 44);
             this.loginBtn1.TabIndex = 0;
             this.loginBtn1.Text = "Login";
             this.loginBtn1.UseVisualStyleBackColor = true;
@@ -110,10 +123,11 @@ namespace FP_CS26_2025
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(848, 546);
+            this.ClientSize = new System.Drawing.Size(636, 444);
             this.Controls.Add(this.loginFormContainer1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
