@@ -68,6 +68,9 @@
     <Compile Include="LoginFormDesign\passwordInputField.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="LoginFormDesign\roleComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="LoginFormDesign\usernameInputField.cs">
       <SubType>UserControl</SubType>
     </Compile>
