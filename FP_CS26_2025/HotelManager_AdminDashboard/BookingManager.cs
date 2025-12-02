@@ -1,41 +1,57 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Data;
+using System.ComponentModel;
 
-namespace HotelManagementSystem
+namespace FP_CS26_2025.HotelManager_AdminDashboard
 {
-    public class BookingsManager : IDisposable
+    [ToolboxItem(true)]
+    public class BookingManager : Panel, IDisposable
     {
         private DataGridView dataGridViewRecentActivities;
         private Button btnRemoveBooking;
+        private Label lblRecentBookings;
 
-        public BookingsManager(Panel mainPanel)
+        public BookingManager()
         {
-            CreateRecentBookingsSection(mainPanel);
+            InitializeComponent();
         }
 
-        private void CreateRecentBookingsSection(Panel mainPanel)
+        private void InitializeComponent()
         {
-            CreateRecentBookingsLabel(mainPanel);
-            CreateRecentBookingsTable(mainPanel);
-            CreateRemoveBookingButton(mainPanel);
+            this.SuspendLayout();
+
+            // Set up the main panel properties
+            this.Size = new Size(650, 420);
+            this.BackColor = Color.White;
+            this.BorderStyle = BorderStyle.FixedSingle;
+
+            CreateRecentBookingsSection();
+
+            this.ResumeLayout(false);
         }
 
-        private void CreateRecentBookingsLabel(Panel mainPanel)
+        private void CreateRecentBookingsSection()
         {
-            var lblRecentBookings = new Label
+            CreateRecentBookingsLabel();
+            CreateRecentBookingsTable();
+            CreateRemoveBookingButton();
+        }
+
+        private void CreateRecentBookingsLabel()
+        {
+            lblRecentBookings = new Label
             {
-                Text = "Recent Bookings & Activities",
+                Text = "Recent Booking and Activities",
                 Font = new Font("Segoe UI", 14, FontStyle.Bold),
                 Location = new Point(25, 20),
                 Size = new Size(300, 25),
                 ForeColor = Color.FromArgb(51, 51, 76)
             };
-            mainPanel.Controls.Add(lblRecentBookings);
+            this.Controls.Add(lblRecentBookings);
         }
 
-        private void CreateRecentBookingsTable(Panel mainPanel)
+        private void CreateRecentBookingsTable()
         {
             dataGridViewRecentActivities = new DataGridView
             {
@@ -66,7 +82,7 @@ namespace HotelManagementSystem
             StyleDataGridHeaders();
             dataGridViewRecentActivities.CellFormatting += DataGridViewRecentActivities_CellFormatting;
 
-            mainPanel.Controls.Add(dataGridViewRecentActivities);
+            this.Controls.Add(dataGridViewRecentActivities);
         }
 
         private void SetupDataGridColumns()
@@ -133,7 +149,7 @@ namespace HotelManagementSystem
             }
         }
 
-        private void CreateRemoveBookingButton(Panel mainPanel)
+        private void CreateRemoveBookingButton()
         {
             btnRemoveBooking = new Button
             {
@@ -149,7 +165,7 @@ namespace HotelManagementSystem
 
             btnRemoveBooking.FlatAppearance.BorderSize = 0;
             btnRemoveBooking.Click += RemoveSelectedBooking_Click;
-            mainPanel.Controls.Add(btnRemoveBooking);
+            this.Controls.Add(btnRemoveBooking);
         }
 
         private void RemoveSelectedBooking_Click(object sender, EventArgs e)
@@ -180,8 +196,18 @@ namespace HotelManagementSystem
             }
         }
 
+        [Browsable(false)]
+        public new bool AutoSize => base.AutoSize;
+
+        [Browsable(false)]
+        public new AutoSizeMode AutoSizeMode => base.AutoSizeMode;
+
+        // Public method to load sample data
         public void LoadSampleData()
         {
+            // Clear existing data
+            dataGridViewRecentActivities.Rows.Clear();
+
             var sampleData = new[]
             {
                 new { BookingId = "BKG001", GuestName = "John Doe", Room = "101", CheckIn = "2023-10-26", CheckOut = "2023-10-29", Status = "Checked In" },
@@ -208,10 +234,39 @@ namespace HotelManagementSystem
             }
         }
 
-        public void Dispose()
+        // Public method to add a new booking
+        public void AddBooking(string bookingId, string guestName, string room, string checkIn, string checkOut, string status)
         {
-            dataGridViewRecentActivities?.Dispose();
-            btnRemoveBooking?.Dispose();
+            dataGridViewRecentActivities.Rows.Add(bookingId, guestName, room, checkIn, checkOut, status);
+        }
+
+        // Public method to clear all bookings
+        public void ClearAllBookings()
+        {
+            dataGridViewRecentActivities.Rows.Clear();
+        }
+
+        // Property to get selected booking info
+        [Browsable(false)]
+        public string SelectedBookingId
+        {
+            get
+            {
+                if (dataGridViewRecentActivities.SelectedRows.Count > 0)
+                    return dataGridViewRecentActivities.SelectedRows[0].Cells["BookingId"].Value?.ToString();
+                return null;
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dataGridViewRecentActivities?.Dispose();
+                btnRemoveBooking?.Dispose();
+                lblRecentBookings?.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

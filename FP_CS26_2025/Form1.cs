@@ -1,4 +1,5 @@
-using HotelManagementSystem;
+
+using FP_CS26_2025.HotelManager_AdminDashboard;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,8 +31,8 @@ namespace FP_CS26_2025
             //FrontDesk_ReceptionistAccoun front = new FrontDesk_ReceptionistAccoun();
             //front.Show();
 
-            HotelDashboardForm hdm = new HotelDashboardForm();
-            hdm.Show();
+            Hotel_AdminDashboard hotel = new Hotel_AdminDashboard();
+            hotel.Show();
 
         }
 
