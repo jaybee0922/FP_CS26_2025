@@ -142,6 +142,9 @@
     <EmbeddedResource Include="Room Rates &amp; Policies\PriceInputDialog.resx">
       <DependentUpon>PriceInputDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Room Rates &amp; Policies\RoomRates_and_Pricing_Form.resx">
+      <DependentUpon>RoomRates_and_Pricing_Form.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
