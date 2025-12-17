@@ -87,6 +87,7 @@
             this.quickAccessManager1.Size = new System.Drawing.Size(641, 244);
             this.quickAccessManager1.TabIndex = 2;
             this.quickAccessManager1.TitleBottomMargin = 25;
+            this.quickAccessManager1.Paint += new System.Windows.Forms.PaintEventHandler(this.quickAccessManager1_Paint_1);
             // 
             // sidebarManager1
             // 
@@ -110,7 +111,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1424, 691);
+            this.ClientSize = new System.Drawing.Size(1424, 707);
             this.Controls.Add(this.bookingManager1);
             this.Controls.Add(this.statsPanelManager1);
             this.Controls.Add(this.quickAccessManager1);

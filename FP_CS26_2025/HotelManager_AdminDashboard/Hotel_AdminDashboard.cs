@@ -37,5 +37,10 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         {
 
         }
+
+        private void quickAccessManager1_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

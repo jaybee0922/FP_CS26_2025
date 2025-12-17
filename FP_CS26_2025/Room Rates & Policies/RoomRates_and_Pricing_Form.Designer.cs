@@ -29,21 +29,21 @@ namespace FP_CS26_2025.Room_Rates___Policies
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMain = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblSearch = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dgvRoomRates = new System.Windows.Forms.DataGridView();
-            this.btnChangePrice = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.gbPolicies = new System.Windows.Forms.GroupBox();
-            this.lblPolicyText = new System.Windows.Forms.Label();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnChangePrice = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.gbPolicies = new System.Windows.Forms.GroupBox();
+            this.lblPolicyText = new System.Windows.Forms.Label();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoomRates)).BeginInit();
             this.gbPolicies.SuspendLayout();
@@ -97,75 +97,33 @@ namespace FP_CS26_2025.Room_Rates___Policies
             // dgvRoomRates
             // 
             this.dgvRoomRates.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvRoomRates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvRoomRates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvRoomRates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvRoomRates.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 10F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvRoomRates.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvRoomRates.Location = new System.Drawing.Point(20, 110);
             this.dgvRoomRates.MultiSelect = false;
             this.dgvRoomRates.Name = "dgvRoomRates";
             this.dgvRoomRates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRoomRates.Size = new System.Drawing.Size(650, 300);
             this.dgvRoomRates.TabIndex = 3;
-            // 
-            // btnChangePrice
-            // 
-            this.btnChangePrice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnChangePrice.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnChangePrice.Location = new System.Drawing.Point(20, 420);
-            this.btnChangePrice.Name = "btnChangePrice";
-            this.btnChangePrice.Size = new System.Drawing.Size(150, 40);
-            this.btnChangePrice.TabIndex = 4;
-            this.btnChangePrice.Text = "Change Pricing";
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnRefresh.Location = new System.Drawing.Point(180, 420);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(120, 40);
-            this.btnRefresh.TabIndex = 5;
-            this.btnRefresh.Text = "Refresh";
-            // 
-            // gbPolicies
-            // 
-            this.gbPolicies.Controls.Add(this.lblPolicyText);
-            this.gbPolicies.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.gbPolicies.Location = new System.Drawing.Point(700, 110);
-            this.gbPolicies.Name = "gbPolicies";
-            this.gbPolicies.Size = new System.Drawing.Size(350, 350);
-            this.gbPolicies.TabIndex = 6;
-            this.gbPolicies.TabStop = false;
-            this.gbPolicies.Text = "Policies";
-            // 
-            // lblPolicyText
-            // 
-            this.lblPolicyText.AutoSize = true;
-            this.lblPolicyText.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblPolicyText.Location = new System.Drawing.Point(15, 30);
-            this.lblPolicyText.Name = "lblPolicyText";
-            this.lblPolicyText.Size = new System.Drawing.Size(253, 95);
-            this.lblPolicyText.TabIndex = 0;
-            this.lblPolicyText.Text = "• Check-in: 2:00 PM\n• Check-out: 12:00 PM\n• No smoking inside rooms\n• Pets allowe" +
-    "d only in designated rooms\n• Free cancellation up to 24 hours";
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -187,12 +145,55 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.dataGridViewTextBoxColumn4.HeaderText = "Capacity Info";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             // 
+            // btnChangePrice
+            // 
+            this.btnChangePrice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnChangePrice.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnChangePrice.Location = new System.Drawing.Point(20, 420);
+            this.btnChangePrice.Name = "btnChangePrice";
+            this.btnChangePrice.Size = new System.Drawing.Size(150, 40);
+            this.btnChangePrice.TabIndex = 4;
+            this.btnChangePrice.Text = "Change Pricing";
+            this.btnChangePrice.Click += new System.EventHandler(this.btnChangePrice_Click_1);
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnRefresh.Location = new System.Drawing.Point(180, 420);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(120, 40);
+            this.btnRefresh.TabIndex = 5;
+            this.btnRefresh.Text = "Refresh";
+            // 
+            // gbPolicies
+            // 
+            this.gbPolicies.Controls.Add(this.lblPolicyText);
+            this.gbPolicies.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.gbPolicies.Location = new System.Drawing.Point(711, 110);
+            this.gbPolicies.Name = "gbPolicies";
+            this.gbPolicies.Size = new System.Drawing.Size(350, 350);
+            this.gbPolicies.TabIndex = 6;
+            this.gbPolicies.TabStop = false;
+            this.gbPolicies.Text = "Policies";
+            // 
+            // lblPolicyText
+            // 
+            this.lblPolicyText.AutoSize = true;
+            this.lblPolicyText.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblPolicyText.Location = new System.Drawing.Point(15, 30);
+            this.lblPolicyText.Name = "lblPolicyText";
+            this.lblPolicyText.Size = new System.Drawing.Size(253, 95);
+            this.lblPolicyText.TabIndex = 0;
+            this.lblPolicyText.Text = "• Check-in: 2:00 PM\n• Check-out: 12:00 PM\n• No smoking inside rooms\n• Pets allowe" +
+    "d only in designated rooms\n• Free cancellation up to 24 hours";
+            // 
             // RoomRates_and_Pricing_Form
             // 
             this.ClientSize = new System.Drawing.Size(1100, 600);
             this.Controls.Add(this.panelMain);
             this.Name = "RoomRates_and_Pricing_Form";
-            this.Text = "git ";
+            this.Text = "d";
             this.Load += new System.EventHandler(this.RoomRates_and_Pricing_Form_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace FP_CS26_2025.Room_Rates___Policies
 {
-    public partial class RoomRates_and_Pricing_Form : Form
+    public partial class RoomRates_and_Pricing_Form : Form 
     {
         public RoomRates_and_Pricing_Form()
         {
@@ -37,7 +37,7 @@ namespace FP_CS26_2025.Room_Rates___Policies
             if (dgvRoomRates.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Please select a room to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                
             }
 
             var selectedRow = dgvRoomRates.SelectedRows[0];
@@ -61,6 +61,13 @@ namespace FP_CS26_2025.Room_Rates___Policies
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             LoadRoomData();
+        }
+
+        private void btnChangePrice_Click_1(object sender, EventArgs e)
+        {
+            PriceInputDialog changePrice = new PriceInputDialog("Single Room", "₱1,200 per night");
+            changePrice.ShowDialog();
+            
         }
     }
 }

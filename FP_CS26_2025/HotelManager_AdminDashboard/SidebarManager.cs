@@ -51,8 +51,11 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 Size = new Size(180, 30)
             };
 
+
+            // ********** Rename SIDEBAR MENU titles here ******************
+
             btnDashboard = CreateNavButton("Dashboard", 80);
-            btnUserManagement = CreateNavButton("User Management", 130);
+            btnUserManagement = CreateNavButton("User management", 130);
             btnRoomRates = CreateNavButton("Room Rates and Policies", 180);
             btnReports = CreateNavButton("Reports", 230);
             btnSystemConfig = CreateNavButton("System Configuration", 280);

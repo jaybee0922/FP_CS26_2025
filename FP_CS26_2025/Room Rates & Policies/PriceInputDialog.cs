@@ -34,5 +34,10 @@ namespace FP_CS26_2025.Room_Rates___Policies
         {
 
         }
+
+        private void txtInput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
