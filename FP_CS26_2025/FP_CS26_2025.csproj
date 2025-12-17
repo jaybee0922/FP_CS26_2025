@@ -120,9 +120,13 @@
     <Compile Include="Room Rates &amp; Policies\RoomRates_and_Pricing_Form.Designer.cs">
       <DependentUpon>RoomRates_and_Pricing_Form.cs</DependentUpon>
     </Compile>
+<<<<<<< Updated upstream
     <Compile Include="Room_Manager\Room_Manager.cs">
       <SubType>Form</SubType>
     </Compile>
+=======
+    <Compile Include="Room_Manager\Room_Manager.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Room_Manager\Room_Manager.Designer.cs">
       <DependentUpon>Room_Manager.cs</DependentUpon>
     </Compile>
