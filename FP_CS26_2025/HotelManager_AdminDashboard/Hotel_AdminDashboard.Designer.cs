@@ -38,10 +38,12 @@
             // 
             this.bookingManager1.BackColor = System.Drawing.Color.White;
             this.bookingManager1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bookingManager1.Location = new System.Drawing.Point(197, 12);
+            this.bookingManager1.Location = new System.Drawing.Point(263, 15);
+            this.bookingManager1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.bookingManager1.Name = "bookingManager1";
-            this.bookingManager1.Size = new System.Drawing.Size(641, 417);
+            this.bookingManager1.Size = new System.Drawing.Size(854, 513);
             this.bookingManager1.TabIndex = 5;
+            this.bookingManager1.Paint += new System.Windows.Forms.PaintEventHandler(this.bookingManager1_Paint_1);
             // 
             // statsPanelManager1
             // 
@@ -49,16 +51,17 @@
             this.statsPanelManager1.BackColor = System.Drawing.Color.White;
             this.statsPanelManager1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.statsPanelManager1.CurrentBookings = 124;
-            this.statsPanelManager1.Location = new System.Drawing.Point(844, 12);
+            this.statsPanelManager1.Location = new System.Drawing.Point(1125, 15);
+            this.statsPanelManager1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.statsPanelManager1.Name = "statsPanelManager1";
             this.statsPanelManager1.OccupancyRate = 86;
-            this.statsPanelManager1.Padding = new System.Windows.Forms.Padding(15);
+            this.statsPanelManager1.Padding = new System.Windows.Forms.Padding(20, 18, 20, 18);
             this.statsPanelManager1.Revenue = new decimal(new int[] {
             3450,
             0,
             0,
             0});
-            this.statsPanelManager1.Size = new System.Drawing.Size(568, 222);
+            this.statsPanelManager1.Size = new System.Drawing.Size(757, 273);
             this.statsPanelManager1.StatPanelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
             this.statsPanelManager1.StatValueColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
             this.statsPanelManager1.StatValueFontSize = 16;
@@ -81,10 +84,11 @@
             this.quickAccessManager1.ButtonHoverTextColor = System.Drawing.Color.White;
             this.quickAccessManager1.ButtonsEnabled = true;
             this.quickAccessManager1.ButtonTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
-            this.quickAccessManager1.Location = new System.Drawing.Point(197, 435);
+            this.quickAccessManager1.Location = new System.Drawing.Point(263, 535);
+            this.quickAccessManager1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.quickAccessManager1.Name = "quickAccessManager1";
             this.quickAccessManager1.PanelTitle = "Quick Access Functions";
-            this.quickAccessManager1.Size = new System.Drawing.Size(641, 244);
+            this.quickAccessManager1.Size = new System.Drawing.Size(854, 300);
             this.quickAccessManager1.TabIndex = 2;
             this.quickAccessManager1.TitleBottomMargin = 25;
             // 
@@ -97,25 +101,25 @@
             this.sidebarManager1.ButtonsEnabled = true;
             this.sidebarManager1.ButtonTextColor = System.Drawing.Color.White;
             this.sidebarManager1.Location = new System.Drawing.Point(0, 0);
-            this.sidebarManager1.Margin = new System.Windows.Forms.Padding(2);
+            this.sidebarManager1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.sidebarManager1.Name = "sidebarManager1";
             this.sidebarManager1.SelectedButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
             this.sidebarManager1.SidebarTitle = "Hotel Manager";
-            this.sidebarManager1.Size = new System.Drawing.Size(192, 694);
+            this.sidebarManager1.Size = new System.Drawing.Size(255, 854);
             this.sidebarManager1.TabIndex = 1;
             this.sidebarManager1.Paint += new System.Windows.Forms.PaintEventHandler(this.sidebarManager1_Paint);
             // 
             // Hotel_AdminDashboard
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1424, 691);
+            this.ClientSize = new System.Drawing.Size(1899, 850);
             this.Controls.Add(this.bookingManager1);
             this.Controls.Add(this.statsPanelManager1);
             this.Controls.Add(this.quickAccessManager1);
             this.Controls.Add(this.sidebarManager1);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Hotel_AdminDashboard";
             this.Text = "Hotel_AdminDashboard";
             this.Load += new System.EventHandler(this.Hotel_AdminDashboard_Load);

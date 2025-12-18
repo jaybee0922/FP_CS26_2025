@@ -119,6 +119,13 @@
     <Compile Include="Room Rates &amp; Policies\RoomRates_and_Pricing_Form.Designer.cs">
       <DependentUpon>RoomRates_and_Pricing_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Room_Manager\Models\Room.cs" />
+    <Compile Include="Room_Manager\Room_Manager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Room_Manager\Room_Manager.Designer.cs">
+      <DependentUpon>Room_Manager.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -144,6 +151,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Room Rates &amp; Policies\RoomRates_and_Pricing_Form.resx">
       <DependentUpon>RoomRates_and_Pricing_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Room_Manager\Room_Manager.resx">
+      <DependentUpon>Room_Manager.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
