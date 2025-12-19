@@ -89,7 +89,7 @@ namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
                 navigationHandler?.Invoke(button);
                 NavigationButtonClicked?.Invoke(this, button);
 
-                // Raise specific events
+                // Raise specific eventss
                 switch (text)
                 {
                     case "Dashboard":
