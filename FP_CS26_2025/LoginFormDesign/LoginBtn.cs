@@ -147,9 +147,9 @@ namespace FP_CS26_2025.LoginFormDesign
             // --- Gradient Fill ---
             using (LinearGradientBrush brush = new LinearGradientBrush(
                 ClientRectangle,
-                Color.FromArgb(0, 170, 255),
-                Color.FromArgb(0, 102, 255),
-                135f))
+                Color.FromArgb(99, 102, 241), // Indigo
+                Color.FromArgb(79, 70, 229),  // Deeper Indigo
+                45f))
             {
                 e.Graphics.FillPath(brush, path);
             }

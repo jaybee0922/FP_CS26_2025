@@ -11,6 +11,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         private DataGridView dataGridViewRecentActivities;
         private Button btnRemoveBooking;
         private Label lblRecentBookings;
+        private TableLayoutPanel mainGrid;
 
         public BookingManager()
         {
@@ -24,18 +25,35 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             // Set up the main panel properties
             this.Size = new Size(650, 420);
             this.BackColor = Color.White;
-            this.BorderStyle = BorderStyle.FixedSingle;
+            this.BorderStyle = BorderStyle.None; // Cleaner look
 
-            CreateRecentBookingsSection();
+            mainGrid = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 3,
+                Padding = new Padding(15)
+            };
+            mainGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            mainGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F)); // Header
+            mainGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 100F)); // Table
+            mainGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F)); // Footer
 
+            CreateRecentBookingsLabel();
+            CreateRecentBookingsTable();
+            CreateRemoveBookingButton();
+
+            this.Controls.Add(mainGrid);
             this.ResumeLayout(false);
         }
 
         private void CreateRecentBookingsSection()
         {
+            // The order of adding docked controls matters! 
+            // Add Top and Bottom first, then Fill last.
             CreateRecentBookingsLabel();
+            CreateRemoveBookingButton(); 
             CreateRecentBookingsTable();
-            CreateRemoveBookingButton();
         }
 
         private void CreateRecentBookingsLabel()
@@ -44,29 +62,38 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             {
                 Text = "Recent Booking and Activities",
                 Font = new Font("Segoe UI", 14, FontStyle.Bold),
-                Location = new Point(25, 20),
-                Size = new Size(300, 25),
-                ForeColor = Color.FromArgb(51, 51, 76)
+                Dock = DockStyle.Fill,
+                ForeColor = Color.FromArgb(51, 51, 76),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Padding = new Padding(5, 0, 0, 0)
             };
-            this.Controls.Add(lblRecentBookings);
+            
+            mainGrid.Controls.Add(lblRecentBookings, 0, 0);
         }
 
         private void CreateRecentBookingsTable()
         {
             dataGridViewRecentActivities = new DataGridView
             {
-                Location = new Point(25, 50),
-                Size = new Size(600, 300),
+                Dock = DockStyle.Fill,
                 BackgroundColor = Color.White,
-                BorderStyle = BorderStyle.FixedSingle,
+                GridColor = Color.FromArgb(230, 235, 245),
+                BorderStyle = BorderStyle.None,
                 RowHeadersVisible = false,
                 ReadOnly = true,
                 AllowUserToAddRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                RowTemplate = { Height = 30 },
-                ColumnHeadersHeight = 35,
-                ScrollBars = ScrollBars.Vertical,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+                RowTemplate = { Height = 40 },
+                ColumnHeadersHeight = 50,
+                ScrollBars = ScrollBars.Both,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                EnableHeadersVisualStyles = false,
+                ColumnHeadersVisible = true
+            };
+
+            dataGridViewRecentActivities.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
+            {
+                BackColor = Color.FromArgb(248, 250, 252)
             };
 
             dataGridViewRecentActivities.DefaultCellStyle = new DataGridViewCellStyle
@@ -82,7 +109,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             StyleDataGridHeaders();
             dataGridViewRecentActivities.CellFormatting += DataGridViewRecentActivities_CellFormatting;
 
-            this.Controls.Add(dataGridViewRecentActivities);
+            mainGrid.Controls.Add(dataGridViewRecentActivities, 0, 1);
         }
 
         private void SetupDataGridColumns()
@@ -94,25 +121,43 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             dataGridViewRecentActivities.Columns.Add("CheckOut", "CHECK-OUT");
             dataGridViewRecentActivities.Columns.Add("Status", "STATUS");
 
-            dataGridViewRecentActivities.Columns["BookingId"].Width = 90;
-            dataGridViewRecentActivities.Columns["GuestName"].Width = 120;
-            dataGridViewRecentActivities.Columns["Room"].Width = 60;
-            dataGridViewRecentActivities.Columns["CheckIn"].Width = 90;
-            dataGridViewRecentActivities.Columns["CheckOut"].Width = 90;
-            dataGridViewRecentActivities.Columns["Status"].Width = 80;
+            // Set minimum widths instead of fixed widths
+            dataGridViewRecentActivities.Columns["BookingId"].MinimumWidth = 80;
+            dataGridViewRecentActivities.Columns["GuestName"].MinimumWidth = 120;
+            dataGridViewRecentActivities.Columns["Room"].MinimumWidth = 60;
+            dataGridViewRecentActivities.Columns["CheckIn"].MinimumWidth = 100;
+            dataGridViewRecentActivities.Columns["CheckOut"].MinimumWidth = 100;
+            dataGridViewRecentActivities.Columns["Status"].MinimumWidth = 80;
+
+            foreach (DataGridViewColumn col in dataGridViewRecentActivities.Columns)
+            {
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.HeaderCell.Style.BackColor = Color.FromArgb(79, 70, 229); // Indigo
+                col.HeaderCell.Style.ForeColor = Color.White;
+            }
         }
 
         private void StyleDataGridHeaders()
         {
-            dataGridViewRecentActivities.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+            var headerStyle = new DataGridViewCellStyle
             {
-                BackColor = Color.FromArgb(37, 157, 244),
-                ForeColor = Color.FromArgb(74, 85, 104),
+                BackColor = Color.FromArgb(79, 70, 229), // Indigo
+                ForeColor = Color.White,
                 Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                Alignment = DataGridViewContentAlignment.MiddleLeft,
+                Alignment = DataGridViewContentAlignment.MiddleCenter,
                 Padding = new Padding(5)
             };
+
+            dataGridViewRecentActivities.ColumnHeadersDefaultCellStyle = headerStyle;
+            
+            // Apply style to each column specifically to ensure consistency
+            foreach (DataGridViewColumn col in dataGridViewRecentActivities.Columns)
+            {
+                col.HeaderCell.Style = headerStyle;
+            }
+
             dataGridViewRecentActivities.EnableHeadersVisualStyles = false;
+            dataGridViewRecentActivities.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
         }
 
         private void DataGridViewRecentActivities_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -128,24 +173,25 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
                 if (status.Contains("checked in"))
                 {
-                    e.CellStyle.BackColor = Color.FromArgb(34, 197, 94);
-                    e.CellStyle.ForeColor = Color.Black;
+                    e.CellStyle.BackColor = Color.FromArgb(220, 252, 231); // Light Green
+                    e.CellStyle.ForeColor = Color.FromArgb(22, 101, 52);  // Dark Green
                 }
                 else if (status.Contains("checked out"))
                 {
-                    e.CellStyle.BackColor = Color.FromArgb(156, 163, 175);
-                    e.CellStyle.ForeColor = Color.Black;
+                    e.CellStyle.BackColor = Color.FromArgb(241, 245, 249); // Slate Gray
+                    e.CellStyle.ForeColor = Color.FromArgb(71, 85, 105);
                 }
                 else if (status.Contains("pending"))
                 {
-                    e.CellStyle.BackColor = Color.FromArgb(255, 244, 79);
-                    e.CellStyle.ForeColor = Color.Black;
+                    e.CellStyle.BackColor = Color.FromArgb(254, 249, 195); // Light Yellow
+                    e.CellStyle.ForeColor = Color.FromArgb(133, 77, 14);
                 }
                 else
                 {
-                    e.CellStyle.BackColor = Color.LightGray;
-                    e.CellStyle.ForeColor = Color.Black;
+                    e.CellStyle.BackColor = Color.FromArgb(243, 244, 246);
+                    e.CellStyle.ForeColor = Color.FromArgb(107, 114, 128);
                 }
+                e.FormattingApplied = true;
             }
         }
 
@@ -153,19 +199,24 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         {
             btnRemoveBooking = new Button
             {
-                Text = "Remove Selected Booking",
-                Location = new Point(25, 360),
-                Size = new Size(180, 35),
-                BackColor = Color.FromArgb(220, 53, 69),
+                Text = "Remove Selected",
+                Size = new Size(160, 40),
+                BackColor = Color.FromArgb(239, 68, 68), // Modern Red
                 ForeColor = Color.White,
                 Font = new Font("Segoe UI", 9, FontStyle.Bold),
                 Cursor = Cursors.Hand,
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
+                Anchor = AnchorStyles.Left | AnchorStyles.Top
             };
-
             btnRemoveBooking.FlatAppearance.BorderSize = 0;
+            btnRemoveBooking.FlatAppearance.MouseDownBackColor = Color.FromArgb(185, 28, 28);
+            btnRemoveBooking.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 38, 38);
+
             btnRemoveBooking.Click += RemoveSelectedBooking_Click;
-            this.Controls.Add(btnRemoveBooking);
+            
+            Panel pnl = new Panel { Dock = DockStyle.Fill, Padding = new Padding(5, 10, 0, 0) };
+            pnl.Controls.Add(btnRemoveBooking);
+            mainGrid.Controls.Add(pnl, 0, 2);
         }
 
         private void RemoveSelectedBooking_Click(object sender, EventArgs e)
@@ -265,6 +316,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 dataGridViewRecentActivities?.Dispose();
                 btnRemoveBooking?.Dispose();
                 lblRecentBookings?.Dispose();
+                mainGrid?.Dispose();
             }
             base.Dispose(disposing);
         }

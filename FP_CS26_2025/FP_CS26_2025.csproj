@@ -126,9 +126,26 @@
     <Compile Include="Room_Manager\Room_Manager.Designer.cs">
       <DependentUpon>Room_Manager.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\Hotel_FrontDeskDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\Hotel_FrontDeskDashboard.Designer.cs">
+      <DependentUpon>Hotel_FrontDeskDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\FrontDesk_SidebarManager.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\FrontDesk_Views.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrontDesk_ReceptionistAccount\Hotel_FrontDeskDashboard.resx">
+      <DependentUpon>Hotel_FrontDeskDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HotelManager_AdminAccount.resx">
       <DependentUpon>HotelManager_AdminAccount.cs</DependentUpon>
@@ -141,11 +158,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Room Rates &amp; Policies\PriceInputDialog.resx">
       <DependentUpon>PriceInputDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -155,21 +167,25 @@
     <EmbeddedResource Include="Room_Manager\Room_Manager.resx">
       <DependentUpon>Room_Manager.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FrontDesk_ReceptionistAccount\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

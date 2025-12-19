@@ -65,39 +65,48 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.Controls.Add(lblQuickAccess);
         }
 
+        private TableLayoutPanel tableLayoutPanelButtons;
+
         private void CreateQuickAccessButtons()
         {
-            int buttonWidth = 160;
-            int buttonHeight = 50;
-            int horizontalSpacing = 20;
-            int verticalSpacing = 20;
+            tableLayoutPanelButtons = new TableLayoutPanel
+            {
+                ColumnCount = 3,
+                RowCount = 2,
+                Dock = DockStyle.Fill,
+                Padding = new Padding(20, 50, 20, 20), // Room for title
+                BackColor = Color.Transparent
+            };
 
-            // Increased margin between title and buttons
-            int titleBottomMargin = 25; // Added margin space
+            for (int i = 0; i < 3; i++)
+                tableLayoutPanelButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            
+            for (int i = 0; i < 2; i++)
+                tableLayoutPanelButtons.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
 
-            int totalWidth = (buttonWidth * 3) + (horizontalSpacing * 2);
-            int startX = (this.Width - totalWidth) / 2;
-
-            // Start buttons lower to create margin from title
-            int row1Y = lblQuickAccess.Location.Y + lblQuickAccess.Height + titleBottomMargin;
-            int row2Y = row1Y + buttonHeight + verticalSpacing;
+            int buttonWidth = 180;
+            int buttonHeight = 60;
 
             // Column 1
-            btnManageRooms = CreateQuickAccessButton("Manage\nRooms", startX, row1Y, buttonWidth, buttonHeight);
-            btnManageGuests = CreateQuickAccessButton("Manage\nGuests", startX, row2Y, buttonWidth, buttonHeight);
+            btnManageRooms = CreateQuickAccessButton("Manage\nRooms", 0, 0, buttonWidth, buttonHeight);
+            btnManageGuests = CreateQuickAccessButton("Manage\nGuests", 0, 0, buttonWidth, buttonHeight);
 
             // Column 2
-            btnProcessPayments = CreateQuickAccessButton("Process\nPayments", startX + buttonWidth + horizontalSpacing, row1Y, buttonWidth, buttonHeight);
-            btnRoomCalendar = CreateQuickAccessButton("Room\nCalendar", startX + buttonWidth + horizontalSpacing, row2Y, buttonWidth, buttonHeight);
+            btnProcessPayments = CreateQuickAccessButton("Process\nPayments", 0, 0, buttonWidth, buttonHeight);
+            btnRoomCalendar = CreateQuickAccessButton("Room\nCalendar", 0, 0, buttonWidth, buttonHeight);
 
             // Column 3
-            btnAdjustPricing = CreateQuickAccessButton("Adjust\nPricing", startX + (buttonWidth + horizontalSpacing) * 2, row1Y, buttonWidth, buttonHeight);
-            btnManageStaff = CreateQuickAccessButton("Manage\nStaff", startX + (buttonWidth + horizontalSpacing) * 2, row2Y, buttonWidth, buttonHeight);
+            btnAdjustPricing = CreateQuickAccessButton("Adjust\nPricing", 0, 0, buttonWidth, buttonHeight);
+            btnManageStaff = CreateQuickAccessButton("Manage\nStaff", 0, 0, buttonWidth, buttonHeight);
 
-            this.Controls.AddRange(new Control[] {
-                btnManageRooms, btnProcessPayments, btnAdjustPricing,
-                btnManageGuests, btnRoomCalendar, btnManageStaff
-            });
+            tableLayoutPanelButtons.Controls.Add(btnManageRooms, 0, 0);
+            tableLayoutPanelButtons.Controls.Add(btnProcessPayments, 1, 0);
+            tableLayoutPanelButtons.Controls.Add(btnAdjustPricing, 2, 0);
+            tableLayoutPanelButtons.Controls.Add(btnManageGuests, 0, 1);
+            tableLayoutPanelButtons.Controls.Add(btnRoomCalendar, 1, 1);
+            tableLayoutPanelButtons.Controls.Add(btnManageStaff, 2, 1);
+
+            this.Controls.Add(tableLayoutPanelButtons);
         }
 
         private Button CreateQuickAccessButton(string text, int x, int y, int width, int height)
@@ -110,10 +119,10 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 ForeColor = Color.FromArgb(51, 51, 76),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Size = new Size(width, height),
-                Location = new Point(x, y),
-                Font = new Font("Segoe UI", 8, FontStyle.Regular),
+                Anchor = AnchorStyles.None, // Center in cell
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
                 Cursor = Cursors.Hand,
-                Tag = text // Store the button text for identification
+                Tag = text 
             };
 
             button.FlatAppearance.BorderColor = Color.FromArgb(70, 130, 180);

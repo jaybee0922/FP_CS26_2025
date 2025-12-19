@@ -82,12 +82,15 @@
 
 
 using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 
 using FP_CS26_2025;
 using FP_CS26_2025.HotelManager_AdminDashboard;
 using FP_CS26_2025.Room_Manager;
+using FP_CS26_2025.FrontDesk_ReceptionistAccount;
 
 namespace FP_CS26_2025
 {
@@ -96,6 +99,7 @@ namespace FP_CS26_2025
         public Form1()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -126,7 +130,7 @@ namespace FP_CS26_2025
                     break;
 
                 case "Front Desk":
-                    nextForm = new FrontDesk_ReceptionistAccoun();
+                    nextForm = new Hotel_FrontDeskDashboard();
                     break;
 
                 //case "Room Manager":
@@ -158,5 +162,18 @@ namespace FP_CS26_2025
         private void passwordInputField2_Load(object sender, EventArgs e) { }
         private void passwordInputField1_Load_1(object sender, EventArgs e) { }
         private void loginFormContainer1_Paint(object sender, PaintEventArgs e) { }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            using (var brush = new System.Drawing.Drawing2D.LinearGradientBrush(
+                this.ClientRectangle,
+                Color.FromArgb(45, 52, 71),  
+                Color.FromArgb(20, 23, 30),  
+                45f))
+            {
+                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+            }
+        }
     }
 }

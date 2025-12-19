@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,32 +16,25 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         public Hotel_AdminDashboard()
         {
             InitializeComponent();
-
+            this.DoubleBuffered = true;
+            
+            // Initial data load
+            bookingManager1.LoadSampleData();
+            sidebarManager1.SelectButtonByText("Dashboard");
         }
 
-        private void Hotel_AdminDashboard_Load(object sender, EventArgs e)
+
+        protected override void OnPaint(PaintEventArgs e)
         {
-
-        }
-
-        private void bookingManager1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void quickAccessManager1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void sidebarManager1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void bookingManager1_Paint_1(object sender, PaintEventArgs e)
-        {
-
+            base.OnPaint(e);
+            using (var brush = new LinearGradientBrush(
+                this.ClientRectangle,
+                Color.FromArgb(45, 52, 71),   // Dark Blue/Gray
+                Color.FromArgb(20, 23, 30),   // Deeper Blue/Black
+                45f))
+            {
+                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+            }
         }
     }
 }

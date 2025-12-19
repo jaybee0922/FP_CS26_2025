@@ -70,25 +70,41 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             CreateStatsPanels();
         }
 
+        private TableLayoutPanel tableLayoutPanelStats;
+
         private void CreateStatsPanels()
         {
-            int panelWidth = 160; // Wider panels to accommodate text
-            int panelHeight = 80; // Taller panels for better text display
-            int horizontalSpacing = 25; // Increased spacing between panels
-            int startX = (this.Width - (panelWidth * 3 + horizontalSpacing * 2)) / 2;
+            tableLayoutPanelStats = new TableLayoutPanel
+            {
+                ColumnCount = 3,
+                RowCount = 1,
+                Dock = DockStyle.Fill,
+                Padding = new Padding(15, 60, 15, 45), // Room for welcome title and info panel
+                BackColor = Color.Transparent
+            };
 
-            // Position stats panels with better spacing from welcome label
-            int panelsTop = lblWelcome.Bottom + 25; // Increased margin from welcome text
+            tableLayoutPanelStats.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            tableLayoutPanelStats.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            tableLayoutPanelStats.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
 
-            panelCurrentBookings = CreateStatPanel("Current Bookings", "124", startX, panelsTop, panelWidth, panelHeight);
-            panelAvailableRooms = CreateStatPanel("Available Rooms", "20", startX + panelWidth + horizontalSpacing, panelsTop, panelWidth, panelHeight);
-            panelRevenue = CreateStatPanel("Revenue (Today)", "₱3,450", startX + (panelWidth + horizontalSpacing) * 2, panelsTop, panelWidth, panelHeight);
+            // Position stats panels using docking inside table cells
+            panelCurrentBookings = CreateStatPanel("Current Bookings", "124", 0, 0, 0, 0);
+            panelAvailableRooms = CreateStatPanel("Available Rooms", "20", 0, 0, 0, 0);
+            panelRevenue = CreateStatPanel("Revenue (Today)", "₱3,450", 0, 0, 0, 0);
 
-            // Info panel at the bottom with better positioning
+            panelCurrentBookings.Dock = DockStyle.Fill;
+            panelAvailableRooms.Dock = DockStyle.Fill;
+            panelRevenue.Dock = DockStyle.Fill;
+
+            tableLayoutPanelStats.Controls.Add(panelCurrentBookings, 0, 0);
+            tableLayoutPanelStats.Controls.Add(panelAvailableRooms, 1, 0);
+            tableLayoutPanelStats.Controls.Add(panelRevenue, 2, 0);
+
+            // Info panel at the bottom
             panelInfo = new Panel
             {
-                Location = new Point(25, this.Height - 45),
-                Size = new Size(this.Width - 50, 35),
+                Dock = DockStyle.Bottom,
+                Height = 35,
                 BackColor = Color.FromArgb(245, 247, 250),
                 BorderStyle = BorderStyle.None
             };
@@ -121,7 +137,9 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             };
 
             panelInfo.Controls.AddRange(new Control[] { lblOccupancy, lblLastUpdatedInfo, lblTarget });
-            this.Controls.AddRange(new Control[] { panelCurrentBookings, panelAvailableRooms, panelRevenue, panelInfo });
+            
+            this.Controls.Add(tableLayoutPanelStats);
+            this.Controls.Add(panelInfo);
         }
 
         private Panel CreateStatPanel(string title, string value, int x, int y, int width, int height)

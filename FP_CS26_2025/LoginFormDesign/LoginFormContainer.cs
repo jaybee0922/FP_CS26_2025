@@ -11,10 +11,14 @@ namespace FP_CS26_2025.LoginFormDesign
         public Color PanelColor { get; set; } = Color.White;
 
         // Shadow settings
-        public Color ShadowColor { get; set; } = Color.FromArgb(51, 100, 100, 111); // rgba(100,100,111,0.2)
+        public Color ShadowColor { get; set; } = Color.FromArgb(80, 0, 0, 0); 
         public int ShadowOffsetX { get; set; } = 0;
-        public int ShadowOffsetY { get; set; } = 7;
-        public int ShadowBlur { get; set; } = 29;
+        public int ShadowOffsetY { get; set; } = 10;
+        public int ShadowBlur { get; set; } = 30;
+
+        public string Title { get; set; } = "LOGIN";
+        public Font TitleFont { get; set; } = new Font("Segoe UI Semibold", 22F);
+        public Color TitleColor { get; set; } = Color.FromArgb(45, 52, 71);
 
         private int shadowDepth = 7;
         public int ShadowDepth
@@ -65,11 +69,30 @@ namespace FP_CS26_2025.LoginFormDesign
             }
 
             // Main panel
-            RectangleF panelRect = new RectangleF(0, 0, this.Width - ShadowOffsetX, this.Height - ShadowOffsetY);
+            RectangleF panelRect = new RectangleF(0, 0, this.Width, this.Height);
             using (GraphicsPath panelPath = GetRoundedPath(panelRect, BorderRadius))
             using (SolidBrush panelBrush = new SolidBrush(PanelColor))
             {
                 e.Graphics.FillPath(panelBrush, panelPath);
+            }
+
+            // Draw Title
+            if (!string.IsNullOrEmpty(Title))
+            {
+                SizeF titleSize = e.Graphics.MeasureString(Title, TitleFont);
+                float titleX = (this.Width - titleSize.Width) / 2;
+                float titleY = 25; // Position title near top
+                using (SolidBrush titleBrush = new SolidBrush(TitleColor))
+                {
+                    e.Graphics.DrawString(Title, TitleFont, titleBrush, titleX, titleY);
+                }
+
+                // Add a subtle underline or accent
+                using (Pen accentPen = new Pen(Color.FromArgb(100, Color.DeepSkyBlue), 3))
+                {
+                    float lineW = 40;
+                    e.Graphics.DrawLine(accentPen, (this.Width / 2) - (lineW / 2), titleY + titleSize.Height + 5, (this.Width / 2) + (lineW / 2), titleY + titleSize.Height + 5);
+                }
             }
         }
 
