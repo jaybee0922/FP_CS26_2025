@@ -1,4 +1,4 @@
-namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
+namespace FP_CS26_2025
 {
     partial class Hotel_FrontDeskDashboard
     {
@@ -31,7 +31,7 @@ namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
             this.bookingManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.BookingManager();
             this.statsPanelManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.StatsPanelManager();
             this.quickAccessManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.QuickAccessManager();
-            this.sidebarManager1 = new FP_CS26_2025.FrontDesk_ReceptionistAccount.FrontDesk_SidebarManager();
+            this.sidebarManager1 = new FP_CS26_2025.FrontDesk_SidebarManager();
             this.mainContentPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.mainRootLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -193,7 +193,7 @@ namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
         }
 
         #endregion
-        private FP_CS26_2025.FrontDesk_ReceptionistAccount.FrontDesk_SidebarManager sidebarManager1;
+        private FP_CS26_2025.FrontDesk_SidebarManager sidebarManager1;
         private FP_CS26_2025.HotelManager_AdminDashboard.QuickAccessManager quickAccessManager1;
         private FP_CS26_2025.HotelManager_AdminDashboard.StatsPanelManager statsPanelManager1;
         private FP_CS26_2025.HotelManager_AdminDashboard.BookingManager bookingManager1;

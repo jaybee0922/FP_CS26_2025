@@ -138,6 +138,12 @@
     <Compile Include="FrontDesk_ReceptionistAccount\FrontDesk_Views.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\Controllers\FrontDeskController.cs" />
+    <Compile Include="FrontDesk_ReceptionistAccount\Models\IRoom.cs" />
+    <Compile Include="FrontDesk_ReceptionistAccount\Models\Room.cs" />
+    <Compile Include="FrontDesk_ReceptionistAccount\Models\RoomTypes.cs" />
+    <Compile Include="FrontDesk_ReceptionistAccount\Models\Models.cs" />
+    <Compile Include="FrontDesk_ReceptionistAccount\Services\HotelDataService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">

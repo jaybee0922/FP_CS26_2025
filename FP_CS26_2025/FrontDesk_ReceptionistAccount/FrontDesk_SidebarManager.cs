@@ -3,11 +3,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 
-namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
+namespace FP_CS26_2025
 {
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(Panel))]
-    public class FrontDesk_SidebarManager : Panel, IDisposable
+    public class FrontDesk_SidebarManager : Panel
     {
         private Label lblFrontDesk;
         private Button btnDashboard, btnCheckIn, btnCheckOut, btnRoomsCalendar, btnGuestList, btnBilling;
@@ -305,19 +305,5 @@ namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
             }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                lblFrontDesk?.Dispose();
-                btnDashboard?.Dispose();
-                btnCheckIn?.Dispose();
-                btnCheckOut?.Dispose();
-                btnRoomsCalendar?.Dispose();
-                btnGuestList?.Dispose();
-                btnBilling?.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
