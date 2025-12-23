@@ -144,6 +144,23 @@
     <Compile Include="FrontDesk_ReceptionistAccount\Models\RoomTypes.cs" />
     <Compile Include="FrontDesk_ReceptionistAccount\Models\Models.cs" />
     <Compile Include="FrontDesk_ReceptionistAccount\Services\HotelDataService.cs" />
+    <Compile Include="ModernDesign\IBookingService.cs" />
+    <Compile Include="ModernDesign\BookingService.cs" />
+    <Compile Include="ModernDesign\ModernButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ModernDesign\TransparentPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ModernDesign\GradientPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ModernDesign\ModernHomeView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModernDesign\ModernHomeView.Designer.cs">
+      <DependentUpon>ModernHomeView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
@@ -172,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Room_Manager\Room_Manager.resx">
       <DependentUpon>Room_Manager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModernDesign\ModernHomeView.resx">
+      <DependentUpon>ModernHomeView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
