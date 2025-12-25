@@ -120,6 +120,24 @@ namespace FP_CS26_2025
                 return;
             }
 
+            string username = usernameInputField2.Text;
+            string password = passwordInputField2.Text;
+
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Please enter both username and password.", "Input Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Map UI role to Database role (e.g., "Super Admin" -> "SuperAdmin")
+            string dbRole = selectedRole.Replace(" ", "");
+
+            if (!FP_CS26_2025.Data.DatabaseHelper.ValidateUser(username, password, dbRole))
+            {
+                MessageBox.Show("Invalid credentials or role selection.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             Form nextForm = null;
 
             switch (selectedRole)
@@ -141,8 +159,20 @@ namespace FP_CS26_2025
                     return;
             }
 
+            nextForm.FormClosed += (s, args) => 
+            {
+                ClearCredentials();
+                this.Show();
+            };
             nextForm.Show();
             this.Hide(); 
+        }
+
+        private void ClearCredentials()
+        {
+            usernameInputField2.Text = "";
+            passwordInputField2.Text = "";
+            roleComboBox1.SelectedIndex = -1;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

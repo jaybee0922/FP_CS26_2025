@@ -67,8 +67,8 @@ namespace FP_CS26_2025.LoginFormDesign
                 // Set placeholder text
                 SendMessage(innerTextBox.Handle, EM_SETCUEBANNER, 0, PlaceholderText);
 
-                // Load icons from C:\FP_CS26_2025
-                string basePath = @"C:\FP_CS26_2025\";
+                // Load icons from Assets
+                string basePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\Assets\\");
                 try
                 {
                     if (System.IO.File.Exists(basePath + "open-eyes.png"))

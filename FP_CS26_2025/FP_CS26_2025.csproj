@@ -45,8 +45,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,6 +187,8 @@
     <Compile Include="ModernDesign\ModernHomeView.Designer.cs">
       <DependentUpon>ModernHomeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\ILogoutService.cs" />
+    <Compile Include="Services\LogoutService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">

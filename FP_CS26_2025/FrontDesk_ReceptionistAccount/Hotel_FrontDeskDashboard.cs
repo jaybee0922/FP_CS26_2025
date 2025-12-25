@@ -8,17 +8,20 @@ using System.Linq;
 using System.Windows.Forms;
 using FP_CS26_2025.FrontDesk_MVC;
 using FP_CS26_2025.HotelManager_AdminDashboard;
+using FP_CS26_2025.Services;
 
 namespace FP_CS26_2025
 {
     public partial class Hotel_FrontDeskDashboard : Form
     {
         private readonly FrontDeskController _controller;
+        private readonly ILogoutService _logoutService;
 
         public Hotel_FrontDeskDashboard()
         {
             var dataService = new InMemoryHotelService();
             _controller = new FrontDeskController(dataService);
+            _logoutService = new LogoutService();
 
             InitializeComponent();
             SetupDashboard();
@@ -74,12 +77,7 @@ namespace FP_CS26_2025
             };
 
             sidebarManager1.LogoutClicked += (s, e) => {
-                var result = MessageBox.Show("Are you sure you want to logout?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    this.Close();
-                    // Assuming the parent form (Login) will handle showing itself again
-                }
+                _logoutService.HandleLogout(this);
             };
         }
 

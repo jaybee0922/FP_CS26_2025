@@ -10,7 +10,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
     public class SidebarManager : Panel, IDisposable
     {
         private Label lblHotelManager;
-        private Button btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSystemConfig;
+        private Button btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSystemConfig, btnLogout;
         private Action<Button> navigationHandler;
 
         // Events for navigation
@@ -20,6 +20,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         public event EventHandler RoomRatesClicked;
         public event EventHandler ReportsClicked;
         public event EventHandler SystemConfigClicked;
+        public event EventHandler LogoutClicked;
 
         public SidebarManager()
         {
@@ -57,9 +58,14 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             btnReports = CreateNavButton("Reports", 230);
             btnSystemConfig = CreateNavButton("System Configuration", 280);
 
+            btnLogout = CreateNavButton("Logout", 0);
+            btnLogout.BackColor = Color.FromArgb(192, 57, 43); // Alizarin Red
+            btnLogout.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 76, 60); // Pomegranate Red
+            btnLogout.Dock = DockStyle.Bottom;
+
             this.Controls.AddRange(new Control[] {
                 lblHotelManager, btnDashboard, btnUserManagement,
-                btnRoomRates, btnReports, btnSystemConfig
+                btnRoomRates, btnReports, btnSystemConfig, btnLogout
             });
         }
 
@@ -85,8 +91,11 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
             button.Click += (s, e) =>
             {
-                navigationHandler?.Invoke(button);
-                NavigationButtonClicked?.Invoke(this, button);
+                if (button != btnLogout)
+                {
+                    navigationHandler?.Invoke(button);
+                    NavigationButtonClicked?.Invoke(this, button);
+                }
 
                 // Raise specific events
                 switch (text)
@@ -105,6 +114,9 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                         break;
                     case "System Configuration":
                         SystemConfigClicked?.Invoke(this, EventArgs.Empty);
+                        break;
+                    case "Logout":
+                        LogoutClicked?.Invoke(this, EventArgs.Empty);
                         break;
                 }
             };
@@ -133,6 +145,8 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
         public void SelectButton(Button button)
         {
+            if (button == btnLogout) return;
+
             // Reset all buttons to default color
             ResetButtonColors();
 
@@ -317,6 +331,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 btnRoomRates?.Dispose();
                 btnReports?.Dispose();
                 btnSystemConfig?.Dispose();
+                btnLogout?.Dispose();
             }
             base.Dispose(disposing);
         }

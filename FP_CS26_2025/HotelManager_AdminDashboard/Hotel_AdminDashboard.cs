@@ -8,19 +8,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FP_CS26_2025.Services;
 
 namespace FP_CS26_2025.HotelManager_AdminDashboard
 {
     public partial class Hotel_AdminDashboard : Form
     {
+        private readonly ILogoutService _logoutService;
+
         public Hotel_AdminDashboard()
         {
+            _logoutService = new LogoutService();
             InitializeComponent();
             this.DoubleBuffered = true;
             
             // Initial data load
             bookingManager1.LoadSampleData();
             sidebarManager1.SelectButtonByText("Dashboard");
+            sidebarManager1.LogoutClicked += (s, e) => _logoutService.HandleLogout(this);
         }
 
 
