@@ -135,9 +135,6 @@
     <Compile Include="FrontDesk_ReceptionistAccount\FrontDesk_SidebarManager.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FrontDesk_ReceptionistAccount\FrontDesk_Views.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\BaseFrontDeskPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -164,6 +161,12 @@
     <Compile Include="FrontDesk_ReceptionistAccount\Models\Room.cs" />
     <Compile Include="FrontDesk_ReceptionistAccount\Models\RoomTypes.cs" />
     <Compile Include="FrontDesk_ReceptionistAccount\Models\Models.cs" />
+    <Compile Include="ModernDesign\ModernShadowPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ModernDesign\ModernTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\Services\HotelDataService.cs" />
     <Compile Include="ModernDesign\IBookingService.cs" />
     <Compile Include="ModernDesign\BookingService.cs" />

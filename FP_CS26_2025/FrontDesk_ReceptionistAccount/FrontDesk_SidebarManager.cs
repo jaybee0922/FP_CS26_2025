@@ -12,17 +12,17 @@ namespace FP_CS26_2025
     public class FrontDesk_SidebarManager : UserControl
     {
         private Label lblFrontDesk;
-        private Button btnDashboard, btnCheckIn, btnCheckOut, btnRoomsCalendar, btnGuestList, btnBilling;
+        private Button btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling, btnLogout;
         private Action<Button> navigationHandler;
 
         // Events for navigation
         public event EventHandler<Button> NavigationButtonClicked;
-        public event EventHandler DashboardClicked;
+        public event EventHandler ReservationsClicked;
         public event EventHandler CheckInClicked;
         public event EventHandler CheckOutClicked;
-        public event EventHandler RoomsCalendarClicked;
-        public event EventHandler GuestListClicked;
+        public event EventHandler RoomAssignmentsClicked;
         public event EventHandler BillingClicked;
+        public event EventHandler LogoutClicked;
 
         public FrontDesk_SidebarManager()
         {
@@ -33,36 +33,45 @@ namespace FP_CS26_2025
         private void InitializeComponent()
         {
             this.SuspendLayout();
-
             // Set up the sidebar panel properties
-            this.Size = new Size(220, 800);
+            this.Size = new Size(250, 800);
             this.BackColor = Color.FromArgb(0, 64, 64);
             this.BorderStyle = BorderStyle.FixedSingle;
-
             this.ResumeLayout(false);
         }
 
         private void CreateSidebar()
         {
+            this.Controls.Clear();
+
             lblFrontDesk = new Label
             {
                 Text = "Front Desk",
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 14, FontStyle.Bold),
-                Location = new Point(13, 20),
-                Size = new Size(180, 30)
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                Location = new Point(20, 30),
+                Size = new Size(210, 40),
+                TextAlign = ContentAlignment.MiddleCenter
             };
 
-            btnDashboard = CreateNavButton("Dashboard", 80);
-            btnCheckIn = CreateNavButton("Check-In", 130);
-            btnCheckOut = CreateNavButton("Check-Out", 180);
-            btnRoomsCalendar = CreateNavButton("Rooms & Calendar", 230);
-            btnGuestList = CreateNavButton("Guest List", 280);
-            btnBilling = CreateNavButton("Billing", 330);
+            int startY = 100;
+            int gap = 10;
+            int btnHeight = 45;
 
+            btnReservations = CreateNavButton("Process Reservations", startY);
+            btnCheckIn = CreateNavButton("Check-In Guests", startY + (btnHeight + gap) * 1);
+            btnCheckOut = CreateNavButton("Check-Out Guests", startY + (btnHeight + gap) * 2);
+            btnRoomAssignments = CreateNavButton("Room Assignments", startY + (btnHeight + gap) * 3);
+            btnBilling = CreateNavButton("Billing", startY + (btnHeight + gap) * 4);
+
+            btnLogout = CreateNavButton("Logout", 0); 
+            btnLogout.BackColor = Color.FromArgb(192, 57, 43); 
+            btnLogout.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 76, 60);
+            btnLogout.Dock = DockStyle.Bottom;
+            
+            this.Controls.Add(lblFrontDesk);
             this.Controls.AddRange(new Control[] {
-                lblFrontDesk, btnDashboard, btnCheckIn,
-                btnCheckOut, btnRoomsCalendar, btnGuestList, btnBilling
+                btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling, btnLogout
             });
         }
 
@@ -75,11 +84,11 @@ namespace FP_CS26_2025
                 BackColor = Color.FromArgb(0, 64, 64),
                 ForeColor = Color.White,
                 TextAlign = ContentAlignment.MiddleLeft,
-                Size = new Size(200, 40),
+                Size = new Size(230, 45),
                 Location = new Point(10, top),
-                Font = new Font("Segoe UI", 10),
+                Font = new Font("Segoe UI", 10.5f),
                 Cursor = Cursors.Hand,
-                Tag = text // Store button text for identification
+                Tag = text
             };
 
             button.FlatAppearance.BorderSize = 0;
@@ -88,29 +97,31 @@ namespace FP_CS26_2025
 
             button.Click += (s, e) =>
             {
-                navigationHandler?.Invoke(button);
-                NavigationButtonClicked?.Invoke(this, button);
+                if (button != btnLogout)
+                {
+                    navigationHandler?.Invoke(button);
+                    NavigationButtonClicked?.Invoke(this, button);
+                }
 
-                // Raise specific eventss
                 switch (text)
                 {
-                    case "Dashboard":
-                        DashboardClicked?.Invoke(this, EventArgs.Empty);
+                    case "Process Reservations":
+                        ReservationsClicked?.Invoke(this, EventArgs.Empty);
                         break;
-                    case "Check-In":
+                    case "Check-In Guests":
                         CheckInClicked?.Invoke(this, EventArgs.Empty);
                         break;
-                    case "Check-Out":
+                    case "Check-Out Guests":
                         CheckOutClicked?.Invoke(this, EventArgs.Empty);
                         break;
-                    case "Rooms & Calendar":
-                        RoomsCalendarClicked?.Invoke(this, EventArgs.Empty);
-                        break;
-                    case "Guest List":
-                        GuestListClicked?.Invoke(this, EventArgs.Empty);
+                    case "Room Assignments":
+                        RoomAssignmentsClicked?.Invoke(this, EventArgs.Empty);
                         break;
                     case "Billing":
                         BillingClicked?.Invoke(this, EventArgs.Empty);
+                        break;
+                    case "Logout":
+                        LogoutClicked?.Invoke(this, EventArgs.Empty);
                         break;
                 }
             };
@@ -118,31 +129,16 @@ namespace FP_CS26_2025
             return button;
         }
 
-        // Public methods
         public void SetNavigationHandler(Action<Button> handler)
         {
             navigationHandler = handler;
         }
 
-        public Button GetDashboardButton() => btnDashboard;
-
-        public Button GetButtonByText(string buttonText)
-        {
-            var buttons = new[] { btnDashboard, btnCheckIn, btnCheckOut, btnRoomsCalendar, btnGuestList, btnBilling };
-            foreach (var button in buttons)
-            {
-                if (button?.Text == buttonText)
-                    return button;
-            }
-            return null;
-        }
-
         public void SelectButton(Button button)
         {
-            // Reset all buttons to default color
-            ResetButtonColors();
+            if (button == btnLogout) return;
 
-            // Set selected button color
+            ResetButtonColors();
             if (button != null)
             {
                 button.BackColor = Color.FromArgb(0, 128, 128);
@@ -152,76 +148,32 @@ namespace FP_CS26_2025
 
         public void SelectButtonByText(string buttonText)
         {
-            var button = GetButtonByText(buttonText);
-            SelectButton(button);
+            // Simple mapping for ease of use from dashboard
+            if (buttonText == "Dashboard" || buttonText == "Reservations") SelectButton(btnReservations);
+            else if (buttonText == "Check-In") SelectButton(btnCheckIn);
+            else if (buttonText == "Check-Out") SelectButton(btnCheckOut);
+            else if (buttonText == "Rooms") SelectButton(btnRoomAssignments);
+            else if (buttonText == "Billing") SelectButton(btnBilling);
         }
 
         public void ResetButtonColors()
         {
-            var buttons = new[] { btnDashboard, btnCheckIn, btnCheckOut, btnRoomsCalendar, btnGuestList, btnBilling };
-            foreach (var button in buttons)
-            {
-                if (button != null)
-                {
-                    button.BackColor = Color.FromArgb(0, 64, 64);
-                    button.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 80, 80);
-                }
-            }
-        }
-
-        public void EnableAllButtons()
-        {
-            SetButtonsEnabled(true);
-        }
-
-        public void DisableAllButtons()
-        {
-            SetButtonsEnabled(false);
-        }
-
-        private void SetButtonsEnabled(bool enabled)
-        {
-            var buttons = new[] { btnDashboard, btnCheckIn, btnCheckOut, btnRoomsCalendar, btnGuestList, btnBilling };
-            foreach (var button in buttons)
-            {
-                if (button != null)
-                {
-                    button.Enabled = enabled;
-                    button.BackColor = enabled ? Color.FromArgb(0, 64, 64) : Color.FromArgb(0, 40, 40);
-                }
-            }
-        }
-
-        // Properties for external access
-        [Category("Appearance")]
-        [Description("Title text displayed in the sidebar")]
-        public string SidebarTitle
-        {
-            get => lblFrontDesk?.Text ?? "Front Desk";
-            set
-            {
-                if (lblFrontDesk != null)
-                    lblFrontDesk.Text = value;
-            }
-        }
-
-        [Category("Appearance")]
-        [Description("Background color of the sidebar")]
-        public new Color BackColor
-        {
-            get => base.BackColor;
-            set
-            {
-                base.BackColor = value;
-                UpdateButtonColors();
-            }
+             var buttons = new[] { btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling };
+             foreach(var btn in buttons)
+             {
+                 if(btn != null)
+                 {
+                     btn.BackColor = Color.FromArgb(0, 64, 64);
+                     btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 80, 80);
+                 }
+             }
         }
 
         [Category("Appearance")]
         [Description("Background color of navigation buttons")]
         public Color ButtonBackColor
         {
-            get => btnDashboard?.BackColor ?? Color.FromArgb(0, 64, 64);
+            get => btnReservations?.BackColor ?? Color.FromArgb(0, 64, 64);
             set => SetButtonProperty(button => button.BackColor = value);
         }
 
@@ -229,7 +181,7 @@ namespace FP_CS26_2025
         [Description("Text color of navigation buttons")]
         public Color ButtonTextColor
         {
-            get => btnDashboard?.ForeColor ?? Color.White;
+            get => btnReservations?.ForeColor ?? Color.White;
             set => SetButtonProperty(button => button.ForeColor = value);
         }
 
@@ -245,67 +197,37 @@ namespace FP_CS26_2025
         [Description("Indicates if navigation buttons are enabled")]
         public bool ButtonsEnabled
         {
-            get => btnDashboard?.Enabled ?? true;
+            get => btnReservations?.Enabled ?? true;
             set => SetButtonsEnabled(value);
         }
 
-        [Category("Data")]
-        [Description("Gets the currently selected button")]
-        [Browsable(false)]
-        public Button SelectedButton { get; private set; }
-
-        // Helper method to set properties on all buttons
         private void SetButtonProperty(Action<Button> action)
         {
-            var buttons = new[] { btnDashboard, btnCheckIn, btnCheckOut, btnRoomsCalendar, btnGuestList, btnBilling };
+            var buttons = new[] { btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling };
+            foreach (var button in buttons)
+            {
+                if (button != null) action(button);
+            }
+        }
+
+        private void SetButtonsEnabled(bool enabled)
+        {
+            var buttons = new[] { btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling };
             foreach (var button in buttons)
             {
                 if (button != null)
                 {
-                    action(button);
+                    button.Enabled = enabled;
+                    button.BackColor = enabled ? Color.FromArgb(0, 64, 64) : Color.FromArgb(0, 40, 40);
                 }
             }
         }
 
-        private void UpdateButtonColors()
+        [Category("Appearance")]
+        public string SidebarTitle
         {
-            // Update button hover colors based on current background
-            SetButtonProperty(button =>
-            {
-                button.FlatAppearance.MouseOverBackColor = ButtonHoverColor;
-                button.FlatAppearance.MouseDownBackColor = Color.FromArgb(
-                    Math.Min(ButtonHoverColor.R + 10, 255),
-                    Math.Min(ButtonHoverColor.G + 10, 255),
-                    Math.Min(ButtonHoverColor.B + 10, 255)
-                );
-            });
+            get => lblFrontDesk?.Text ?? "Front Desk";
+            set { if (lblFrontDesk != null) lblFrontDesk.Text = value; }
         }
-
-        // Hide inherited properties that don't make sense for this control
-        [Browsable(false)]
-        public new bool AutoSize => base.AutoSize;
-
-        [Browsable(false)]
-        public new AutoSizeMode AutoSizeMode => base.AutoSizeMode;
-
-        [Browsable(false)]
-        public override string Text => base.Text;
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            UpdateLayout();
-        }
-
-        private void UpdateLayout()
-        {
-            if (lblFrontDesk != null)
-            {
-                
-                int buttonWidth = this.Width - 20;
-                SetButtonProperty(button => button.Width = buttonWidth);
-            }
-        }
-
     }
 }

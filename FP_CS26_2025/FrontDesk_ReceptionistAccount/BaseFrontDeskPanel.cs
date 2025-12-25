@@ -6,9 +6,10 @@ using FP_CS26_2025.FrontDesk_MVC;
 
 namespace FP_CS26_2025
 {
-    public class BaseFrontDeskPanel : UserControl
+    // Abstraction & Inheritance: Base class provides common behavior and enforces contract
+    public abstract class BaseFrontDeskPanel : UserControl
     {
-        protected readonly FrontDeskController _controller;
+        protected FrontDeskController _controller;
         protected Label lblTitle;
 
         // Parameterless constructor for Designer support
@@ -31,6 +32,15 @@ namespace FP_CS26_2025
                 AutoSize = true
             };
             this.Controls.Add(lblTitle);
+        }
+
+        // Polymorphism: Child classes MUST implement data refresh logic
+        public abstract void RefreshData();
+
+        // Polymorphism: Child classes SHOULD implement search logic if applicable
+        public virtual void PerformSearch(string query)
+        {
+            // Default implementation does nothing
         }
     }
 }

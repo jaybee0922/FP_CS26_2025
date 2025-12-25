@@ -37,5 +37,9 @@ namespace FP_CS26_2025
             this.ResumeLayout(false);
 
         }
+        public override void RefreshData()
+        {
+            // Placeholder for data refresh logic
+        }
     }
 }

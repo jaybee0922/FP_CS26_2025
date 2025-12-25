@@ -13,7 +13,6 @@ namespace FP_CS26_2025
 {
     public partial class Hotel_FrontDeskDashboard : Form
     {
-        private Control dashboardView;
         private readonly FrontDeskController _controller;
 
         public Hotel_FrontDeskDashboard()
@@ -30,56 +29,28 @@ namespace FP_CS26_2025
         private void SetupDashboard()
         {
             sidebarManager1.SidebarTitle = "Front Desk";
-            statsPanelManager1.WelcomeText = "Welcome, Front Desk";
-            UpdateStats();
-            quickAccessManager1.PanelTitle = "Receptionist Quick Actions";
-            bookingManager1.LoadSampleData();
-            sidebarManager1.SelectButtonByText("Dashboard");
-            dashboardView = mainContentPanel.Controls.Cast<Control>().FirstOrDefault(); 
-        }
-
-        private void UpdateStats()
-        {
-            int currentBookings = _controller.GetActiveReservations().Count(r => r.IsCheckedIn);
-            int availableRooms = _controller.GetAllRooms().Count(r => r.Status == RoomStatus.Available);
-            int totalRooms = _controller.GetAllRooms().Count();
-            int occupancyRate = totalRooms > 0 ? (currentBookings * 100 / totalRooms) : 0;
-
-            statsPanelManager1.SetCurrentBookings(currentBookings);
-            statsPanelManager1.SetAvailableRooms(availableRooms);
-            statsPanelManager1.SetOccupancyRate(occupancyRate);
+            // Default to Reservations view
+            sidebarManager1.SelectButtonByText("Reservations");
+            SwitchView(new ReservationPanel(_controller));
         }
 
         private void SwitchView(Control newView)
         {
-            foreach (Control ctrl in mainContentPanel.Controls.Cast<Control>().ToList())
-            {
-                if (ctrl != tableLayoutPanelMain)
-                {
-                    mainContentPanel.Controls.Remove(ctrl);
-                    ctrl.Dispose();
-                }
-            }
-
+            mainContentPanel.Controls.Clear();
+            
             if (newView != null)
             {
-                tableLayoutPanelMain.Visible = false;
                 newView.Dock = DockStyle.Fill;
                 mainContentPanel.Controls.Add(newView);
                 newView.BringToFront();
-            }
-            else
-            {
-                UpdateStats();
-                tableLayoutPanelMain.Visible = true;
             }
         }
 
         private void SetupSidebarEvents()
         {
-            sidebarManager1.DashboardClicked += (s, e) => {
-                sidebarManager1.SelectButtonByText("Dashboard");
-                SwitchView(null);
+            sidebarManager1.ReservationsClicked += (s, e) => {
+                sidebarManager1.SelectButtonByText("Reservations");
+                SwitchView(new ReservationPanel(_controller));
             };
 
             sidebarManager1.CheckInClicked += (s, e) => {
@@ -92,19 +63,23 @@ namespace FP_CS26_2025
                 SwitchView(new CheckOutPanel(_controller));
             };
 
-            sidebarManager1.RoomsCalendarClicked += (s, e) => {
-                sidebarManager1.SelectButtonByText("Rooms & Calendar");
+            sidebarManager1.RoomAssignmentsClicked += (s, e) => {
+                sidebarManager1.SelectButtonByText("Rooms");
                 SwitchView(new RoomsCalendarPanel(_controller));
-            };
-
-            sidebarManager1.GuestListClicked += (s, e) => {
-                sidebarManager1.SelectButtonByText("Guest List");
-                SwitchView(new ReservationPanel(_controller));
             };
 
             sidebarManager1.BillingClicked += (s, e) => {
                 sidebarManager1.SelectButtonByText("Billing");
                 SwitchView(new BillingPanel(_controller));
+            };
+
+            sidebarManager1.LogoutClicked += (s, e) => {
+                var result = MessageBox.Show("Are you sure you want to logout?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    this.Close();
+                    // Assuming the parent form (Login) will handle showing itself again
+                }
             };
         }
 
@@ -113,8 +88,8 @@ namespace FP_CS26_2025
             base.OnPaint(e);
             using (var brush = new LinearGradientBrush(
                 this.ClientRectangle,
-                Color.FromArgb(45, 52, 71),
-                Color.FromArgb(20, 23, 30),
+                Color.FromArgb(245, 247, 251), // Light modern background
+                Color.FromArgb(245, 247, 251),
                 45f))
             {
                 e.Graphics.FillRectangle(brush, this.ClientRectangle);

@@ -3,40 +3,144 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using FP_CS26_2025.FrontDesk_MVC;
+using FP_CS26_2025.ModernDesign;
 
 namespace FP_CS26_2025
 {
     public class RoomsCalendarPanel : BaseFrontDeskPanel
     {
+        private DataGridView dgvRooms;
+        private TableLayoutPanel mainLayout;
+        private ModernTextBox txtSearch;
+        private ModernShadowPanel shadowPanel;
+
         public RoomsCalendarPanel() : base() { InitializeComponents(); }
 
-        public RoomsCalendarPanel(FrontDeskController controller) : base(controller, "Room Status")
+        public RoomsCalendarPanel(FrontDeskController controller) : base(controller, "Room Assignments & Status")
         {
             InitializeComponents();
-            if (controller != null) LoadRooms();
+            if (_controller != null) RefreshData();
         }
 
         private void InitializeComponents()
         {
-            // Initial component setup if needed
+            this.SuspendLayout();
+
+            mainLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 3, 
+                Padding = new Padding(20)
+            };
+            mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F)); 
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F)); 
+
+            // Search
+            txtSearch = new ModernTextBox
+            {
+                PlaceholderText = "Search Room Number or Type...",
+                Size = new Size(300, 35),
+                BorderColor = Color.LightGray,
+                BorderFocusColor = Color.FromArgb(41, 128, 185),
+                UnderlinedStyle = true,
+                Anchor = AnchorStyles.Left | AnchorStyles.Right
+            };
+            txtSearch.TextChange += (s, e) => PerformSearch(txtSearch.Text);
+
+            // Wrapper for search
+            Panel searchWrapper = new Panel { Dock = DockStyle.Fill, Margin = new Padding(0, 0, 0, 10) };
+            searchWrapper.Controls.Add(txtSearch);
+            txtSearch.Dock = DockStyle.Top;
+
+            // Shadow Panel
+            shadowPanel = new ModernShadowPanel
+            {
+                Dock = DockStyle.Fill,
+                ShadowDepth = 4,
+                ShadowColor = Color.FromArgb(200, 200, 200),
+                BorderRadius = 10,
+                Padding = new Padding(15)
+            };
+
+             dgvRooms = new DataGridView
+            {
+                BackgroundColor = Color.White,
+                BorderStyle = BorderStyle.None,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                AllowUserToAddRows = false,
+                ReadOnly = true,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                RowHeadersVisible = false,
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0),
+                DefaultCellStyle = new DataGridViewCellStyle 
+                { 
+                    SelectionBackColor = Color.FromArgb(0, 120, 215),
+                    SelectionForeColor = Color.White,
+                    Font = new Font("Segoe UI", 9.5f),
+                    Padding = new Padding(5)
+                },
+                ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+                {
+                    BackColor = Color.FromArgb(240, 240, 240),
+                    ForeColor = Color.FromArgb(64, 64, 64),
+                    Font = new Font("Segoe UI", 10f, FontStyle.Bold),
+                    SelectionBackColor = Color.FromArgb(240, 240, 240),
+                    Padding = new Padding(5)
+                },
+                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing,
+                ColumnHeadersHeight = 40,
+                EnableHeadersVisualStyles = false,
+                RowTemplate = { Height = 35 }
+            };
+            shadowPanel.Controls.Add(dgvRooms);
+
+            mainLayout.Padding = new Padding(20, 60, 20, 20); 
+            mainLayout.Controls.Add(searchWrapper, 0, 1);
+            mainLayout.Controls.Add(shadowPanel, 0, 2);
+
+            this.Controls.Add(mainLayout);
+            mainLayout.BringToFront();
+            
+            this.ResumeLayout(false);
         }
 
-        private void LoadRooms()
+        public override void RefreshData()
         {
-            var dgvRooms = new DataGridView
+            if (_controller == null) return;
+            dgvRooms.DataSource = _controller.GetAllRooms().Select(r => new {
+                Number = r.RoomNumber,
+                Type = r.RoomType,
+                Price = r.BasePrice,
+                Status = r.Status
+            }).ToList();
+        }
+
+        public override void PerformSearch(string query)
+        {
+             if (_controller == null) return;
+            if (string.IsNullOrWhiteSpace(query))
             {
-                Location = new Point(30, 80),
-                Size = new Size(600, 400),
-                BackgroundColor = Color.White,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                DataSource = _controller.GetAllRooms().Select(r => new {
-                    Room = r.RoomNumber,
-                    Type = r.RoomType,
-                    Price = r.BasePrice,
-                    Status = r.Status.ToString()
-                }).ToList()
-            };
-            this.Controls.Add(dgvRooms);
+                RefreshData();
+                return;
+            }
+
+            var allRooms = _controller.GetAllRooms();
+            var filtered = allRooms.Where(r => 
+                r.RoomNumber.ToString().Contains(query) ||
+                r.RoomType.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                r.Status.ToString().IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0
+            ).Select(r => new {
+                Number = r.RoomNumber,
+                Type = r.RoomType,
+                Price = r.BasePrice,
+                Status = r.Status
+            }).ToList();
+
+            dgvRooms.DataSource = filtered;
         }
     }
 }
