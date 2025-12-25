@@ -133,10 +133,31 @@
       <DependentUpon>Hotel_FrontDeskDashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\FrontDesk_SidebarManager.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\FrontDesk_Views.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\BaseFrontDeskPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\ReservationPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\CheckInPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\CheckOutPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\RoomsCalendarPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\GuestListPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\BillingPanel.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\Controllers\FrontDeskController.cs" />
     <Compile Include="FrontDesk_ReceptionistAccount\Models\IRoom.cs" />
@@ -166,6 +187,18 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrontDesk_ReceptionistAccount\BillingPanel.resx">
+      <DependentUpon>BillingPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrontDesk_ReceptionistAccount\CheckInPanel.resx">
+      <DependentUpon>CheckInPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrontDesk_ReceptionistAccount\CheckOutPanel.resx">
+      <DependentUpon>CheckOutPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrontDesk_ReceptionistAccount\GuestListPanel.resx">
+      <DependentUpon>GuestListPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrontDesk_ReceptionistAccount\Hotel_FrontDeskDashboard.resx">
       <DependentUpon>Hotel_FrontDeskDashboard.cs</DependentUpon>

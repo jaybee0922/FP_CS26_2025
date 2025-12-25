@@ -5,9 +5,11 @@ using System.ComponentModel;
 
 namespace FP_CS26_2025
 {
+    // Ensure the designer treats this as a UserControl/Panel, not a generic Component
+    [System.ComponentModel.DesignerCategory("UserControl")]
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(Panel))]
-    public class FrontDesk_SidebarManager : Panel
+    public class FrontDesk_SidebarManager : UserControl
     {
         private Label lblFrontDesk;
         private Button btnDashboard, btnCheckIn, btnCheckOut, btnRoomsCalendar, btnGuestList, btnBilling;
