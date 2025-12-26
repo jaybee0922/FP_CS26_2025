@@ -45,6 +45,16 @@ FP_CS26_2025/
 
 ## 🚀 Getting Started
 
+### 🗄️ Database Setup
+To ensure compatibility with SQL Server (2014 - 2025+), follow these steps:
+
+1.  **Open SSMS**: Open Microsoft SQL Server Management Studio.
+2.  **Run Script**: Open and execute the [GrandNexusDB_Universal_Setup.sql](file:///c:/FP_CS26_2025/GrandNexusDB_Universal_Setup.sql) file.
+    - This will create the `GrandNexusDB` database and all necessary tables.
+    - It also seeds the database with default admin accounts and sample data.
+3.  **Check Connection String**: Open `App.config` and ensure the `connectionString` points to your SQL Server instance (e.g., `(localdb)\MSSQLLocalDB` or `.\SQLEXPRESS`).
+
+### 💻 Application Setup
 1.  Open the solution in Visual Studio.
 2.  Ensure the target framework is set to **.NET Framework 4.8**.
 3.  Build the project (`dotnet build`).
