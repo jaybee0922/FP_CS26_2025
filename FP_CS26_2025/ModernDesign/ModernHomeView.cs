@@ -14,6 +14,9 @@ namespace FP_CS26_2025.ModernDesign
         {
             _bookingService = bookingService;
             InitializeComponent();
+            
+            // Set active page in navbar
+            this.modernNavbar.ActivePage = "Home";
         }
 
         // Default constructor for Designer and simple instantiation
@@ -25,36 +28,16 @@ namespace FP_CS26_2025.ModernDesign
         {
             // No image loading needed anymore. GradientPanel handles the background.
             // Setup events
-            btnCheck.Click += BtnCheck_Click;
+            btnCheck.Click += btnCheck_Click;
         }
 
-        private void BtnCheck_Click(object sender, EventArgs e)
+        private void btnCheck_Click(object sender, EventArgs e)
         {
             bool available = _bookingService.CheckAvailability(dtpArrival.Value, dtpDeparture.Value, txtPromo.Text);
             if (available)
             {
                _bookingService.BookNow();
             }
-        }
-
-        private void btnPages_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnShop_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnBookNow_Click(object sender, EventArgs e)
-        {
-
-        }
-        
-        private void btnHome_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -67,6 +50,11 @@ namespace FP_CS26_2025.ModernDesign
             // or handle the FormClosed event of loginForm if needed to show this form back.
             // For now, simple navigation as requested.
             loginForm.FormClosed += (s, args) => this.Close(); 
+        }
+
+        private void lblLogo_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

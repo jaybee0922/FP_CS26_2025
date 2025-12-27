@@ -180,6 +180,11 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\Services\HotelDataService.cs" />
+    <Compile Include="Services\INavigationService.cs" />
+    <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="ModernDesign\ModernNavbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Rooms\IRoom.cs" />
     <Compile Include="Rooms\IRoomService.cs" />
     <Compile Include="Rooms\PaginationControl.cs">
@@ -264,6 +269,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Room Rates &amp; Policies\RoomRates_and_Pricing_Form.resx">
       <DependentUpon>RoomRates_and_Pricing_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rooms\RoomsShowcaseForm.resx">
+      <DependentUpon>RoomsShowcaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Room_Manager\Room_Manager.resx">
       <DependentUpon>Room_Manager.cs</DependentUpon>

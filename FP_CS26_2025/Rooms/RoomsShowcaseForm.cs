@@ -8,6 +8,7 @@ namespace FP_CS26_2025.Rooms
         public RoomsShowcaseForm()
         {
             InitializeComponent();
+            this.modernNavbar1.ActivePage = "Rooms";
         }
     }
 }
