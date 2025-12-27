@@ -180,6 +180,34 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\Services\HotelDataService.cs" />
+    <Compile Include="Rooms\IRoom.cs" />
+    <Compile Include="Rooms\IRoomService.cs" />
+    <Compile Include="Rooms\PaginationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Rooms\PaginationControl.Designer.cs">
+      <DependentUpon>PaginationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Rooms\Room.cs" />
+    <Compile Include="Rooms\RoomCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Rooms\RoomCard.Designer.cs">
+      <DependentUpon>RoomCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Rooms\RoomGalleryView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Rooms\RoomGalleryView.Designer.cs">
+      <DependentUpon>RoomGalleryView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Rooms\RoomService.cs" />
+    <Compile Include="Rooms\RoomsShowcaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Rooms\RoomsShowcaseForm.Designer.cs">
+      <DependentUpon>RoomsShowcaseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModernDesign\IBookingService.cs" />
     <Compile Include="ModernDesign\BookingService.cs" />
     <Compile Include="ModernDesign\ModernButton.cs">
