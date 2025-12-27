@@ -7,7 +7,7 @@ namespace FP_CS26_2025.LoginFormDesign
 {
     public class LoginFormContainer : Panel
     {
-        public int BorderRadius { get; set; } = 50; // Rounded corners
+        public int BorderRadius { get; set; } = 50; 
         public Color PanelColor { get; set; } = Color.White;
 
         // Shadow settings
