@@ -36,6 +36,7 @@
             this.statsPanelManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.StatsPanelManager();
             this.quickAccessManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.QuickAccessManager();
             this.sidebarManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.SidebarManager();
+            this.userManagementControl1 = new FP_CS26_2025.HotelManager_AdminDashboard.UserManagementControl();
             this.mainLayout.SuspendLayout();
             this.dashboardContainer.SuspendLayout();
             this.mainContentPanel.SuspendLayout();
@@ -72,12 +73,22 @@
             // mainContentPanel
             // 
             this.mainContentPanel.Controls.Add(this.tableLayoutPanelContent);
+            this.mainContentPanel.Controls.Add(this.userManagementControl1);
             this.mainContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainContentPanel.Location = new System.Drawing.Point(255, 0);
             this.mainContentPanel.Name = "mainContentPanel";
             this.mainContentPanel.Padding = new System.Windows.Forms.Padding(15);
             this.mainContentPanel.Size = new System.Drawing.Size(1567, 792);
             this.mainContentPanel.TabIndex = 8;
+            // 
+            // userManagementControl1
+            // 
+            this.userManagementControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userManagementControl1.Location = new System.Drawing.Point(15, 15);
+            this.userManagementControl1.Name = "userManagementControl1";
+            this.userManagementControl1.Size = new System.Drawing.Size(1537, 762);
+            this.userManagementControl1.TabIndex = 1;
+            this.userManagementControl1.Visible = false;
             // 
             // tableLayoutPanelContent
             // 
@@ -202,5 +213,6 @@
         private System.Windows.Forms.Panel dashboardContainer;
         private System.Windows.Forms.Panel mainContentPanel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelContent;
+        private UserManagementControl userManagementControl1;
     }
 }

@@ -23,9 +23,31 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.DoubleBuffered = true;
             
             // Initial data load
+            // Initial data load
             bookingManager1.LoadSampleData();
+           
+            // Data Manager Setup
+            var dataManager = new DataManager(); // Central data manager
+            userManagementControl1.SetDataManager(dataManager);
+
+            // Sidebar Events
             sidebarManager1.SelectButtonByText("Dashboard");
             sidebarManager1.LogoutClicked += (s, e) => _logoutService.HandleLogout(this);
+            
+            sidebarManager1.DashboardClicked += (s, e) => 
+            {
+                sidebarManager1.SelectButtonByText("Dashboard");
+                tableLayoutPanelContent.Visible = true;
+                userManagementControl1.Visible = false;
+            };
+
+            sidebarManager1.UserManagementClicked += (s, e) =>
+            {
+                sidebarManager1.SelectButtonByText("User Management");
+                tableLayoutPanelContent.Visible = false;
+                userManagementControl1.Visible = true;
+                userManagementControl1.BringToFront();
+            };
         }
 
 
