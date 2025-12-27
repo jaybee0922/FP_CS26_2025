@@ -17,6 +17,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         private List<Room> rooms;
         private List<Guest> guests;
         private List<Staff> staffMembers;
+        private List<SystemUser> users;
 
         // Events
         public event EventHandler DataLoaded;
@@ -36,6 +37,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             rooms = new List<Room>();
             guests = new List<Guest>();
             staffMembers = new List<Staff>();
+            users = new List<SystemUser>();
 
             if (AutoLoadSampleData)
             {
@@ -117,7 +119,18 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                     Role = member.Role,
                     Department = member.Department,
                     IsActive = true
-                });
+                    });
+            }
+
+            // Sample Users
+            users.Clear();
+            users.Add(new AdminUser("Meljan Evarolo", "MeljanE@untitledui.com", "password"));
+            users.Add(new AdminUser("Geoffrey Orpia", "GeoffreyO@untitledui.com", "password"));
+            users.Add(new GeneralUser("Test User", "user@test.com", "password"));
+            for (int i = 1; i <= 20; i++)
+            {
+                users.Add(new GeneralUser($"User {i}", $"user{i}@test.com", "password"));
+                users.Add(new GeneralUser($"User {i}", $"user{i}@test.com", "password"));
             }
 
             DataLoaded?.Invoke(this, EventArgs.Empty);
@@ -301,6 +314,85 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         public List<Staff> GetActiveStaff()
         {
             return staffMembers.FindAll(s => s.IsActive);
+        }
+
+        public List<SystemUser> GetAllUsers()
+        {
+            return new List<SystemUser>(users);
+        }
+
+        public void AddUser(SystemUser user)
+        {
+            users.Add(user);
+            DataOperationPerformed?.Invoke(this, $"User {user.Username} added");
+            DataChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public bool RemoveUser(Guid userId)
+        {
+            var user = users.Find(u => u.Id == userId);
+            if (user != null)
+            {
+                users.Remove(user);
+                DataOperationPerformed?.Invoke(this, $"User {user.Username} removed");
+                DataChanged?.Invoke(this, EventArgs.Empty);
+                return true;
+            }
+            return false;
+        }
+
+        public void UpdateUser(SystemUser updatedUser)
+        {
+            var existingUser = users.Find(u => u.Id == updatedUser.Id);
+            if (existingUser != null)
+            {
+                // Update properties
+                existingUser.Username = updatedUser.Username;
+                existingUser.Email = updatedUser.Email;
+                // In real app, handle password change securely
+                if (!string.IsNullOrEmpty(updatedUser.Password))
+                {
+                    existingUser.Password = updatedUser.Password;
+                }
+                
+                DataOperationPerformed?.Invoke(this, $"User {updatedUser.Username} updated");
+                DataChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public List<SystemUser> FilterUsers(string type, string searchQuery, string sortOrder)
+        {
+            var filtered = users.AsEnumerable();
+
+            // Filter by type
+            if (type == "Admin")
+            {
+                filtered = filtered.OfType<AdminUser>();
+            }
+            else if (type == "User")
+            {
+                filtered = filtered.OfType<GeneralUser>();
+            }
+
+            // Search
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                string q = searchQuery.ToLower();
+                filtered = filtered.Where(u => u.Username.ToLower().Contains(q) || u.Email.ToLower().Contains(q));
+            }
+
+            // Sort
+            if (sortOrder == "A-Z")
+            {
+                filtered = filtered.OrderBy(u => u.Username);
+            }
+            else if (sortOrder == "Z-A")
+            {
+                filtered = filtered.OrderByDescending(u => u.Username);
+            }
+            // Add more sort options if needed
+
+            return filtered.ToList();
         }
         #endregion
 

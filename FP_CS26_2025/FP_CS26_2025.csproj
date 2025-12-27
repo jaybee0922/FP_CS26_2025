@@ -88,6 +88,16 @@
     <Compile Include="HotelManager_AdminDashboard\StatsPanelManager.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="HotelManager_AdminDashboard\UserListItemControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HotelManager_AdminDashboard\UserManagementControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HotelManager_AdminDashboard\UserManagementControl.Designer.cs">
+      <DependentUpon>UserManagementControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HotelManager_AdminDashboard\UserModels.cs" />
     <Compile Include="LoginFormDesign\GradientBtn.cs" />
     <Compile Include="LoginFormDesign\LoginBtn.cs">
       <SubType>Component</SubType>
