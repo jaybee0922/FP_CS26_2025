@@ -46,15 +46,22 @@ namespace FP_CS26_2025.Rooms
                 {
                     Text = i.ToString(),
                     AutoSize = false,
-                    Size = new Size(30, 30),
+                    Size = new Size(35, 35),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Cursor = Cursors.Hand,
-                    Font = new Font("Segoe UI Semibold", 10F),
-                    ForeColor = Color.Goldenrod,
+                    Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                    ForeColor = Color.White,
+                    BackColor = Color.FromArgb(50, 255, 255, 255), // Semi-transparent white
                     Tag = i,
-                    Margin = new Padding(5, 0, 5, 0)
+                    Margin = new Padding(8, 0, 8, 0)
                 };
                 btn.Click += PageButton_Click;
+                
+                // Rounded effect via region (simple approach)
+                System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+                path.AddEllipse(0, 0, btn.Width, btn.Height);
+                btn.Region = new Region(path);
+
                 this.flowLayoutPanel1.Controls.Add(btn);
             }
             UpdateSelection();
@@ -96,13 +103,13 @@ namespace FP_CS26_2025.Rooms
                     int page = (int)lbl.Tag;
                     if (page == _currentPage)
                     {
-                        lbl.Font = new Font("Segoe UI Bold", 11F, FontStyle.Underline);
-                        lbl.ForeColor = Color.Peru;
+                        lbl.BackColor = Color.FromArgb(43, 88, 118);
+                        lbl.ForeColor = Color.White;
                     }
                     else
                     {
-                        lbl.Font = new Font("Segoe UI Semibold", 10F);
-                        lbl.ForeColor = Color.Goldenrod;
+                        lbl.BackColor = Color.FromArgb(50, 255, 255, 255);
+                        lbl.ForeColor = Color.White;
                     }
                 }
             }

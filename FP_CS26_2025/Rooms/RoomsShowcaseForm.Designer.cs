@@ -4,6 +4,7 @@ namespace FP_CS26_2025.Rooms
     {
         private System.ComponentModel.IContainer components = null;
         private RoomGalleryView roomGalleryView1;
+        private System.Windows.Forms.Label lblSubtitle;
 
         protected override void Dispose(bool disposing)
         {
@@ -17,9 +18,10 @@ namespace FP_CS26_2025.Rooms
         private void InitializeComponent()
         {
             this.mainBackgroundPanel = new FP_CS26_2025.ModernDesign.GradientPanel();
+            this.lblSubtitle = new System.Windows.Forms.Label();
+            this.lblLogo = new System.Windows.Forms.Label();
             this.modernNavbar1 = new FP_CS26_2025.ModernDesign.ModernNavbar();
             this.roomGalleryView1 = new FP_CS26_2025.Rooms.RoomGalleryView();
-            this.lblLogo = new System.Windows.Forms.Label();
             this.mainBackgroundPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -28,6 +30,7 @@ namespace FP_CS26_2025.Rooms
             this.mainBackgroundPanel.Angle = 60F;
             this.mainBackgroundPanel.ColorBottom = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(30)))), ((int)(((byte)(50)))));
             this.mainBackgroundPanel.ColorTop = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(88)))), ((int)(((byte)(118)))));
+            this.mainBackgroundPanel.Controls.Add(this.lblSubtitle);
             this.mainBackgroundPanel.Controls.Add(this.lblLogo);
             this.mainBackgroundPanel.Controls.Add(this.modernNavbar1);
             this.mainBackgroundPanel.Controls.Add(this.roomGalleryView1);
@@ -36,6 +39,31 @@ namespace FP_CS26_2025.Rooms
             this.mainBackgroundPanel.Name = "mainBackgroundPanel";
             this.mainBackgroundPanel.Size = new System.Drawing.Size(1600, 862);
             this.mainBackgroundPanel.TabIndex = 0;
+            // 
+            // lblSubtitle
+            // 
+            this.lblSubtitle.AutoSize = true;
+            this.lblSubtitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI Semilight", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.lblSubtitle.Location = new System.Drawing.Point(144, 95);
+            this.lblSubtitle.Name = "lblSubtitle";
+            this.lblSubtitle.Size = new System.Drawing.Size(378, 32);
+            this.lblSubtitle.TabIndex = 3;
+            this.lblSubtitle.Text = "EXPERIENCE LUXURY AT ITS FINEST";
+            // 
+            // lblLogo
+            // 
+            this.lblLogo.AutoSize = true;
+            this.lblLogo.BackColor = System.Drawing.Color.Transparent;
+            this.lblLogo.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLogo.ForeColor = System.Drawing.Color.White;
+            this.lblLogo.Location = new System.Drawing.Point(144, 45);
+            this.lblLogo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLogo.Name = "lblLogo";
+            this.lblLogo.Size = new System.Drawing.Size(395, 54);
+            this.lblLogo.TabIndex = 2;
+            this.lblLogo.Text = "THE NEXUS GRAND";
             // 
             // modernNavbar1
             // 
@@ -58,19 +86,7 @@ namespace FP_CS26_2025.Rooms
             this.roomGalleryView1.Name = "roomGalleryView1";
             this.roomGalleryView1.Size = new System.Drawing.Size(1500, 650);
             this.roomGalleryView1.TabIndex = 0;
-            // 
-            // lblLogo
-            // 
-            this.lblLogo.AutoSize = true;
-            this.lblLogo.BackColor = System.Drawing.Color.Transparent;
-            this.lblLogo.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLogo.ForeColor = System.Drawing.Color.White;
-            this.lblLogo.Location = new System.Drawing.Point(144, 45);
-            this.lblLogo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblLogo.Name = "lblLogo";
-            this.lblLogo.Size = new System.Drawing.Size(395, 54);
-            this.lblLogo.TabIndex = 2;
-            this.lblLogo.Text = "THE NEXUS GRAND";
+            this.roomGalleryView1.Load += new System.EventHandler(this.roomGalleryView1_Load);
             // 
             // RoomsShowcaseForm
             // 

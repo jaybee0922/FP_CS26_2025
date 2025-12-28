@@ -40,17 +40,6 @@ namespace FP_CS26_2025.ModernDesign
             }
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
-        {
-            Form1 loginForm = new Form1();
-            loginForm.Show();
-            this.Hide();
-
-            // Optional: Ensure the application closes when the login form is closed, 
-            // or handle the FormClosed event of loginForm if needed to show this form back.
-            // For now, simple navigation as requested.
-            loginForm.FormClosed += (s, args) => this.Close(); 
-        }
 
         private void lblLogo_Click(object sender, EventArgs e)
         {

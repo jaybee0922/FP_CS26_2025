@@ -1,6 +1,6 @@
 namespace FP_CS26_2025
 {
-    partial class Form1
+    partial class LoginForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,29 +28,54 @@ namespace FP_CS26_2025
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.mainBackgroundPanel = new FP_CS26_2025.ModernDesign.GradientPanel();
+            this.lblLogo = new System.Windows.Forms.Label();
+            this.modernNavbar = new FP_CS26_2025.ModernDesign.ModernNavbar();
             this.loginFormContainer1 = new FP_CS26_2025.LoginFormDesign.LoginFormContainer();
             this.roleComboBox1 = new FP_CS26_2025.LoginFormDesign.roleComboBox();
             this.usernameInputField2 = new FP_CS26_2025.LoginFormDesign.usernameInputField();
             this.passwordInputField2 = new FP_CS26_2025.LoginFormDesign.passwordInputField();
             this.loginBtn1 = new FP_CS26_2025.LoginFormDesign.LoginBtn();
-            this.mainLayout.SuspendLayout();
+            this.mainBackgroundPanel.SuspendLayout();
             this.loginFormContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // mainLayout
+            // mainBackgroundPanel
             // 
-            this.mainLayout.BackColor = System.Drawing.Color.Transparent;
-            this.mainLayout.ColumnCount = 1;
-            this.mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainLayout.Controls.Add(this.loginFormContainer1, 0, 0);
-            this.mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainLayout.Location = new System.Drawing.Point(0, 0);
-            this.mainLayout.Name = "mainLayout";
-            this.mainLayout.RowCount = 1;
-            this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainLayout.Size = new System.Drawing.Size(1000, 700);
-            this.mainLayout.TabIndex = 1;
+            this.mainBackgroundPanel.Angle = 60F;
+            this.mainBackgroundPanel.ColorBottom = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(30)))), ((int)(((byte)(50)))));
+            this.mainBackgroundPanel.ColorTop = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(88)))), ((int)(((byte)(118)))));
+            this.mainBackgroundPanel.Controls.Add(this.lblLogo);
+            this.mainBackgroundPanel.Controls.Add(this.modernNavbar);
+            this.mainBackgroundPanel.Controls.Add(this.loginFormContainer1);
+            this.mainBackgroundPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainBackgroundPanel.Location = new System.Drawing.Point(0, 0);
+            this.mainBackgroundPanel.Name = "mainBackgroundPanel";
+            this.mainBackgroundPanel.Size = new System.Drawing.Size(1600, 862);
+            this.mainBackgroundPanel.TabIndex = 0;
+            // 
+            // lblLogo
+            // 
+            this.lblLogo.AutoSize = true;
+            this.lblLogo.BackColor = System.Drawing.Color.Transparent;
+            this.lblLogo.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLogo.ForeColor = System.Drawing.Color.White;
+            this.lblLogo.Location = new System.Drawing.Point(67, 37);
+            this.lblLogo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLogo.Name = "lblLogo";
+            this.lblLogo.Size = new System.Drawing.Size(395, 54);
+            this.lblLogo.TabIndex = 0;
+            this.lblLogo.Text = "THE NEXUS GRAND";
+            // 
+            // modernNavbar
+            // 
+            this.modernNavbar.ActivePage = "Login";
+            this.modernNavbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.modernNavbar.BackColor = System.Drawing.Color.Transparent;
+            this.modernNavbar.Location = new System.Drawing.Point(866, 49);
+            this.modernNavbar.Name = "modernNavbar";
+            this.modernNavbar.Size = new System.Drawing.Size(600, 50);
+            this.modernNavbar.TabIndex = 1;
             // 
             // loginFormContainer1
             // 
@@ -61,7 +86,7 @@ namespace FP_CS26_2025
             this.loginFormContainer1.Controls.Add(this.usernameInputField2);
             this.loginFormContainer1.Controls.Add(this.passwordInputField2);
             this.loginFormContainer1.Controls.Add(this.loginBtn1);
-            this.loginFormContainer1.Location = new System.Drawing.Point(205, 129);
+            this.loginFormContainer1.Location = new System.Drawing.Point(505, 181);
             this.loginFormContainer1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loginFormContainer1.Name = "loginFormContainer1";
             this.loginFormContainer1.PanelColor = System.Drawing.Color.White;
@@ -89,7 +114,6 @@ namespace FP_CS26_2025
             this.roleComboBox1.Size = new System.Drawing.Size(432, 46);
             this.roleComboBox1.TabIndex = 7;
             this.roleComboBox1.TextLeftMargin = 12;
-            this.roleComboBox1.Load += new System.EventHandler(this.roleComboBox1_Load);
             // 
             // usernameInputField2
             // 
@@ -138,18 +162,20 @@ namespace FP_CS26_2025
             this.loginBtn1.UseVisualStyleBackColor = true;
             this.loginBtn1.Click += new System.EventHandler(this.loginFormBtn_Click);
             // 
-            // Form1
+            // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 700);
-            this.Controls.Add(this.mainLayout);
+            this.ClientSize = new System.Drawing.Size(1600, 862);
+            this.Controls.Add(this.mainBackgroundPanel);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "Form1";
+            this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hotel Management System - Login";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.mainLayout.ResumeLayout(false);
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.LoginForm_Load);
+            this.mainBackgroundPanel.ResumeLayout(false);
+            this.mainBackgroundPanel.PerformLayout();
             this.loginFormContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -157,11 +183,13 @@ namespace FP_CS26_2025
 
         #endregion
 
+        private FP_CS26_2025.ModernDesign.GradientPanel mainBackgroundPanel;
+        private System.Windows.Forms.Label lblLogo;
+        private FP_CS26_2025.ModernDesign.ModernNavbar modernNavbar;
         private LoginFormDesign.LoginFormContainer loginFormContainer1;
         private LoginFormDesign.LoginBtn loginBtn1;
         private LoginFormDesign.passwordInputField passwordInputField2;
         private LoginFormDesign.usernameInputField usernameInputField2;
         private LoginFormDesign.roleComboBox roleComboBox1;
-        private System.Windows.Forms.TableLayoutPanel mainLayout;
     }
 }

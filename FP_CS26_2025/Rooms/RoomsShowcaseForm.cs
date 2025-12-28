@@ -10,5 +10,10 @@ namespace FP_CS26_2025.Rooms
             InitializeComponent();
             this.modernNavbar1.ActivePage = "Rooms";
         }
+
+        private void roomGalleryView1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

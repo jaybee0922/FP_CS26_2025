@@ -20,7 +20,7 @@ namespace FP_CS26_2025.Rooms
             this._lblCategory = new System.Windows.Forms.Label();
             this._lblName = new System.Windows.Forms.Label();
             this._lblDescription = new System.Windows.Forms.Label();
-            this._btnLearnMore = new System.Windows.Forms.LinkLabel();
+            this._btnLearnMore = new FP_CS26_2025.ModernDesign.ModernButton();
             ((System.ComponentModel.ISupportInitialize)(this._roomImage)).BeginInit();
             this._mainPanel.SuspendLayout();
             this.SuspendLayout();
@@ -87,16 +87,19 @@ namespace FP_CS26_2025.Rooms
             // 
             // _btnLearnMore
             // 
-            this._btnLearnMore.AutoSize = true;
+            this._btnLearnMore.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(88)))), ((int)(((byte)(118)))));
+            this._btnLearnMore.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(88)))), ((int)(((byte)(118)))));
+            this._btnLearnMore.BorderRadius = 15;
+            this._btnLearnMore.FlatAppearance.BorderSize = 0;
+            this._btnLearnMore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnLearnMore.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnLearnMore.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this._btnLearnMore.LinkColor = System.Drawing.Color.Peru;
-            this._btnLearnMore.Location = new System.Drawing.Point(15, 305);
+            this._btnLearnMore.ForeColor = System.Drawing.Color.White;
+            this._btnLearnMore.Location = new System.Drawing.Point(15, 300);
             this._btnLearnMore.Name = "_btnLearnMore";
-            this._btnLearnMore.Size = new System.Drawing.Size(81, 15);
+            this._btnLearnMore.Size = new System.Drawing.Size(270, 35);
             this._btnLearnMore.TabIndex = 3;
-            this._btnLearnMore.TabStop = true;
             this._btnLearnMore.Text = "LEARN MORE";
+            this._btnLearnMore.UseVisualStyleBackColor = false;
             // 
             // RoomCard
             // 
@@ -117,6 +120,6 @@ namespace FP_CS26_2025.Rooms
         private System.Windows.Forms.Label _lblCategory;
         private System.Windows.Forms.Label _lblName;
         private System.Windows.Forms.Label _lblDescription;
-        private System.Windows.Forms.LinkLabel _btnLearnMore;
+        private FP_CS26_2025.ModernDesign.ModernButton _btnLearnMore;
     }
 }

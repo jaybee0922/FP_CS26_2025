@@ -29,7 +29,8 @@ namespace FP_CS26_2025.Services
 
         public void NavigateToLogin(Form currentForm)
         {
-            Form1 loginForm = new Form1();
+            if (currentForm is LoginForm) return;
+            LoginForm loginForm = new LoginForm();
             SwitchForm(currentForm, loginForm);
         }
 

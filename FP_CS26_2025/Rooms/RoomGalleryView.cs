@@ -11,10 +11,14 @@ namespace FP_CS26_2025.Rooms
         private int _currentPage = 1;
         private const int PageSize = 3; 
 
-        public RoomGalleryView()
+        public RoomGalleryView() : this(new RoomService())
+        {
+        }
+
+        public RoomGalleryView(IRoomService roomService)
         {
             InitializeComponent();
-            _roomService = new RoomService();
+            _roomService = roomService ?? throw new ArgumentNullException(nameof(roomService));
             LoadData();
         }
 

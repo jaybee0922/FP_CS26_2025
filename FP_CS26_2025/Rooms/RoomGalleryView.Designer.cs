@@ -60,7 +60,7 @@ namespace FP_CS26_2025.Rooms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.roomTableLayoutPanel);
             this.Controls.Add(this.paginationContainer);
             this.Name = "RoomGalleryView";
