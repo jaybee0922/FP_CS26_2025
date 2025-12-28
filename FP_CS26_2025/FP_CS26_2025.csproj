@@ -99,21 +99,13 @@
       <DependentUpon>UserManagementControl.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginFormDesign\GradientBtn.cs" />
-    <Compile Include="LoginFormDesign\LoginBtn.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="LoginFormDesign\LoginFormContainer.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="LoginFormDesign\passwordInputField.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LoginFormDesign\roleComboBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LoginFormDesign\usernameInputField.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="LoginFormDesign\LoginBtn.cs" />
+    <Compile Include="LoginFormDesign\LoginFormContainer.cs" />
+    <Compile Include="LoginFormDesign\PasswordInputField.cs" />
+    <Compile Include="LoginFormDesign\RoleComboBox.cs" />
+    <Compile Include="LoginFormDesign\UsernameInputField.cs" />
+    <Compile Include="Services\IAuthService.cs" />
+    <Compile Include="Services\DatabaseAuthService.cs" />
     <Compile Include="LogoutBtn\LogOutBtn.cs">
       <SubType>Component</SubType>
     </Compile>

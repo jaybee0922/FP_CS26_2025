@@ -5,27 +5,28 @@ using System.Windows.Forms;
 
 namespace FP_CS26_2025.LoginFormDesign
 {
+    [System.ComponentModel.DesignerCategory("Code")]
     public class LoginBtn : Button
     {
         // ✅ Add BorderRadius property
         public int BorderRadius { get; set; } = 15;
 
         // Bounce Animation
-        private float scale = 1f;
-        private float bounceProgress = 0f;
-        private bool bouncing = false;
+        private float _scale = 1f;
+        private float _bounceProgress = 0f;
+        private bool _isBouncing = false;
 
         // Ripple
-        private bool rippleActive = false;
-        private float rippleSize = 0f;
-        private float rippleOpacity = 0.4f;
-        private Point rippleCenter;
+        private bool _isRippleActive = false;
+        private float _rippleSize = 0f;
+        private float _rippleOpacity = 0.4f;
+        private Point _rippleCenter;
 
         // Shadow Hover
-        private float shadowOpacity = 0f;
+        private float _shadowOpacity = 0f;
 
         // Timer
-        private Timer animationTimer;
+        private Timer _animationTimer;
 
         public LoginBtn()
         {
@@ -37,23 +38,23 @@ namespace FP_CS26_2025.LoginFormDesign
 
             this.Cursor = Cursors.Hand;   // 👉 Makes mouse cursor a hand on hover
 
-            animationTimer = new Timer();
-            animationTimer.Interval = 15;
-            animationTimer.Tick += Animate;
+            _animationTimer = new Timer();
+            _animationTimer.Interval = 15;
+            _animationTimer.Tick += Animate;
         }
 
         // Hover shadow
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
-            shadowOpacity = 1f; // fade shadow in
+            _shadowOpacity = 1f; // fade shadow in
             Invalidate();
         }
 
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            shadowOpacity = 0f; // fade shadow out
+            _shadowOpacity = 0f; // fade shadow out
             Invalidate();
         }
 
@@ -62,16 +63,16 @@ namespace FP_CS26_2025.LoginFormDesign
             base.OnClick(e);
 
             // --- Bounce Animation Setup ---
-            bounceProgress = 0f;
-            bouncing = true;
+            _bounceProgress = 0f;
+            _isBouncing = true;
 
             // --- Ripple Setup ---
-            rippleCenter = PointToClient(Cursor.Position);
-            rippleSize = 0f;
-            rippleOpacity = 0.4f;
-            rippleActive = true;
+            _rippleCenter = PointToClient(Cursor.Position);
+            _rippleSize = 0f;
+            _rippleOpacity = 0.4f;
+            _isRippleActive = true;
 
-            animationTimer.Start();
+            _animationTimer.Start();
         }
 
         private void Animate(object sender, EventArgs e)
@@ -79,34 +80,34 @@ namespace FP_CS26_2025.LoginFormDesign
             bool stillAnimating = false;
 
             // --- Bounce Animation ---
-            if (bouncing)
+            if (_isBouncing)
             {
-                bounceProgress += 0.12f;
-                if (bounceProgress >= 1f)
+                _bounceProgress += 0.12f;
+                if (_bounceProgress >= 1f)
                 {
-                    bounceProgress = 1f;
-                    bouncing = false;
+                    _bounceProgress = 1f;
+                    _isBouncing = false;
                 }
 
-                scale = 1f + (float)(-Math.Sin(bounceProgress * Math.PI) * 0.12f);
+                _scale = 1f + (float)(-Math.Sin(_bounceProgress * Math.PI) * 0.12f);
                 stillAnimating = true;
             }
 
             // --- Ripple Animation ---
-            if (rippleActive)
+            if (_isRippleActive)
             {
-                rippleSize += 12f;         // speed outward
-                rippleOpacity -= 0.02f;     // fade out
+                _rippleSize += 12f;         // speed outward
+                _rippleOpacity -= 0.02f;     // fade out
 
-                if (rippleOpacity <= 0f)
+                if (_rippleOpacity <= 0f)
                 {
-                    rippleActive = false;
+                    _isRippleActive = false;
                 }
                 stillAnimating = true;
             }
 
             if (!stillAnimating)
-                animationTimer.Stop();
+                _animationTimer.Stop();
 
             Invalidate();
         }
@@ -116,9 +117,9 @@ namespace FP_CS26_2025.LoginFormDesign
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
             // --- Hover Shadow Behind Button ---
-            if (shadowOpacity > 0f)
+            if (_shadowOpacity > 0f)
             {
-                using (SolidBrush shadowBrush = new SolidBrush(Color.FromArgb((int)(shadowOpacity * 80), 0, 0, 0)))
+                using (SolidBrush shadowBrush = new SolidBrush(Color.FromArgb((int)(_shadowOpacity * 80), 0, 0, 0)))
                 {
                     Rectangle shadowRect = new Rectangle(4, 4, Width - 8, Height - 8);
                     e.Graphics.FillRectangle(shadowBrush, shadowRect);
@@ -126,10 +127,10 @@ namespace FP_CS26_2025.LoginFormDesign
             }
 
             // --- Bounce Transform ---
-            float offsetX = (Width - Width * scale) / 2;
-            float offsetY = (Height - Height * scale) / 2;
+            float offsetX = (Width - Width * _scale) / 2;
+            float offsetY = (Height - Height * _scale) / 2;
             e.Graphics.TranslateTransform(offsetX, offsetY);
-            e.Graphics.ScaleTransform(scale, scale);
+            e.Graphics.ScaleTransform(_scale, _scale);
 
             // --- Shape Path ---
             GraphicsPath path = new GraphicsPath();
@@ -155,20 +156,20 @@ namespace FP_CS26_2025.LoginFormDesign
             }
 
             // --- Ripple Effect ---
-            if (rippleActive)
+            if (_isRippleActive)
             {
                 using (SolidBrush rippleBrush = new SolidBrush(
-                    Color.FromArgb((int)(rippleOpacity * 255), Color.White)))
+                    Color.FromArgb((int)(_rippleOpacity * 255), Color.White)))
                 {
                     float maxRadius = Math.Max(Width, Height) * 1.2f;
-                    float radius = rippleSize;
+                    float radius = _rippleSize;
 
                     e.Graphics.SetClip(path);
 
                     e.Graphics.FillEllipse(
                         rippleBrush,
-                        rippleCenter.X - radius / 2,
-                        rippleCenter.Y - radius / 2,
+                        _rippleCenter.X - radius / 2,
+                        _rippleCenter.Y - radius / 2,
                         radius,
                         radius
                     );

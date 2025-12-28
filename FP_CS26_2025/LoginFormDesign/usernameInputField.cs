@@ -6,7 +6,8 @@ using System.Windows.Forms;
 
 namespace FP_CS26_2025.LoginFormDesign
 {
-    public class usernameInputField : UserControl
+    [System.ComponentModel.DesignerCategory("Code")]
+    public class UsernameInputField : UserControl
     {
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, string lParam);
@@ -29,7 +30,7 @@ namespace FP_CS26_2025.LoginFormDesign
         public int BorderSize { get; set; } = 1;
         public int TextLeftMargin { get; set; } = 20; // Increased from 12 to 20 to match password field
 
-        public usernameInputField()
+        public UsernameInputField()
         {
             this.BackColor = Color.White;
             this.Padding = new Padding(0);

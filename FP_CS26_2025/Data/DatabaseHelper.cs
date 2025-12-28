@@ -35,6 +35,10 @@ namespace FP_CS26_2025.Data
                         cmd.Parameters.AddWithValue("@Role", role);
 
                         int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        if (count == 0)
+                        {
+                            System.Windows.Forms.MessageBox.Show($"Login Failed: No user found matching the credentials.\nUsername: {username}\nRole: {role}", "Diagnostic Info", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
+                        }
                         return count == 1;
                     }
                 }
@@ -42,6 +46,7 @@ namespace FP_CS26_2025.Data
                 {
                     // Log exception appropriately
                     System.Diagnostics.Debug.WriteLine("Database Error: " + ex.Message);
+                    System.Windows.Forms.MessageBox.Show("Database Connection Error: " + ex.Message + "\n\nPlease ensure you have run the SQL script and that your sa password in App.config is correct.", "Diagnostic Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                     return false;
                 }
             }

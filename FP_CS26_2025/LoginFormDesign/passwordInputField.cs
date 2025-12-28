@@ -6,7 +6,8 @@ using System.Windows.Forms;
 
 namespace FP_CS26_2025.LoginFormDesign
 {
-    public class passwordInputField : UserControl
+    [System.ComponentModel.DesignerCategory("Code")]
+    public class PasswordInputField : UserControl
     {
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, string lParam);
@@ -35,7 +36,7 @@ namespace FP_CS26_2025.LoginFormDesign
         private Image openEyesIcon;
         private Image closeEyesIcon;
 
-        public passwordInputField()
+        public PasswordInputField()
         {
             this.BackColor = Color.White;
             this.Padding = new Padding(0);

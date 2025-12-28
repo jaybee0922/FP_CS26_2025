@@ -13,7 +13,6 @@ namespace FP_CS26_2025.ModernDesign
         private Button btnHome;
         private Button btnRooms;
         private Button btnLogin;
-        private Button btnBookNow;
 
         public string ActivePage
         {
@@ -39,20 +38,17 @@ namespace FP_CS26_2025.ModernDesign
             this.btnHome = CreateNavButton("HOME", 0);
             this.btnRooms = CreateNavButton("ROOMS", 133);
             this.btnLogin = CreateNavButton("LOGIN", 266);
-            this.btnBookNow = CreateNavButton("BOOK NOW", 399, true);
 
             this.Controls.Add(btnHome);
             this.Controls.Add(btnRooms);
             this.Controls.Add(btnLogin);
-            this.Controls.Add(btnBookNow);
 
             this.btnHome.Click += (s, e) => _navigationService.NavigateToHome(this.FindForm());
             this.btnRooms.Click += (s, e) => _navigationService.NavigateToRooms(this.FindForm());
             this.btnLogin.Click += (s, e) => _navigationService.NavigateToLogin(this.FindForm());
-            this.btnBookNow.Click += (s, e) => _navigationService.NavigateToBookNow();
 
             this.Height = 50;
-            this.Width = 600;
+            this.Width = 400;
         }
 
         private Button CreateNavButton(string text, int xOffset, bool isPrimary = false)

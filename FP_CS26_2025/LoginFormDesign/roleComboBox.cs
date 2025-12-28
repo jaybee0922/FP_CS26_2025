@@ -5,7 +5,8 @@ using System.Windows.Forms;
 
 namespace FP_CS26_2025.LoginFormDesign
 {
-    public class roleComboBox : UserControl
+    [System.ComponentModel.DesignerCategory("Code")]
+    public class RoleComboBox : UserControl
     {
         private ComboBox innerComboBox = new ComboBox();
         private bool isFocused = false;
@@ -44,7 +45,7 @@ namespace FP_CS26_2025.LoginFormDesign
             remove { innerComboBox.SelectedIndexChanged -= value; }
         }
 
-        public roleComboBox()
+        public RoleComboBox()
         {
             this.BackColor = Color.White;
             this.Padding = new Padding(0);

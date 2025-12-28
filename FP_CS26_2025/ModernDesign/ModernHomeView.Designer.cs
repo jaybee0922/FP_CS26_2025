@@ -30,6 +30,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblDeparture = new System.Windows.Forms.Label();
             this.dtpArrival = new System.Windows.Forms.DateTimePicker();
             this.lblArrival = new System.Windows.Forms.Label();
+            this.lblSubtitle = new System.Windows.Forms.Label();
             this.mainBackgroundPanel.SuspendLayout();
             this.panelBooking.SuspendLayout();
             this.SuspendLayout();
@@ -39,6 +40,7 @@ namespace FP_CS26_2025.ModernDesign
             this.mainBackgroundPanel.Angle = 60F;
             this.mainBackgroundPanel.ColorBottom = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(30)))), ((int)(((byte)(50)))));
             this.mainBackgroundPanel.ColorTop = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(88)))), ((int)(((byte)(118)))));
+            this.mainBackgroundPanel.Controls.Add(this.lblSubtitle);
             this.mainBackgroundPanel.Controls.Add(this.lblLogo);
             this.mainBackgroundPanel.Controls.Add(this.modernNavbar);
             this.mainBackgroundPanel.Controls.Add(this.lblWelcome);
@@ -70,9 +72,9 @@ namespace FP_CS26_2025.ModernDesign
             this.modernNavbar.ActivePage = "Home";
             this.modernNavbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.modernNavbar.BackColor = System.Drawing.Color.Transparent;
-            this.modernNavbar.Location = new System.Drawing.Point(866, 49);
+            this.modernNavbar.Location = new System.Drawing.Point(1066, 49);
             this.modernNavbar.Name = "modernNavbar";
-            this.modernNavbar.Size = new System.Drawing.Size(600, 50);
+            this.modernNavbar.Size = new System.Drawing.Size(400, 50);
             this.modernNavbar.TabIndex = 1;
             // 
             // lblWelcome
@@ -134,7 +136,7 @@ namespace FP_CS26_2025.ModernDesign
             this.btnCheck.Name = "btnCheck";
             this.btnCheck.Size = new System.Drawing.Size(267, 62);
             this.btnCheck.TabIndex = 6;
-            this.btnCheck.Text = "CHECK AVAILABILITY";
+            this.btnCheck.Text = "BOOK NOW";
             this.btnCheck.UseVisualStyleBackColor = false;
             // 
             // txtPromo
@@ -199,6 +201,18 @@ namespace FP_CS26_2025.ModernDesign
             this.lblArrival.TabIndex = 0;
             this.lblArrival.Text = "Arrival Date";
             // 
+            // lblSubtitle
+            // 
+            this.lblSubtitle.AutoSize = true;
+            this.lblSubtitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI Semilight", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.lblSubtitle.Location = new System.Drawing.Point(70, 91);
+            this.lblSubtitle.Name = "lblSubtitle";
+            this.lblSubtitle.Size = new System.Drawing.Size(378, 32);
+            this.lblSubtitle.TabIndex = 7;
+            this.lblSubtitle.Text = "EXPERIENCE LUXURY AT ITS FINEST";
+            // 
             // ModernHomeView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -233,5 +247,6 @@ namespace FP_CS26_2025.ModernDesign
         private System.Windows.Forms.Label lblPromo;
         private System.Windows.Forms.TextBox txtPromo;
         private FP_CS26_2025.ModernDesign.ModernButton btnCheck;
+        private System.Windows.Forms.Label lblSubtitle;
     }
 }

@@ -32,9 +32,9 @@ namespace FP_CS26_2025
             this.lblLogo = new System.Windows.Forms.Label();
             this.modernNavbar = new FP_CS26_2025.ModernDesign.ModernNavbar();
             this.loginFormContainer1 = new FP_CS26_2025.LoginFormDesign.LoginFormContainer();
-            this.roleComboBox1 = new FP_CS26_2025.LoginFormDesign.roleComboBox();
-            this.usernameInputField2 = new FP_CS26_2025.LoginFormDesign.usernameInputField();
-            this.passwordInputField2 = new FP_CS26_2025.LoginFormDesign.passwordInputField();
+            this.roleComboBox1 = new FP_CS26_2025.LoginFormDesign.RoleComboBox();
+            this.usernameInputField2 = new FP_CS26_2025.LoginFormDesign.UsernameInputField();
+            this.passwordInputField2 = new FP_CS26_2025.LoginFormDesign.PasswordInputField();
             this.loginBtn1 = new FP_CS26_2025.LoginFormDesign.LoginBtn();
             this.mainBackgroundPanel.SuspendLayout();
             this.loginFormContainer1.SuspendLayout();
@@ -188,8 +188,8 @@ namespace FP_CS26_2025
         private FP_CS26_2025.ModernDesign.ModernNavbar modernNavbar;
         private LoginFormDesign.LoginFormContainer loginFormContainer1;
         private LoginFormDesign.LoginBtn loginBtn1;
-        private LoginFormDesign.passwordInputField passwordInputField2;
-        private LoginFormDesign.usernameInputField usernameInputField2;
-        private LoginFormDesign.roleComboBox roleComboBox1;
+        private LoginFormDesign.PasswordInputField passwordInputField2;
+        private LoginFormDesign.UsernameInputField usernameInputField2;
+        private LoginFormDesign.RoleComboBox roleComboBox1;
     }
 }

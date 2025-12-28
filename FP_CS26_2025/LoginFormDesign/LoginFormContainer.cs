@@ -5,6 +5,7 @@ using System.Windows.Forms;
 
 namespace FP_CS26_2025.LoginFormDesign
 {
+    [System.ComponentModel.DesignerCategory("Code")]
     public class LoginFormContainer : Panel
     {
         public int BorderRadius { get; set; } = 50; // Rounded corners

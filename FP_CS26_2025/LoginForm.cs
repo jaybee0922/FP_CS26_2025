@@ -8,14 +8,22 @@ using System.Windows.Forms;
 using FP_CS26_2025;
 using FP_CS26_2025.HotelManager_AdminDashboard;
 using FP_CS26_2025.Room_Manager;
+using FP_CS26_2025.Services;
 
 namespace FP_CS26_2025
 {
     public partial class LoginForm : Form
     {
-        public LoginForm()
+        private readonly IAuthService _authService;
+
+        public LoginForm() : this(new DatabaseAuthService())
+        {
+        }
+
+        public LoginForm(IAuthService authService)
         {
             InitializeComponent();
+            _authService = authService;
             this.DoubleBuffered = true;
             this.modernNavbar.ActivePage = "Login";
         }
@@ -46,10 +54,7 @@ namespace FP_CS26_2025
                 return;
             }
 
-            // Map UI role to Database role (e.g., "Super Admin" -> "SuperAdmin")
-            string dbRole = selectedRole.Replace(" ", "");
-
-            if (!FP_CS26_2025.Data.DatabaseHelper.ValidateUser(username, password, dbRole))
+            if (!_authService.Login(username, password, selectedRole))
             {
                 MessageBox.Show("Invalid credentials or role selection.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
