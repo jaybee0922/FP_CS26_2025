@@ -205,8 +205,20 @@
     <Compile Include="Rooms\RoomsShowcaseForm.Designer.cs">
       <DependentUpon>RoomsShowcaseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModernDesign\IBookingService.cs" />
-    <Compile Include="ModernDesign\BookingService.cs" />
+    <Compile Include="Services\IBookingService.cs" />
+    <Compile Include="Services\BookingService.cs" />
+    <Compile Include="ModernDesign\BookingModalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModernDesign\BookingModalForm.Designer.cs">
+      <DependentUpon>BookingModalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModernDesign\BookingReceiptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModernDesign\BookingReceiptForm.Designer.cs">
+      <DependentUpon>BookingReceiptForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModernDesign\ModernButton.cs">
       <SubType>Component</SubType>
     </Compile>
