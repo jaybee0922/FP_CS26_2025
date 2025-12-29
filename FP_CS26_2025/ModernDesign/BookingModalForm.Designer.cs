@@ -34,9 +34,12 @@ namespace FP_CS26_2025.ModernDesign
             this.txtPhone = new System.Windows.Forms.TextBox();
             this.btnBookNow = new FP_CS26_2025.ModernDesign.ModernButton();
             this.pnlVisual = new System.Windows.Forms.Panel();
+            this.lblPricePerNight = new System.Windows.Forms.Label();
+            this.lblRoomSelectTitle = new System.Windows.Forms.Label();
             this.lblRoomDesc = new System.Windows.Forms.Label();
             this.picRoom = new System.Windows.Forms.PictureBox();
-            this.lblRoomSelectTitle = new System.Windows.Forms.Label();
+            this.lblLiveTotal = new System.Windows.Forms.Label();
+            this.lblStayDuration = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numAdults)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numChildren)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRooms)).BeginInit();
@@ -49,9 +52,9 @@ namespace FP_CS26_2025.ModernDesign
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 22F, System.Drawing.FontStyle.Bold);
             this.lblTitle.ForeColor = System.Drawing.Color.White;
-            this.lblTitle.Location = new System.Drawing.Point(400, 30);
+            this.lblTitle.Location = new System.Drawing.Point(400, 20);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(326, 50);
+            this.lblTitle.Size = new System.Drawing.Size(248, 50);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Reservations";
             // 
@@ -60,7 +63,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblFirstName.AutoSize = true;
             this.lblFirstName.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblFirstName.ForeColor = System.Drawing.Color.Silver;
-            this.lblFirstName.Location = new System.Drawing.Point(410, 110);
+            this.lblFirstName.Location = new System.Drawing.Point(410, 85);
             this.lblFirstName.Name = "lblFirstName";
             this.lblFirstName.Size = new System.Drawing.Size(80, 20);
             this.lblFirstName.TabIndex = 1;
@@ -72,7 +75,7 @@ namespace FP_CS26_2025.ModernDesign
             this.txtFirstName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtFirstName.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtFirstName.ForeColor = System.Drawing.Color.White;
-            this.txtFirstName.Location = new System.Drawing.Point(410, 135);
+            this.txtFirstName.Location = new System.Drawing.Point(410, 110);
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(185, 30);
             this.txtFirstName.TabIndex = 2;
@@ -82,7 +85,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblLastName.AutoSize = true;
             this.lblLastName.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblLastName.ForeColor = System.Drawing.Color.Silver;
-            this.lblLastName.Location = new System.Drawing.Point(615, 110);
+            this.lblLastName.Location = new System.Drawing.Point(615, 85);
             this.lblLastName.Name = "lblLastName";
             this.lblLastName.Size = new System.Drawing.Size(79, 20);
             this.lblLastName.TabIndex = 3;
@@ -94,7 +97,7 @@ namespace FP_CS26_2025.ModernDesign
             this.txtLastName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtLastName.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtLastName.ForeColor = System.Drawing.Color.White;
-            this.txtLastName.Location = new System.Drawing.Point(615, 135);
+            this.txtLastName.Location = new System.Drawing.Point(615, 110);
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(185, 30);
             this.txtLastName.TabIndex = 4;
@@ -104,7 +107,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblAdults.AutoSize = true;
             this.lblAdults.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblAdults.ForeColor = System.Drawing.Color.Silver;
-            this.lblAdults.Location = new System.Drawing.Point(410, 185);
+            this.lblAdults.Location = new System.Drawing.Point(410, 155);
             this.lblAdults.Name = "lblAdults";
             this.lblAdults.Size = new System.Drawing.Size(51, 20);
             this.lblAdults.TabIndex = 5;
@@ -116,7 +119,7 @@ namespace FP_CS26_2025.ModernDesign
             this.numAdults.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.numAdults.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.numAdults.ForeColor = System.Drawing.Color.White;
-            this.numAdults.Location = new System.Drawing.Point(410, 210);
+            this.numAdults.Location = new System.Drawing.Point(410, 180);
             this.numAdults.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             this.numAdults.Name = "numAdults";
             this.numAdults.Size = new System.Drawing.Size(80, 30);
@@ -127,7 +130,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblChildren.AutoSize = true;
             this.lblChildren.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblChildren.ForeColor = System.Drawing.Color.Silver;
-            this.lblChildren.Location = new System.Drawing.Point(510, 185);
+            this.lblChildren.Location = new System.Drawing.Point(510, 155);
             this.lblChildren.Name = "lblChildren";
             this.lblChildren.Size = new System.Drawing.Size(64, 20);
             this.lblChildren.TabIndex = 6;
@@ -139,7 +142,7 @@ namespace FP_CS26_2025.ModernDesign
             this.numChildren.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.numChildren.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.numChildren.ForeColor = System.Drawing.Color.White;
-            this.numChildren.Location = new System.Drawing.Point(510, 210);
+            this.numChildren.Location = new System.Drawing.Point(510, 180);
             this.numChildren.Name = "numChildren";
             this.numChildren.Size = new System.Drawing.Size(80, 30);
             // 
@@ -148,7 +151,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblRooms.AutoSize = true;
             this.lblRooms.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblRooms.ForeColor = System.Drawing.Color.Silver;
-            this.lblRooms.Location = new System.Drawing.Point(615, 185);
+            this.lblRooms.Location = new System.Drawing.Point(615, 155);
             this.lblRooms.Name = "lblRooms";
             this.lblRooms.Size = new System.Drawing.Size(55, 20);
             this.lblRooms.TabIndex = 7;
@@ -160,7 +163,7 @@ namespace FP_CS26_2025.ModernDesign
             this.numRooms.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.numRooms.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.numRooms.ForeColor = System.Drawing.Color.White;
-            this.numRooms.Location = new System.Drawing.Point(615, 210);
+            this.numRooms.Location = new System.Drawing.Point(615, 180);
             this.numRooms.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             this.numRooms.Name = "numRooms";
             this.numRooms.Size = new System.Drawing.Size(80, 30);
@@ -171,7 +174,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblRoomType.AutoSize = true;
             this.lblRoomType.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblRoomType.ForeColor = System.Drawing.Color.Silver;
-            this.lblRoomType.Location = new System.Drawing.Point(410, 260);
+            this.lblRoomType.Location = new System.Drawing.Point(410, 225);
             this.lblRoomType.Name = "lblRoomType";
             this.lblRoomType.Size = new System.Drawing.Size(126, 20);
             this.lblRoomType.TabIndex = 8;
@@ -185,7 +188,7 @@ namespace FP_CS26_2025.ModernDesign
             this.cmbRoomType.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cmbRoomType.ForeColor = System.Drawing.Color.White;
             this.cmbRoomType.FormattingEnabled = true;
-            this.cmbRoomType.Location = new System.Drawing.Point(410, 285);
+            this.cmbRoomType.Location = new System.Drawing.Point(410, 250);
             this.cmbRoomType.Name = "cmbRoomType";
             this.cmbRoomType.Size = new System.Drawing.Size(390, 31);
             this.cmbRoomType.TabIndex = 9;
@@ -195,7 +198,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblEmail.AutoSize = true;
             this.lblEmail.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblEmail.ForeColor = System.Drawing.Color.Silver;
-            this.lblEmail.Location = new System.Drawing.Point(410, 335);
+            this.lblEmail.Location = new System.Drawing.Point(410, 295);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(103, 20);
             this.lblEmail.TabIndex = 10;
@@ -207,7 +210,7 @@ namespace FP_CS26_2025.ModernDesign
             this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtEmail.ForeColor = System.Drawing.Color.White;
-            this.txtEmail.Location = new System.Drawing.Point(410, 360);
+            this.txtEmail.Location = new System.Drawing.Point(410, 320);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(390, 30);
             this.txtEmail.TabIndex = 11;
@@ -217,7 +220,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblPhone.AutoSize = true;
             this.lblPhone.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblPhone.ForeColor = System.Drawing.Color.Silver;
-            this.lblPhone.Location = new System.Drawing.Point(410, 410);
+            this.lblPhone.Location = new System.Drawing.Point(410, 365);
             this.lblPhone.Name = "lblPhone";
             this.lblPhone.Size = new System.Drawing.Size(108, 20);
             this.lblPhone.TabIndex = 12;
@@ -229,7 +232,7 @@ namespace FP_CS26_2025.ModernDesign
             this.txtPhone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPhone.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtPhone.ForeColor = System.Drawing.Color.White;
-            this.txtPhone.Location = new System.Drawing.Point(410, 435);
+            this.txtPhone.Location = new System.Drawing.Point(410, 390);
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(390, 30);
             this.txtPhone.TabIndex = 13;
@@ -243,7 +246,7 @@ namespace FP_CS26_2025.ModernDesign
             this.btnBookNow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBookNow.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnBookNow.ForeColor = System.Drawing.Color.White;
-            this.btnBookNow.Location = new System.Drawing.Point(410, 500);
+            this.btnBookNow.Location = new System.Drawing.Point(410, 510);
             this.btnBookNow.Name = "btnBookNow";
             this.btnBookNow.Size = new System.Drawing.Size(390, 50);
             this.btnBookNow.TabIndex = 14;
@@ -253,6 +256,7 @@ namespace FP_CS26_2025.ModernDesign
             // pnlVisual
             // 
             this.pnlVisual.BackColor = System.Drawing.Color.FromArgb(30, 35, 50);
+            this.pnlVisual.Controls.Add(this.lblPricePerNight);
             this.pnlVisual.Controls.Add(this.lblRoomSelectTitle);
             this.pnlVisual.Controls.Add(this.lblRoomDesc);
             this.pnlVisual.Controls.Add(this.picRoom);
@@ -262,13 +266,35 @@ namespace FP_CS26_2025.ModernDesign
             this.pnlVisual.Size = new System.Drawing.Size(370, 580);
             this.pnlVisual.TabIndex = 15;
             // 
+            // lblPricePerNight
+            // 
+            this.lblPricePerNight.AutoSize = true;
+            this.lblPricePerNight.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblPricePerNight.ForeColor = System.Drawing.Color.FromArgb(106, 176, 76);
+            this.lblPricePerNight.Location = new System.Drawing.Point(20, 520);
+            this.lblPricePerNight.Name = "lblPricePerNight";
+            this.lblPricePerNight.Size = new System.Drawing.Size(187, 32);
+            this.lblPricePerNight.TabIndex = 3;
+            this.lblPricePerNight.Text = "Price: P0.00/nt";
+            // 
+            // lblRoomSelectTitle
+            // 
+            this.lblRoomSelectTitle.AutoSize = true;
+            this.lblRoomSelectTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            this.lblRoomSelectTitle.ForeColor = System.Drawing.Color.White;
+            this.lblRoomSelectTitle.Location = new System.Drawing.Point(20, 280);
+            this.lblRoomSelectTitle.Name = "lblRoomSelectTitle";
+            this.lblRoomSelectTitle.Size = new System.Drawing.Size(189, 37);
+            this.lblRoomSelectTitle.TabIndex = 2;
+            this.lblRoomSelectTitle.Text = "Room Details";
+            // 
             // lblRoomDesc
             // 
             this.lblRoomDesc.Font = new System.Drawing.Font("Segoe UI Light", 11F);
             this.lblRoomDesc.ForeColor = System.Drawing.Color.FromArgb(200, 200, 200);
-            this.lblRoomDesc.Location = new System.Drawing.Point(20, 335);
+            this.lblRoomDesc.Location = new System.Drawing.Point(20, 320);
             this.lblRoomDesc.Name = "lblRoomDesc";
-            this.lblRoomDesc.Size = new System.Drawing.Size(330, 200);
+            this.lblRoomDesc.Size = new System.Drawing.Size(330, 180);
             this.lblRoomDesc.TabIndex = 1;
             this.lblRoomDesc.Text = "Please select a room type to see its unique features and luxurious amenities.";
             // 
@@ -277,21 +303,32 @@ namespace FP_CS26_2025.ModernDesign
             this.picRoom.BackColor = System.Drawing.Color.FromArgb(40, 45, 60);
             this.picRoom.Location = new System.Drawing.Point(0, 0);
             this.picRoom.Name = "picRoom";
-            this.picRoom.Size = new System.Drawing.Size(370, 270);
+            this.picRoom.Size = new System.Drawing.Size(370, 260);
             this.picRoom.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picRoom.TabIndex = 0;
             this.picRoom.TabStop = false;
             // 
-            // lblRoomSelectTitle
+            // lblLiveTotal
             // 
-            this.lblRoomSelectTitle.AutoSize = true;
-            this.lblRoomSelectTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblRoomSelectTitle.ForeColor = System.Drawing.Color.White;
-            this.lblRoomSelectTitle.Location = new System.Drawing.Point(20, 290);
-            this.lblRoomSelectTitle.Name = "lblRoomSelectTitle";
-            this.lblRoomSelectTitle.Size = new System.Drawing.Size(189, 37);
-            this.lblRoomSelectTitle.TabIndex = 2;
-            this.lblRoomSelectTitle.Text = "Room Details";
+            this.lblLiveTotal.AutoSize = true;
+            this.lblLiveTotal.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            this.lblLiveTotal.ForeColor = System.Drawing.Color.FromArgb(106, 176, 76);
+            this.lblLiveTotal.Location = new System.Drawing.Point(410, 460);
+            this.lblLiveTotal.Name = "lblLiveTotal";
+            this.lblLiveTotal.Size = new System.Drawing.Size(252, 37);
+            this.lblLiveTotal.TabIndex = 16;
+            this.lblLiveTotal.Text = "Est. Total: P0.00";
+            // 
+            // lblStayDuration
+            // 
+            this.lblStayDuration.AutoSize = true;
+            this.lblStayDuration.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
+            this.lblStayDuration.ForeColor = System.Drawing.Color.Silver;
+            this.lblStayDuration.Location = new System.Drawing.Point(415, 435);
+            this.lblStayDuration.Name = "lblStayDuration";
+            this.lblStayDuration.Size = new System.Drawing.Size(115, 20);
+            this.lblStayDuration.TabIndex = 17;
+            this.lblStayDuration.Text = "Stay Duration: 0";
             // 
             // BookingModalForm
             // 
@@ -299,6 +336,8 @@ namespace FP_CS26_2025.ModernDesign
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(25, 30, 50);
             this.ClientSize = new System.Drawing.Size(840, 580);
+            this.Controls.Add(this.lblStayDuration);
+            this.Controls.Add(this.lblLiveTotal);
             this.Controls.Add(this.pnlVisual);
             this.Controls.Add(this.btnBookNow);
             this.Controls.Add(this.txtPhone);
@@ -357,5 +396,8 @@ namespace FP_CS26_2025.ModernDesign
         private System.Windows.Forms.Label lblRoomDesc;
         private System.Windows.Forms.PictureBox picRoom;
         private System.Windows.Forms.Label lblRoomSelectTitle;
+        private System.Windows.Forms.Label lblPricePerNight;
+        private System.Windows.Forms.Label lblLiveTotal;
+        private System.Windows.Forms.Label lblStayDuration;
     }
 }

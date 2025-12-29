@@ -167,16 +167,27 @@ namespace FP_CS26_2025
         public override void RefreshData()
         {
             if (_controller == null) return;
-            var data = _controller.GetActiveReservations().Select(r => new {
-                ID = r.ReservationId,
-                Guest = r.Guest.FullName,
-                Room = r.AssignedRoom.RoomNumber,
-                Type = r.AssignedRoom.RoomType,
-                Dates = $"{r.CheckInDate:MM/dd} - {r.CheckOutDate:MM/dd}",
-                Status = r.IsCheckedIn ? "Checked In" : "Reserved"
-            }).ToList();
-            
-            dgvReservations.DataSource = data;
+            try
+            {
+                var data = _controller.GetActiveReservations().Select(r => new {
+                    ID = r.ReservationId,
+                    Guest = r.Guest.FullName,
+                    Room = r.AssignedRoom.RoomNumber > 0 ? r.AssignedRoom.RoomNumber.ToString() : "N/A",
+                    Type = r.RoomType ?? "N/A",
+                    Dates = $"{r.CheckInDate:MM/dd} - {r.CheckOutDate:MM/dd}",
+                    Status = r.Status,
+                    Price = $"P{r.TotalPrice:N2}",
+                    Adults = r.NumAdults,
+                    Children = r.NumChildren,
+                    Rooms = r.NumRooms
+                }).ToList();
+                
+                dgvReservations.DataSource = data;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("UI Error in RefreshData: " + ex.Message);
+            }
         }
 
         public override void PerformSearch(string query)
@@ -188,21 +199,32 @@ namespace FP_CS26_2025
                 return;
             }
 
-            var allData = _controller.GetActiveReservations();
-            var filtered = allData.Where(r => 
-                r.Guest.FullName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                r.ReservationId.ToString().Contains(query) ||
-                r.AssignedRoom.RoomNumber.ToString().Contains(query)
-            ).Select(r => new {
-                ID = r.ReservationId,
-                Guest = r.Guest.FullName,
-                Room = r.AssignedRoom.RoomNumber,
-                Type = r.AssignedRoom.RoomType,
-                Dates = $"{r.CheckInDate:MM/dd} - {r.CheckOutDate:MM/dd}",
-                Status = r.IsCheckedIn ? "Checked In" : "Reserved"
-            }).ToList();
+            try
+            {
+                var allData = _controller.GetActiveReservations();
+                var filtered = allData.Where(r => 
+                    r.Guest.FullName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    r.ReservationId.ToString().Contains(query) ||
+                    (r.AssignedRoom != null && r.AssignedRoom.RoomNumber.ToString().Contains(query))
+                ).Select(r => new {
+                    ID = r.ReservationId,
+                    Guest = r.Guest.FullName,
+                    Room = r.AssignedRoom != null && r.AssignedRoom.RoomNumber > 0 ? r.AssignedRoom.RoomNumber.ToString() : "N/A",
+                    Type = r.RoomType ?? "N/A",
+                    Dates = $"{r.CheckInDate:MM/dd} - {r.CheckOutDate:MM/dd}",
+                    Status = r.Status,
+                    Price = $"P{r.TotalPrice:N2}",
+                    Adults = r.NumAdults,
+                    Children = r.NumChildren,
+                    Rooms = r.NumRooms
+                }).ToList();
 
-            dgvReservations.DataSource = filtered;
+                dgvReservations.DataSource = filtered;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("UI Error in PerformSearch: " + ex.Message);
+            }
         }
     }
 }

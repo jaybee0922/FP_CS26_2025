@@ -172,6 +172,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\Services\HotelDataService.cs" />
+    <Compile Include="FrontDesk_ReceptionistAccount\Services\SqlHotelDataService.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="ModernDesign\ModernNavbar.cs">
@@ -207,6 +208,7 @@
     </Compile>
     <Compile Include="Services\IBookingService.cs" />
     <Compile Include="Services\BookingService.cs" />
+    <Compile Include="Services\Models\BookingRequestData.cs" />
     <Compile Include="ModernDesign\BookingModalForm.cs">
       <SubType>Form</SubType>
     </Compile>

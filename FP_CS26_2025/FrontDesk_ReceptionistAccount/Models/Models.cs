@@ -24,6 +24,12 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
         public bool IsCheckedIn { get; set; }
+        public string Status { get; set; } = "Pending";
+        public decimal TotalPrice { get; set; }
+        public string RoomType { get; set; }
+        public int NumAdults { get; set; }
+        public int NumChildren { get; set; }
+        public int NumRooms { get; set; }
 
         public int Duration => (CheckOutDate - CheckInDate).Days > 0 ? (CheckOutDate - CheckInDate).Days : 1;
 
