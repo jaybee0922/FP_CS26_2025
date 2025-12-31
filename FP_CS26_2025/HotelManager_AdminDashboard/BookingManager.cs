@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Data;
 
 namespace FP_CS26_2025.HotelManager_AdminDashboard
 {
@@ -128,13 +129,6 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             dataGridViewRecentActivities.Columns["CheckIn"].MinimumWidth = 100;
             dataGridViewRecentActivities.Columns["CheckOut"].MinimumWidth = 100;
             dataGridViewRecentActivities.Columns["Status"].MinimumWidth = 80;
-
-            foreach (DataGridViewColumn col in dataGridViewRecentActivities.Columns)
-            {
-                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                col.HeaderCell.Style.BackColor = Color.FromArgb(79, 70, 229); // Indigo
-                col.HeaderCell.Style.ForeColor = Color.White;
-            }
         }
 
         private void StyleDataGridHeaders()
@@ -143,21 +137,26 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             {
                 BackColor = Color.FromArgb(79, 70, 229), // Indigo
                 ForeColor = Color.White,
+                SelectionBackColor = Color.FromArgb(79, 70, 229), // Force same color on selection
+                SelectionForeColor = Color.White,
                 Font = new Font("Segoe UI", 10, FontStyle.Bold),
                 Alignment = DataGridViewContentAlignment.MiddleCenter,
                 Padding = new Padding(5)
             };
 
+            dataGridViewRecentActivities.EnableHeadersVisualStyles = false; // Must be false for custom colors
             dataGridViewRecentActivities.ColumnHeadersDefaultCellStyle = headerStyle;
+            dataGridViewRecentActivities.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             
             // Apply style to each column specifically to ensure consistency
             foreach (DataGridViewColumn col in dataGridViewRecentActivities.Columns)
             {
                 col.HeaderCell.Style = headerStyle;
+                col.SortMode = DataGridViewColumnSortMode.NotSortable; // Disable sorting if that's causing visual glitches, or keep it. 
+                // User didn't ask to disable sorting, but preventing header click interaction usually solves the "turn white" issue if it's related to focus.
+                // Let's try just the colors first. If they want sorting, we keep it. 
+                // Actually, the "white" issue on click is often the system highlight. Setting SelectionBackColor usually fixes it.
             }
-
-            dataGridViewRecentActivities.EnableHeadersVisualStyles = false;
-            dataGridViewRecentActivities.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
         }
 
         private void DataGridViewRecentActivities_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -195,11 +194,13 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             }
         }
 
+        public event EventHandler<string> BookingRemovalRequested;
+
         private void CreateRemoveBookingButton()
         {
             btnRemoveBooking = new Button
             {
-                Text = "Remove Selected",
+                Text = "Remove Booking",
                 Size = new Size(160, 40),
                 BackColor = Color.FromArgb(239, 68, 68), // Modern Red
                 ForeColor = Color.White,
@@ -228,16 +229,14 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 string bookingId = selectedRow.Cells["BookingId"].Value?.ToString() ?? "Unknown ID";
 
                 DialogResult result = MessageBox.Show(
-                    $"Are you sure you want to remove booking {bookingId} for {guestName}?",
-                    "Confirm Removal",
+                    $"Are you sure you want to permanently delete booking {bookingId} for {guestName} from the database?",
+                    "Confirm Deletion",
                     MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                    MessageBoxIcon.Warning);
 
                 if (result == DialogResult.Yes)
                 {
-                    dataGridViewRecentActivities.Rows.Remove(selectedRow);
-                    MessageBox.Show($"Booking {bookingId} removed successfully!", "Success",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    BookingRemovalRequested?.Invoke(this, bookingId);
                 }
             }
             else
@@ -253,34 +252,31 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         [Browsable(false)]
         public new AutoSizeMode AutoSizeMode => base.AutoSizeMode;
 
-        // Public method to load sample data
+        // Public method to load sample data (Cleared for DB integration)
         public void LoadSampleData()
         {
             // Clear existing data
             dataGridViewRecentActivities.Rows.Clear();
+            
+            // Sample data removed in favor of Database connection
+        }
 
-            var sampleData = new[]
-            {
-                new { BookingId = "BKG001", GuestName = "John Doe", Room = "101", CheckIn = "2023-10-26", CheckOut = "2023-10-29", Status = "Checked In" },
-                new { BookingId = "BKG002", GuestName = "Jane Smith", Room = "205", CheckIn = "2023-10-27", CheckOut = "2023-10-30", Status = "Checked In" },
-                new { BookingId = "BKG003", GuestName = "Alice Johnson", Room = "312", CheckIn = "2023-10-27", CheckOut = "2023-10-28", Status = "Pending" },
-                new { BookingId = "BKG004", GuestName = "Bob Brown", Room = "403", CheckIn = "2023-10-26", CheckOut = "2023-10-27", Status = "Checked Out" },
-                new { BookingId = "BKG005", GuestName = "Charlie Davis", Room = "108", CheckIn = "2023-10-28", CheckOut = "2023-11-01", Status = "Checked In" },
-                new { BookingId = "BKG006", GuestName = "Diana Wilson", Room = "209", CheckIn = "2023-10-29", CheckOut = "2023-11-02", Status = "Checked In" },
-                new { BookingId = "BKG007", GuestName = "Edward Miller", Room = "315", CheckIn = "2023-10-28", CheckOut = "2023-10-30", Status = "Checked In" },
-                new { BookingId = "BKG008", GuestName = "Fiona Garcia", Room = "107", CheckIn = "2023-10-30", CheckOut = "2023-11-03", Status = "Pending" },
-                new { BookingId = "BKG009", GuestName = "George Martinez", Room = "211", CheckIn = "2023-10-27", CheckOut = "2023-10-31", Status = "Checked In" }
-            };
+        // Public method to load data from DataTable (SQL Source)
+        public void LoadData(DataTable dt)
+        {
+            dataGridViewRecentActivities.Rows.Clear();
 
-            foreach (var data in sampleData)
+            if (dt == null) return;
+
+            foreach (DataRow row in dt.Rows)
             {
                 dataGridViewRecentActivities.Rows.Add(
-                    data.BookingId,
-                    data.GuestName,
-                    data.Room,
-                    data.CheckIn,
-                    data.CheckOut,
-                    data.Status
+                    row["BookingId"].ToString(),
+                    row["GuestName"].ToString(),
+                    row["Room"].ToString(),
+                    Convert.ToDateTime(row["CheckIn"]).ToString("yyyy-MM-dd"),
+                    Convert.ToDateTime(row["CheckOut"]).ToString("yyyy-MM-dd"),
+                    row["Status"].ToString()
                 );
             }
         }

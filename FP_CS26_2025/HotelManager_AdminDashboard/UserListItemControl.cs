@@ -12,10 +12,9 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
         private CheckBox checkBox;
         private Label nameLabel;
-        private Label emailLabel;
+        private Label dateLabel; // Shows Employee ID
+        private Label dateAddedLabel; // Shows Date Added
         private Label roleLabel;
-        private Label lastActiveLabel;
-        private Label dateAddedLabel;
         private Button editButton;
         private Button deleteButton;
 
@@ -24,17 +23,46 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             _user = user;
             InitializeComponent();
             SetupData();
-            ApplyStyles();
+        }
+
+        // Constructor for Header use
+        public UserListItemControl()
+        {
+            InitializeComponent();
+        }
+
+        public void ConfigureAsHeader()
+        {
+            // Hide interactive elements
+            checkBox.Visible = false;
+            editButton.Visible = false;
+            deleteButton.Visible = false;
+
+            // Configure Labels
+            nameLabel.Text = "UserName";
+            nameLabel.ForeColor = Color.DimGray;
+            nameLabel.Cursor = Cursors.Default;
+            nameLabel.Click -= NameLabel_Click; // Remove click event
+
+            dateAddedLabel.Text = "Date Added";
+            dateAddedLabel.ForeColor = Color.DimGray;
+
+            roleLabel.Text = "Access";
+            roleLabel.ForeColor = Color.DimGray;
+            roleLabel.BackColor = Color.Transparent; // Remove badge background
+            roleLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold); // Match other headers
+            roleLabel.Padding = new Padding(0); // Remove badge padding
+
+            this.BackColor = Color.FromArgb(240, 240, 240); // Light gray header background
         }
 
         private void InitializeComponent()
         {
             this.checkBox = new CheckBox();
             this.nameLabel = new Label();
-            this.emailLabel = new Label();
-            this.roleLabel = new Label();
-            this.lastActiveLabel = new Label();
+            this.dateLabel = new Label();
             this.dateAddedLabel = new Label();
+            this.roleLabel = new Label();
             this.editButton = new Button();
             this.deleteButton = new Button();
 
@@ -44,40 +72,26 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.checkBox.AutoSize = true;
             this.checkBox.Location = new Point(20, 20);
 
-            // Name
+            // Name (Full Name/Username) - Left
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Location = new Point(60, 15);
+            this.nameLabel.Location = new Point(100, 15); // Moved to 100 to align with header
             this.nameLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
 
-            // Email
-            this.emailLabel.AutoSize = true;
-            this.emailLabel.Location = new Point(60, 35);
-            this.emailLabel.ForeColor = Color.Gray;
+            // Employee ID - Hidden
+            this.dateLabel.AutoSize = true;
+            this.dateLabel.Visible = false; // Hide from list
 
-            // 
-            // Role (Access)
-            // 
-            this.roleLabel.AutoSize = false;
-            this.roleLabel.Size = new Size(80, 25);
-            this.roleLabel.Location = new Point(380, 18); // Center 420
-            this.roleLabel.TextAlign = ContentAlignment.MiddleCenter;
-            this.roleLabel.ForeColor = Color.White;
+            // Date Added - Moved to Center (was Employee ID position)
+            this.dateAddedLabel.AutoSize = true;
+            this.dateAddedLabel.ForeColor = Color.Black;
+            this.dateAddedLabel.Font = new Font("Segoe UI", 9F);
+            this.dateAddedLabel.Location = new Point(500, 18); // Aligned at 500
 
-            // 
-            // Last Active
-            // 
-            this.lastActiveLabel.AutoSize = false;
-            this.lastActiveLabel.Size = new Size(140, 25);
-            this.lastActiveLabel.Location = new Point(580, 22); // Center 650
-            this.lastActiveLabel.TextAlign = ContentAlignment.MiddleCenter;
-
-            // 
-            // Date Added
-            // 
-            this.dateAddedLabel.AutoSize = false;
-            this.dateAddedLabel.Size = new Size(140, 25);
-            this.dateAddedLabel.Location = new Point(810, 22); // Center 880
-            this.dateAddedLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // Role Label (Badge) - Right
+            this.roleLabel.AutoSize = true;
+            this.roleLabel.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+            this.roleLabel.ForeColor = Color.Gray;
+            this.roleLabel.Location = new Point(850, 18); // Moved to 850 to align with header
 
             // 
             // Edit Button (Pencil)
@@ -114,17 +128,17 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
             this.Controls.Add(checkBox);
             this.Controls.Add(nameLabel);
-            this.Controls.Add(emailLabel);
-            this.Controls.Add(roleLabel);
-            this.Controls.Add(lastActiveLabel);
+            this.Controls.Add(dateLabel);
             this.Controls.Add(dateAddedLabel);
+            this.Controls.Add(roleLabel);
             this.Controls.Add(editButton);
             this.Controls.Add(deleteButton);
 
-            this.Size = new Size(1150, 60);
+            this.Size = new Size(1120, 60);
             this.BackColor = Color.White;
             this.Padding = new Padding(0, 0, 0, 1);
-            
+            this.Margin = new Padding(0); // Ensure no external margin affects alignment
+
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -134,31 +148,55 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             bool isChecked = checkBox.Checked;
             editButton.Visible = isChecked;
             deleteButton.Visible = isChecked;
-            
-            // Optional: Change background color on selection
+
             this.BackColor = isChecked ? Color.FromArgb(245, 245, 255) : Color.White;
         }
 
         private void SetupData()
         {
+            // Display Username
             nameLabel.Text = _user.Username;
-            emailLabel.Text = _user.Email;
-            roleLabel.Text = _user.GetRoleDisplay();
-            lastActiveLabel.Text = _user.LastActive.ToString("MMM d, yyyy");
-            dateAddedLabel.Text = _user.DateAdded.ToString("MMM d, yyyy");
-        }
+            nameLabel.ForeColor = Color.Black; // Changed to Black as requested
+            nameLabel.Cursor = Cursors.Hand;
 
-        private void ApplyStyles()
-        {
-            // Role Pill Style
-            if (_user is AdminUser)
+            nameLabel.Click -= NameLabel_Click;
+            nameLabel.Click += NameLabel_Click;
+
+            // Display Employee ID instead of Date Added
+            dateLabel.Text = _user.EmployeeId; // e.g. "001"
+            dateLabel.ForeColor = Color.Black;
+
+            // Display Date Added
+            dateAddedLabel.Text = "Date Added: " + _user.DateAdded.ToString("MMM dd, yyyy");
+
+            // Setup Role Badge
+            string role = _user.GetRoleDisplay();
+
+            if (role == "Manager")
             {
+                roleLabel.Text = "Manager";
                 roleLabel.BackColor = Color.FromArgb(0, 122, 255); // Blue
             }
             else
             {
-                roleLabel.BackColor = Color.Gray;
+                roleLabel.Text = "Front Desk";
+                roleLabel.BackColor = Color.FromArgb(255, 149, 0); // Orange
             }
+
+            roleLabel.ForeColor = Color.White;
+            roleLabel.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            roleLabel.Padding = new Padding(5, 2, 5, 2);
+        }
+
+        private void NameLabel_Click(object sender, EventArgs e)
+        {
+            string details = $"Employee ID: {_user.EmployeeId}\n\n" +
+                             $"Username: {_user.Username}\n" +
+                             $"Full Name: {_user.FirstName} {_user.MiddleName} {_user.LastName}\n" +
+                             $"Birthday: {_user.Birthday:MMM dd, yyyy}\n" +
+                             $"Role: {_user.GetRoleDisplay()}";
+
+            MessageBox.Show(details, "Employee Details", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         protected override void OnPaint(PaintEventArgs e)

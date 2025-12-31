@@ -98,6 +98,12 @@
     <Compile Include="HotelManager_AdminDashboard\UserManagementControl.Designer.cs">
       <DependentUpon>UserManagementControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="HotelManager_AdminDashboard\UserAddDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HotelManager_AdminDashboard\UserEditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LoginFormDesign\GradientBtn.cs" />
     <Compile Include="LoginFormDesign\LoginBtn.cs" />
     <Compile Include="LoginFormDesign\LoginFormContainer.cs" />

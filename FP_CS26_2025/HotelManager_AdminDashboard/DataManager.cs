@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using System.Data;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.SqlClient;
+using FP_CS26_2025.Data;
 
 namespace FP_CS26_2025.HotelManager_AdminDashboard
 {
@@ -17,7 +19,6 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         private List<Room> rooms;
         private List<Guest> guests;
         private List<Staff> staffMembers;
-        private List<SystemUser> users;
 
         // Events
         public event EventHandler DataLoaded;
@@ -37,7 +38,6 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             rooms = new List<Room>();
             guests = new List<Guest>();
             staffMembers = new List<Staff>();
-            users = new List<SystemUser>();
 
             if (AutoLoadSampleData)
             {
@@ -119,19 +119,9 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                     Role = member.Role,
                     Department = member.Department,
                     IsActive = true
-                    });
+                });
             }
 
-            // Sample Users
-            users.Clear();
-            users.Add(new AdminUser("Meljan Evarolo", "MeljanE@untitledui.com", "password"));
-            users.Add(new AdminUser("Geoffrey Orpia", "GeoffreyO@untitledui.com", "password"));
-            users.Add(new GeneralUser("Test User", "user@test.com", "password"));
-            for (int i = 1; i <= 20; i++)
-            {
-                users.Add(new GeneralUser($"User {i}", $"user{i}@test.com", "password"));
-                users.Add(new GeneralUser($"User {i}", $"user{i}@test.com", "password"));
-            }
 
             DataLoaded?.Invoke(this, EventArgs.Empty);
             DataOperationPerformed?.Invoke(this, "Sample data loaded successfully");
@@ -318,81 +308,294 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
         public List<SystemUser> GetAllUsers()
         {
-            return new List<SystemUser>(users);
+            var userList = new List<SystemUser>();
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                conn.Open();
+                string query = "SELECT * FROM Users ORDER BY Username";
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            userList.Add(MapReaderToUser(reader));
+                        }
+                    }
+                }
+            }
+            return userList;
+        }
+
+        private SystemUser MapReaderToUser(SqlDataReader reader)
+        {
+            string role = reader["Role"].ToString();
+            string firstName = reader["FirstName"].ToString();
+            string middleName = reader["MiddleName"].ToString();
+            string lastName = reader["LastName"].ToString();
+            string username = reader["Username"].ToString();
+            string email = reader["Email"].ToString();
+            string password = reader["Password"].ToString();
+            DateTime birthday = reader["Birthday"] != DBNull.Value ? (DateTime)reader["Birthday"] : DateTime.MinValue;
+            string employeeId = reader["EmployeeId"].ToString();
+            Guid id = (Guid)reader["Id"];
+
+            SystemUser user;
+            if (role == "SuperAdmin")
+            {
+                user = new ManagerUser(firstName, middleName, lastName, username, email, password, birthday, employeeId, id);
+            }
+            else
+            {
+                user = new FrontDeskUser(firstName, middleName, lastName, username, email, password, birthday, employeeId, id);
+            }
+
+            user.DateAdded = (DateTime)reader["DateAdded"];
+            user.LastUpdated = (DateTime)reader["LastUpdated"];
+            user.IsActive = (bool)reader["IsActive"];
+            if (reader["LastActive"] != DBNull.Value) user.LastActive = (DateTime)reader["LastActive"];
+
+            return user;
         }
 
         public void AddUser(SystemUser user)
         {
-            users.Add(user);
-            DataOperationPerformed?.Invoke(this, $"User {user.Username} added");
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                conn.Open();
+                string query = @"INSERT INTO Users (Id, EmployeeId, Username, FirstName, MiddleName, LastName, Email, Password, Birthday, Role, IsActive, DateAdded, LastUpdated) 
+                                 VALUES (@Id, @EmployeeId, @Username, @FirstName, @MiddleName, @LastName, @Email, @Password, @Birthday, @Role, @IsActive, @DateAdded, @LastUpdated)";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Id", user.Id);
+                    cmd.Parameters.AddWithValue("@EmployeeId", user.EmployeeId);
+                    cmd.Parameters.AddWithValue("@Username", user.Username);
+                    cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+                    cmd.Parameters.AddWithValue("@MiddleName", (object)user.MiddleName ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@LastName", user.LastName);
+                    cmd.Parameters.AddWithValue("@Email", (object)user.Email ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Password", user.Password);
+                    cmd.Parameters.AddWithValue("@Birthday", user.Birthday == DateTime.MinValue ? DBNull.Value : (object)user.Birthday);
+                    cmd.Parameters.AddWithValue("@Role", user is ManagerUser ? "SuperAdmin" : "FrontDesk");
+                    cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
+                    cmd.Parameters.AddWithValue("@DateAdded", user.DateAdded);
+                    cmd.Parameters.AddWithValue("@LastUpdated", user.LastUpdated);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            DataOperationPerformed?.Invoke(this, $"User {user.Username} added to database");
             DataChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public bool RemoveUser(Guid userId)
         {
-            var user = users.Find(u => u.Id == userId);
-            if (user != null)
+            using (var conn = DatabaseHelper.GetConnection())
             {
-                users.Remove(user);
-                DataOperationPerformed?.Invoke(this, $"User {user.Username} removed");
-                DataChanged?.Invoke(this, EventArgs.Empty);
-                return true;
+                conn.Open();
+                string query = "DELETE FROM Users WHERE Id = @Id";
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Id", userId);
+                    int rows = cmd.ExecuteNonQuery();
+                    if (rows > 0)
+                    {
+                        DataOperationPerformed?.Invoke(this, $"User removed from database");
+                        DataChanged?.Invoke(this, EventArgs.Empty);
+                        return true;
+                    }
+                }
             }
             return false;
         }
 
+        public string GetNextEmployeeId()
+        {
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                conn.Open();
+                string query = "SELECT MAX(EmployeeId) FROM Users";
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    object result = cmd.ExecuteScalar();
+                    if (result != DBNull.Value && result != null)
+                    {
+                        string maxId = result.ToString();
+                        if (int.TryParse(maxId, out int numericId))
+                        {
+                            return (numericId + 1).ToString("D3");
+                        }
+                    }
+                }
+            }
+            return "001"; // Default for first user
+        }
+
         public void UpdateUser(SystemUser updatedUser)
         {
-            var existingUser = users.Find(u => u.Id == updatedUser.Id);
-            if (existingUser != null)
+            using (var conn = DatabaseHelper.GetConnection())
             {
-                // Update properties
-                existingUser.Username = updatedUser.Username;
-                existingUser.Email = updatedUser.Email;
-                // In real app, handle password change securely
-                if (!string.IsNullOrEmpty(updatedUser.Password))
+                conn.Open();
+                string query = @"UPDATE Users SET 
+                                 Username = @Username, 
+                                 FirstName = @FirstName, 
+                                 MiddleName = @MiddleName, 
+                                 LastName = @LastName, 
+                                 Email = @Email, 
+                                 Password = @Password, 
+                                 Birthday = @Birthday, 
+                                 Role = @Role, 
+                                 LastUpdated = @LastUpdated 
+                                 WHERE Id = @Id";
+
+                using (var cmd = new SqlCommand(query, conn))
                 {
-                    existingUser.Password = updatedUser.Password;
+                    cmd.Parameters.AddWithValue("@Id", updatedUser.Id);
+                    cmd.Parameters.AddWithValue("@Username", updatedUser.Username);
+                    cmd.Parameters.AddWithValue("@FirstName", updatedUser.FirstName);
+                    cmd.Parameters.AddWithValue("@MiddleName", (object)updatedUser.MiddleName ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@LastName", updatedUser.LastName);
+                    cmd.Parameters.AddWithValue("@Email", (object)updatedUser.Email ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Password", updatedUser.Password);
+                    cmd.Parameters.AddWithValue("@Birthday", updatedUser.Birthday == DateTime.MinValue ? DBNull.Value : (object)updatedUser.Birthday);
+                    cmd.Parameters.AddWithValue("@Role", updatedUser is ManagerUser ? "SuperAdmin" : "FrontDesk");
+                    cmd.Parameters.AddWithValue("@LastUpdated", DateTime.Now);
+
+                    cmd.ExecuteNonQuery();
                 }
-                
-                DataOperationPerformed?.Invoke(this, $"User {updatedUser.Username} updated");
-                DataChanged?.Invoke(this, EventArgs.Empty);
             }
+            DataOperationPerformed?.Invoke(this, $"User {updatedUser.Username} updated in database");
+            DataChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public List<SystemUser> FilterUsers(string type, string searchQuery, string sortOrder)
         {
-            var filtered = users.AsEnumerable();
+            var userList = new List<SystemUser>();
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                conn.Open();
+                string query = "SELECT * FROM Users WHERE 1=1";
 
-            // Filter by type
-            if (type == "Admin")
-            {
-                filtered = filtered.OfType<AdminUser>();
-            }
-            else if (type == "User")
-            {
-                filtered = filtered.OfType<GeneralUser>();
-            }
+                if (type == "Manager") query += " AND Role = 'SuperAdmin'";
+                else if (type == "Front Desk") query += " AND Role = 'FrontDesk'";
 
-            // Search
-            if (!string.IsNullOrWhiteSpace(searchQuery))
-            {
-                string q = searchQuery.ToLower();
-                filtered = filtered.Where(u => u.Username.ToLower().Contains(q) || u.Email.ToLower().Contains(q));
-            }
+                if (!string.IsNullOrWhiteSpace(searchQuery))
+                {
+                    query += " AND (Username LIKE @Search OR Email LIKE @Search OR FirstName LIKE @Search OR LastName LIKE @Search)";
+                }
 
-            // Sort
-            if (sortOrder == "A-Z")
-            {
-                filtered = filtered.OrderBy(u => u.Username);
-            }
-            else if (sortOrder == "Z-A")
-            {
-                filtered = filtered.OrderByDescending(u => u.Username);
-            }
-            // Add more sort options if needed
+                if (sortOrder == "A-Z") query += " ORDER BY Username ASC";
+                else if (sortOrder == "Z-A") query += " ORDER BY Username DESC";
 
-            return filtered.ToList();
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    if (!string.IsNullOrWhiteSpace(searchQuery))
+                    {
+                        cmd.Parameters.AddWithValue("@Search", "%" + searchQuery + "%");
+                    }
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            userList.Add(MapReaderToUser(reader));
+                        }
+                    }
+                }
+            }
+            return userList;
+        }
+
+        public bool DeleteReservationFromDb(string bookingId)
+        {
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                conn.Open();
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Delete associated payments first (FK Constraint)
+                        string deletePaymentsQuery = "DELETE FROM dBo.Payments WHERE ReservationID = @ReservationID";
+                        using (var cmdPayment = new SqlCommand(deletePaymentsQuery, conn, transaction))
+                        {
+                            cmdPayment.Parameters.AddWithValue("@ReservationID", bookingId);
+                            cmdPayment.ExecuteNonQuery();
+                        }
+
+                        // 2. Delete the reservation
+                        string deleteResQuery = "DELETE FROM dbo.Reservations WHERE ReservationID = @ReservationID";
+                        using (var cmdRes = new SqlCommand(deleteResQuery, conn, transaction))
+                        {
+                            cmdRes.Parameters.AddWithValue("@ReservationID", bookingId);
+                            int rows = cmdRes.ExecuteNonQuery();
+                            
+                            if (rows > 0)
+                            {
+                                transaction.Commit();
+                                DataOperationPerformed?.Invoke(this, $"Reservation {bookingId} deleted from database");
+                                DataChanged?.Invoke(this, EventArgs.Empty);
+                                return true;
+                            }
+                            else
+                            {
+                                transaction.Rollback();
+                                return false; // ID not found
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception($"Failed to delete booking: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        public DataTable GetRecentBookingsFromDb()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("BookingId", typeof(string));
+            dt.Columns.Add("GuestName", typeof(string));
+            dt.Columns.Add("Room", typeof(string));
+            dt.Columns.Add("CheckIn", typeof(DateTime));
+            dt.Columns.Add("CheckOut", typeof(DateTime));
+            dt.Columns.Add("Status", typeof(string));
+
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                conn.Open();
+                string query = @"
+            SELECT TOP 50
+                r.ReservationID AS BookingId,
+                g.FirstName + ' ' + g.LastName AS GuestName,
+                r.RoomNumber AS Room,
+                r.CheckInDate AS CheckIn,
+                r.CheckOutDate AS CheckOut,
+                r.Status
+            FROM dbo.Reservations r
+            INNER JOIN dbo.Guests g ON r.GuestID = g.GuestID
+            ORDER BY r.CreatedAt DESC";
+
+                using (var cmd = new SqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        dt.Rows.Add(
+                            reader["BookingId"].ToString(),
+                            reader["GuestName"].ToString(),
+                            reader["Room"].ToString(),
+                            Convert.ToDateTime(reader["CheckIn"]),
+                            Convert.ToDateTime(reader["CheckOut"]),
+                            reader["Status"].ToString()
+                        );
+                    }
+                }
+            }
+            return dt;
         }
         #endregion
 

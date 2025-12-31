@@ -34,7 +34,6 @@
             this.tableLayoutPanelContent = new System.Windows.Forms.TableLayoutPanel();
             this.bookingManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.BookingManager();
             this.statsPanelManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.StatsPanelManager();
-            this.quickAccessManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.QuickAccessManager();
             this.sidebarManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.SidebarManager();
             this.userManagementControl1 = new FP_CS26_2025.HotelManager_AdminDashboard.UserManagementControl();
             this.mainLayout.SuspendLayout();
@@ -97,14 +96,11 @@
             this.tableLayoutPanelContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanelContent.Controls.Add(this.bookingManager1, 0, 0);
             this.tableLayoutPanelContent.Controls.Add(this.statsPanelManager1, 1, 0);
-            this.tableLayoutPanelContent.Controls.Add(this.quickAccessManager1, 0, 1);
-            this.tableLayoutPanelContent.SetColumnSpan(this.quickAccessManager1, 2);
             this.tableLayoutPanelContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelContent.Location = new System.Drawing.Point(15, 15);
             this.tableLayoutPanelContent.Name = "tableLayoutPanelContent";
-            this.tableLayoutPanelContent.RowCount = 2;
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 65F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanelContent.RowCount = 1;
+            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelContent.Size = new System.Drawing.Size(1537, 762);
             this.tableLayoutPanelContent.TabIndex = 0;
             // 
@@ -149,25 +145,6 @@
             this.statsPanelManager1.WelcomeText = "Welcome, Hotel Manager";
             this.statsPanelManager1.WelcomeTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             // 
-            // quickAccessManager1
-            // 
-            this.quickAccessManager1.BackColor = System.Drawing.Color.White;
-            this.quickAccessManager1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.quickAccessManager1.ButtonBackColor = System.Drawing.Color.White;
-            this.quickAccessManager1.ButtonBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
-            this.quickAccessManager1.ButtonHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
-            this.quickAccessManager1.ButtonHoverTextColor = System.Drawing.Color.White;
-            this.quickAccessManager1.ButtonsEnabled = true;
-            this.quickAccessManager1.ButtonTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
-            this.quickAccessManager1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.quickAccessManager1.Location = new System.Drawing.Point(10, 505);
-            this.quickAccessManager1.Margin = new System.Windows.Forms.Padding(10);
-            this.quickAccessManager1.Name = "quickAccessManager1";
-            this.quickAccessManager1.PanelTitle = "Quick Access Functions";
-            this.quickAccessManager1.Size = new System.Drawing.Size(1517, 247);
-            this.quickAccessManager1.TabIndex = 2;
-            this.quickAccessManager1.TitleBottomMargin = 25;
-            // 
             // sidebarManager1
             // 
             this.sidebarManager1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
@@ -206,7 +183,6 @@
 
         #endregion
         private SidebarManager sidebarManager1;
-        private QuickAccessManager quickAccessManager1;
         private StatsPanelManager statsPanelManager1;
         private BookingManager bookingManager1;
         private System.Windows.Forms.TableLayoutPanel mainLayout;

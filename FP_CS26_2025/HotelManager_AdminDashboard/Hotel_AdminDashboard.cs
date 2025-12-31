@@ -24,11 +24,44 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             
             // Initial data load
             // Initial data load
-            bookingManager1.LoadSampleData();
-           
             // Data Manager Setup
             var dataManager = new DataManager(); // Central data manager
             userManagementControl1.SetDataManager(dataManager);
+
+            // Load Recent Bookings from Database
+            try
+            {
+                var dtBookings = dataManager.GetRecentBookingsFromDb();
+                bookingManager1.LoadData(dtBookings);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading recent bookings: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Booking Removal Event
+            bookingManager1.BookingRemovalRequested += (s, bookingId) =>
+            {
+                try
+                {
+                    bool success = dataManager.DeleteReservationFromDb(bookingId);
+                    if (success)
+                    {
+                        MessageBox.Show("Booking deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // Refresh the list
+                        var dt = dataManager.GetRecentBookingsFromDb();
+                        bookingManager1.LoadData(dt);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Could not find booking to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting booking: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
 
             // Sidebar Events
             sidebarManager1.SelectButtonByText("Dashboard");

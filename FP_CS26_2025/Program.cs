@@ -14,9 +14,9 @@ namespace FP_CS26_2025
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //Application.Run(new Hotel_AdminDashboard());
+            Application.Run(new Hotel_AdminDashboard());
             //Application.Run(new RoomsShowcaseForm());
-            Application.Run(new ModernHomeView());
+            //Application.Run(new ModernHomeView());
 
         }
     }
