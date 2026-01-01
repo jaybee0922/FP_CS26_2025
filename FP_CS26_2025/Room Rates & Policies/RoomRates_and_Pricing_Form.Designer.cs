@@ -93,6 +93,7 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(250, 25);
             this.txtSearch.TabIndex = 2;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // dgvRoomRates
             // 
@@ -134,6 +135,7 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.btnChangePrice.Size = new System.Drawing.Size(150, 40);
             this.btnChangePrice.TabIndex = 4;
             this.btnChangePrice.Text = "Change Pricing";
+            this.btnChangePrice.Click += new System.EventHandler(this.btnChangePrice_Click);
             // 
             // btnRefresh
             // 
@@ -144,6 +146,7 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.btnRefresh.Size = new System.Drawing.Size(120, 40);
             this.btnRefresh.TabIndex = 5;
             this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // gbPolicies
             // 

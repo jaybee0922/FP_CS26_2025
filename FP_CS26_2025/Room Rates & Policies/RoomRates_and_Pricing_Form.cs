@@ -26,10 +26,45 @@ namespace FP_CS26_2025.Room_Rates___Policies
         {
             dgvRoomRates.Rows.Clear();
 
-            dgvRoomRates.Rows.Add("Single Room", "₱1,200 per night", "Available", "Max 1 Guest");
-            dgvRoomRates.Rows.Add("Double Room", "₱1,800 per night", "Booked", "Max 2 Guests");
-            dgvRoomRates.Rows.Add("Family Suite", "₱3,500 per night", "Available", "Max 4 Guests");
-            dgvRoomRates.Rows.Add("Deluxe Suite", "₱5,200 per night", "Under Maintenance", "Max 2 Guests");
+            try
+            {
+                using (var conn = FP_CS26_2025.Data.DatabaseHelper.GetConnection())
+                {
+                    conn.Open();
+                    string query = "SELECT RoomType, PricePerNight, Status, CapacityInfo FROM RoomRates";
+
+                    // Add Filter if search text is not empty
+                    if (!string.IsNullOrWhiteSpace(txtSearch.Text))
+                    {
+                        query += " WHERE RoomType LIKE @Search";
+                    }
+
+                    using (var cmd = new System.Data.SqlClient.SqlCommand(query, conn))
+                    {
+                        if (!string.IsNullOrWhiteSpace(txtSearch.Text))
+                        {
+                            cmd.Parameters.AddWithValue("@Search", "%" + txtSearch.Text.Trim() + "%");
+                        }
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                dgvRoomRates.Rows.Add(
+                                    reader["RoomType"].ToString(),
+                                    reader["PricePerNight"].ToString(),
+                                    reader["Status"].ToString(),
+                                    reader["CapacityInfo"].ToString()
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnChangePrice_Click(object sender, EventArgs e)
@@ -50,16 +85,51 @@ namespace FP_CS26_2025.Room_Rates___Policies
             {
                 if (!string.IsNullOrEmpty(dialog.NewPrice))
                 {
-                    selectedRow.Cells[1].Value = dialog.NewPrice;
-
-                    MessageBox.Show("Pricing updated successfully!",
-                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Update Database
+                    if (UpdateRoomPrice(roomType, dialog.NewPrice))
+                    {
+                        MessageBox.Show("Pricing updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadRoomData(); // Refresh grid
+                    }
                 }
+            }
+        }
+
+        private bool UpdateRoomPrice(string roomType, string newPrice)
+        {
+            try
+            {
+                using (var conn = FP_CS26_2025.Data.DatabaseHelper.GetConnection())
+                {
+                    conn.Open();
+                    string query = "UPDATE RoomRates SET PricePerNight = @Price WHERE RoomType = @RoomType";
+                    using (var cmd = new System.Data.SqlClient.SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Price", newPrice);
+                        cmd.Parameters.AddWithValue("@RoomType", roomType);
+
+                        int rows = cmd.ExecuteNonQuery();
+                        return rows > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating price: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
+            txtSearch.Clear();
+            LoadRoomData();
+        }
+
+        // Search functionality
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+           
             LoadRoomData();
         }
     }
