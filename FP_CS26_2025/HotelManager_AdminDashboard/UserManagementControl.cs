@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,6 +17,10 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         public UserManagementControl()
         {
             InitializeComponent();
+            
+            // Prevent database calls in Visual Studio Designer
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime) return;
+
             _dataManager = new DataManager();
             SetupSearchBox();
             RefreshList();

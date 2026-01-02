@@ -37,7 +37,7 @@
             this.quickAccessManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.QuickAccessManager();
             this.sidebarManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.SidebarManager();
             this.userManagementControl1 = new FP_CS26_2025.HotelManager_AdminDashboard.UserManagementControl();
-            this.sidebarManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.SidebarManager();
+            
             this.mainLayout.SuspendLayout();
             this.dashboardContainer.SuspendLayout();
             this.mainContentPanel.SuspendLayout();
