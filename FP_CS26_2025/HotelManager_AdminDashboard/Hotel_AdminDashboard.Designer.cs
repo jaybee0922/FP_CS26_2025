@@ -76,7 +76,7 @@
             // mainContentPanel
             // 
             this.mainContentPanel.Controls.Add(this.tableLayoutPanelContent);
-           
+            this.mainContentPanel.Controls.Add(this.userManagementControl1);
             this.mainContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainContentPanel.Location = new System.Drawing.Point(191, 0);
             this.mainContentPanel.Margin = new System.Windows.Forms.Padding(2);
@@ -99,7 +99,7 @@
             this.tableLayoutPanelContent.ColumnCount = 2;
             this.tableLayoutPanelContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
             this.tableLayoutPanelContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            
+            this.tableLayoutPanelContent.Controls.Add(this.bookingManager1, 0, 0);
             this.tableLayoutPanelContent.Controls.Add(this.statsPanelManager1, 1, 0);
             this.tableLayoutPanelContent.Controls.Add(this.quickAccessManager1, 0, 1);
             this.tableLayoutPanelContent.SetColumnSpan(this.quickAccessManager1, 2);
@@ -230,7 +230,7 @@
         private QuickAccessManager quickAccessManager1;
         #endregion
         private SidebarManager sidebarManager1;
-        private QuickAccessManager quickAccessManager1;
+        
         private StatsPanelManager statsPanelManager1;
         private BookingManager bookingManager1;
         private System.Windows.Forms.TableLayoutPanel mainLayout;
