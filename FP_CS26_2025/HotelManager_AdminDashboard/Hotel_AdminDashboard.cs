@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FP_CS26_2025.Services;
+using FP_CS26_2025.Room_Rates___Policies;
 
 namespace FP_CS26_2025.HotelManager_AdminDashboard
 {
@@ -81,6 +82,13 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 userManagementControl1.Visible = true;
                 userManagementControl1.BringToFront();
             };
+
+            sidebarManager1.RoomRatesClicked += (s, e) =>
+            {
+                sidebarManager1.SelectButtonByText("Room Rates and Policies");
+                var roomRatesForm = new RoomRates_and_Pricing_Form();
+                roomRatesForm.Show(); 
+            };
         }
 
 
@@ -96,5 +104,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 e.Graphics.FillRectangle(brush, this.ClientRectangle);
             }
         }
+
+        
     }
 }

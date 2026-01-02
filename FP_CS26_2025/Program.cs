@@ -1,5 +1,6 @@
 using FP_CS26_2025.HotelManager_AdminDashboard;
 using FP_CS26_2025.ModernDesign;
+using FP_CS26_2025.Room_Rates___Policies;
 using FP_CS26_2025.Rooms;
 using System;
 using System.Windows.Forms;

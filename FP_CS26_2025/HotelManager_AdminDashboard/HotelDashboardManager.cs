@@ -176,6 +176,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 mainContentManager.ShowStatsSection(false);
                 mainContentManager.ShowBookingsSection(false);
                 mainContentManager.ShowQuickAccessSection(false);
+                
                 // You can add room rates specific content here
             }
         }

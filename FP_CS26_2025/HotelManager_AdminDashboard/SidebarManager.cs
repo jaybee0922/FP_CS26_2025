@@ -107,7 +107,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                         UserManagementClicked?.Invoke(this, EventArgs.Empty);
                         break;
                     case "Room Rates and Policies":
-                        RoomRatesClicked?.Invoke(this, EventArgs.Empty);
+                        RoomRatesClicked?.Invoke(this, EventArgs.Empty);    
                         break;
                     case "Reports":
                         ReportsClicked?.Invoke(this, EventArgs.Empty);
