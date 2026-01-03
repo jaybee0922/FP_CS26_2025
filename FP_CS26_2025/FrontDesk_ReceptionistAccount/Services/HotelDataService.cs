@@ -13,6 +13,8 @@ namespace FP_CS26_2025.FrontDesk_MVC
         void UpdateRoomStatus(int roomNumber, RoomStatus status);
         void AddBill(Bill bill);
         IRoom GetRoomByNumber(int roomNumber);
+        void UpdateReservationStatus(string reservationId, string status);
+        IEnumerable<PaymentRecord> GetAllPayments();
     }
 
     public class InMemoryHotelService : IHotelDataService
@@ -50,5 +52,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
 
         public void AddBill(Bill bill) => _bills.Add(bill);
         public IRoom GetRoomByNumber(int roomNumber) => _rooms.FirstOrDefault(r => r.RoomNumber == roomNumber);
+        public void UpdateReservationStatus(string reservationId, string status) { }
+        public IEnumerable<PaymentRecord> GetAllPayments() => new List<PaymentRecord>();
     }
 }

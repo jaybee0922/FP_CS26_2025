@@ -237,6 +237,47 @@ namespace FP_CS26_2025.FrontDesk_MVC
             }
         }
 
+        public IEnumerable<PaymentRecord> GetAllPayments()
+        {
+            var payments = new List<PaymentRecord>();
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    const string query = @"
+                        SELECT p.PaymentID, p.ReservationID, g.FirstName + ' ' + g.LastName as GuestName, 
+                               p.Amount, p.PaymentMethod, p.PaymentDate
+                        FROM Payments p
+                        JOIN Reservations r ON p.ReservationID = r.ReservationID
+                        JOIN Guests g ON r.GuestID = g.GuestID
+                        ORDER BY p.PaymentDate DESC";
+                    
+                    using (var cmd = new SqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            payments.Add(new PaymentRecord
+                            {
+                                PaymentId = (int)reader["PaymentID"],
+                                ReservationId = reader["ReservationID"].ToString(),
+                                GuestName = reader["GuestName"].ToString(),
+                                Amount = (decimal)reader["Amount"],
+                                PaymentMethod = reader["PaymentMethod"].ToString(),
+                                PaymentDate = (DateTime)reader["PaymentDate"]
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error fetching payments: " + ex.Message);
+            }
+            return payments;
+        }
+
         private RoomStatus MapStatus(string status)
         {
             if (Enum.TryParse(status, out RoomStatus result)) return result;

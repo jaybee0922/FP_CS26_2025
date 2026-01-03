@@ -89,6 +89,8 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public IEnumerable<Reservation> GetActiveReservations() => _dataService.GetAllReservations();
         public IEnumerable<IRoom> GetAllRooms() => _dataService.GetAllRooms();
 
+        public IEnumerable<PaymentRecord> GetPaymentHistory() => _dataService.GetAllPayments();
+
         public void ApproveReservation(string reservationId)
         {
             if (string.IsNullOrWhiteSpace(reservationId))

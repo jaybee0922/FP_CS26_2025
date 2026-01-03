@@ -104,4 +104,14 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public decimal UnitPrice { get; set; }
         public decimal Total { get; set; }
     }
+
+    public class PaymentRecord
+    {
+        public int PaymentId { get; set; }
+        public string ReservationId { get; set; }
+        public string GuestName { get; set; }
+        public decimal Amount { get; set; }
+        public string PaymentMethod { get; set; }
+        public DateTime PaymentDate { get; set; }
+    }
 }

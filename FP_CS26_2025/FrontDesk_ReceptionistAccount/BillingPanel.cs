@@ -143,7 +143,39 @@ namespace FP_CS26_2025
 
         public override void RefreshData()
         {
-            // Placeholder: Connect to controller billing data when available
+            if (_controller == null) return;
+            
+            var payments = _controller.GetPaymentHistory().Select(p => new {
+                ID = p.PaymentId,
+                Date = p.PaymentDate.ToString("MM/dd HH:mm"),
+                Guest = p.GuestName,
+                Reservation = p.ReservationId,
+                Amount = $"P {p.Amount:N2}",
+                Method = p.PaymentMethod
+            }).ToList();
+            
+            dgvBilling.DataSource = payments;
+        }
+
+        public override void PerformSearch(string query)
+        {
+            if (_controller == null) return;
+            if (string.IsNullOrWhiteSpace(query)) { RefreshData(); return; }
+
+            var filtered = _controller.GetPaymentHistory()
+                .Where(p => p.GuestName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            p.ReservationId.Contains(query) ||
+                            p.PaymentMethod.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
+                .Select(p => new {
+                    ID = p.PaymentId,
+                    Date = p.PaymentDate.ToString("MM/dd HH:mm"),
+                    Guest = p.GuestName,
+                    Reservation = p.ReservationId,
+                    Amount = $"P {p.Amount:N2}",
+                    Method = p.PaymentMethod
+                }).ToList();
+
+            dgvBilling.DataSource = filtered;
         }
     }
 }
