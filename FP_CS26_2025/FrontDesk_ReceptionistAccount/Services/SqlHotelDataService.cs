@@ -154,6 +154,89 @@ namespace FP_CS26_2025.FrontDesk_MVC
             return GetAllRooms().FirstOrDefault(r => r.RoomNumber == roomNumber);
         }
 
+        public void ApproveReservation(string reservationId)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    const string query = "UPDATE Reservations SET Status = 'Approved' WHERE ReservationID = @ResId";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ResId", reservationId);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        
+                        if (rowsAffected == 0)
+                        {
+                            throw new InvalidOperationException($"Reservation {reservationId} not found.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error approving reservation: " + ex.Message);
+                throw new Exception("Failed to approve reservation. Please try again.", ex);
+            }
+        }
+
+        public void SavePayment(string reservationId, decimal amount, string paymentMethod)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    const string query = @"
+                        INSERT INTO Payments (ReservationID, Amount, PaymentMethod, PaymentDate)
+                        VALUES (@ResId, @Amount, @Method, @Date)";
+                    
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ResId", reservationId);
+                        cmd.Parameters.AddWithValue("@Amount", amount);
+                        cmd.Parameters.AddWithValue("@Method", paymentMethod);
+                        cmd.Parameters.AddWithValue("@Date", DateTime.Now);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error saving payment: " + ex.Message);
+                throw new Exception("Failed to save payment. Please try again.", ex);
+            }
+        }
+
+        public void UpdateReservationStatus(string reservationId, string status)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    const string query = "UPDATE Reservations SET Status = @Status WHERE ReservationID = @ResId";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Status", status);
+                        cmd.Parameters.AddWithValue("@ResId", reservationId);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        
+                        if (rowsAffected == 0)
+                        {
+                            throw new InvalidOperationException($"Reservation {reservationId} not found.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error updating reservation status: " + ex.Message);
+                throw new Exception("Failed to update reservation status. Please try again.", ex);
+            }
+        }
+
         private RoomStatus MapStatus(string status)
         {
             if (Enum.TryParse(status, out RoomStatus result)) return result;

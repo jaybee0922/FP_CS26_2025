@@ -11,6 +11,7 @@ namespace FP_CS26_2025
     {
         private DataGridView dgvReservations;
         private Button btnNewReservation;
+        private Button btnApproveReservation;
         private TableLayoutPanel mainLayout;
         private ModernTextBox txtSearch;
         private ModernShadowPanel shadowPanel;
@@ -105,7 +106,7 @@ namespace FP_CS26_2025
             };
             shadowPanel.Controls.Add(dgvReservations);
 
-            // Button
+            // Buttons
             btnNewReservation = new Button
             {
                 Text = "New Reservation",
@@ -120,10 +121,26 @@ namespace FP_CS26_2025
             btnNewReservation.FlatAppearance.BorderSize = 0;
             btnNewReservation.Click += (s, e) => CreateNewReservationFlow();
 
+            btnApproveReservation = new Button
+            {
+                Text = "Approve Reservation",
+                Size = new Size(200, 40),
+                BackColor = Color.FromArgb(41, 128, 185),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 10f, FontStyle.Bold),
+                Cursor = Cursors.Hand,
+                Anchor = AnchorStyles.Right
+            };
+            btnApproveReservation.FlatAppearance.BorderSize = 0;
+            btnApproveReservation.Click += (s, e) => ApproveSelectedReservation();
+
             // Layout Assembly
             var buttonPanel = new Panel { Dock = DockStyle.Fill, Margin = new Padding(0) };
             buttonPanel.Controls.Add(btnNewReservation);
+            buttonPanel.Controls.Add(btnApproveReservation);
             btnNewReservation.Location = new Point(buttonPanel.Width - btnNewReservation.Width, 10);
+            btnApproveReservation.Location = new Point(buttonPanel.Width - btnNewReservation.Width - btnApproveReservation.Width - 10, 10);
             
             mainLayout.Controls.Add(searchWrapper, 0, 1);
             mainLayout.Controls.Add(shadowPanel, 0, 2);
@@ -169,18 +186,21 @@ namespace FP_CS26_2025
             if (_controller == null) return;
             try
             {
-                var data = _controller.GetActiveReservations().Select(r => new {
-                    ID = r.ReservationId,
-                    Guest = r.Guest.FullName,
-                    Room = r.AssignedRoom.RoomNumber > 0 ? r.AssignedRoom.RoomNumber.ToString() : "N/A",
-                    Type = r.RoomType ?? "N/A",
-                    Dates = $"{r.CheckInDate:MM/dd} - {r.CheckOutDate:MM/dd}",
-                    Status = r.Status,
-                    Price = $"P{r.TotalPrice:N2}",
-                    Adults = r.NumAdults,
-                    Children = r.NumChildren,
-                    Rooms = r.NumRooms
-                }).ToList();
+                // Filter to show ONLY Pending reservations
+                var data = _controller.GetActiveReservations()
+                    .Where(r => r.Status == "Pending")
+                    .Select(r => new {
+                        ID = r.ReservationId,
+                        Guest = r.Guest.FullName,
+                        Room = r.AssignedRoom.RoomNumber > 0 ? r.AssignedRoom.RoomNumber.ToString() : "N/A",
+                        Type = r.RoomType ?? "N/A",
+                        Dates = $"{r.CheckInDate:MM/dd} - {r.CheckOutDate:MM/dd}",
+                        Status = r.Status,
+                        Price = $"P{r.TotalPrice:N2}",
+                        Adults = r.NumAdults,
+                        Children = r.NumChildren,
+                        Rooms = r.NumRooms
+                    }).ToList();
                 
                 dgvReservations.DataSource = data;
             }
@@ -201,7 +221,8 @@ namespace FP_CS26_2025
 
             try
             {
-                var allData = _controller.GetActiveReservations();
+                // Filter to show ONLY Pending reservations
+                var allData = _controller.GetActiveReservations().Where(r => r.Status == "Pending");
                 var filtered = allData.Where(r => 
                     r.Guest.FullName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
                     r.ReservationId.ToString().Contains(query) ||
@@ -224,6 +245,41 @@ namespace FP_CS26_2025
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("UI Error in PerformSearch: " + ex.Message);
+            }
+        }
+
+        private void ApproveSelectedReservation()
+        {
+            if (_controller == null) return;
+            
+            if (dgvReservations.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a reservation to approve.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var selectedRow = dgvReservations.SelectedRows[0];
+                var reservationId = selectedRow.Cells["ID"].Value.ToString();
+                var guestName = selectedRow.Cells["Guest"].Value.ToString();
+
+                DialogResult result = MessageBox.Show(
+                    $"Approve reservation for {guestName}?\nReservation ID: {reservationId}\n\nThis will move the reservation to Check-In Guests.",
+                    "Approve Reservation",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    _controller.ApproveReservation(reservationId);
+                    MessageBox.Show("Reservation approved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RefreshData();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error approving reservation: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

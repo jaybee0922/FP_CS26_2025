@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FP_CS26_2025.FrontDesk_MVC
 {
@@ -43,17 +44,64 @@ namespace FP_CS26_2025.FrontDesk_MVC
     {
         public string BillId { get; set; }
         public Reservation Reservation { get; set; }
+        public List<BillLineItem> LineItems { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal Tax { get; set; }
         public decimal TotalAmount { get; set; }
         public bool IsPaid { get; set; }
         public DateTime BillingDate { get; set; }
+        
+        // Payment details
+        public string PaymentMethod { get; set; }
+        public decimal AmountPaid { get; set; }
+        public decimal Change { get; set; }
 
         public Bill(Reservation reservation)
         {
-            BillId = "INV-" + Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
+            BillId = "INV-" + DateTime.Now.ToString("yyyyMMddHHmmss");
             Reservation = reservation;
-            TotalAmount = reservation.AssignedRoom.CalculateTotalPrice(reservation.Duration);
             BillingDate = DateTime.Now;
             IsPaid = false;
+            LineItems = new List<BillLineItem>();
+            
+            // Calculate billing
+            CalculateBill();
         }
+
+        private void CalculateBill()
+        {
+            // Calculate room charges
+            int nights = Reservation.Duration;
+            decimal roomRate = Reservation.TotalPrice / Math.Max(nights, 1); // Get per-night rate
+            
+            LineItems.Add(new BillLineItem
+            {
+                Description = $"Room Charge - {Reservation.RoomType}",
+                Quantity = nights,
+                UnitPrice = roomRate,
+                Total = Reservation.TotalPrice
+            });
+
+            // Calculate totals
+            Subtotal = LineItems.Sum(item => item.Total);
+            Tax = 0; // No tax for now, can be configured later
+            TotalAmount = Subtotal + Tax;
+        }
+
+        public void ProcessPayment(string paymentMethod, decimal amountPaid)
+        {
+            PaymentMethod = paymentMethod;
+            AmountPaid = amountPaid;
+            Change = amountPaid - TotalAmount;
+            IsPaid = true;
+        }
+    }
+
+    public class BillLineItem
+    {
+        public string Description { get; set; }
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal Total { get; set; }
     }
 }

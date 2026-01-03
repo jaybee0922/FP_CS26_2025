@@ -118,7 +118,10 @@ namespace FP_CS26_2025
         public override void RefreshData() {
             lbReservations.DataSource = null;
              if (_controller == null) return;
-            lbReservations.DataSource = _controller.GetActiveReservations().Where(r => !r.IsCheckedIn).ToList();
+            // Filter to show ONLY Approved reservations that are not checked in
+            lbReservations.DataSource = _controller.GetActiveReservations()
+                .Where(r => r.Status == "Approved" && !r.IsCheckedIn)
+                .ToList();
             lbReservations.DisplayMember = "ReservationId"; 
         }
 
@@ -131,7 +134,9 @@ namespace FP_CS26_2025
                 return;
             }
 
-            var active = _controller.GetActiveReservations().Where(r => !r.IsCheckedIn);
+            // Filter to show ONLY Approved reservations that are not checked in
+            var active = _controller.GetActiveReservations()
+                .Where(r => r.Status == "Approved" && !r.IsCheckedIn);
             var filtered = active.Where(r => 
                 r.Guest.FullName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
                 r.ReservationId.ToString().Contains(query)
