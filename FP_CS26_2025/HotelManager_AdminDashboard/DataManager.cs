@@ -329,19 +329,61 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
         private SystemUser MapReaderToUser(SqlDataReader reader)
         {
-            string role = reader["Role"].ToString();
-            string firstName = reader["FirstName"].ToString();
-            string middleName = reader["MiddleName"].ToString();
-            string lastName = reader["LastName"].ToString();
-            string username = reader["Username"].ToString();
-            string email = reader["Email"].ToString();
-            string password = reader["Password"].ToString();
-            DateTime birthday = reader["Birthday"] != DBNull.Value ? (DateTime)reader["Birthday"] : DateTime.MinValue;
-            string employeeId = reader["EmployeeId"].ToString();
-            Guid id = (Guid)reader["Id"];
+            // Helper to get column safely
+            T GetColumnValue<T>(string columnName, T defaultValue = default(T))
+            {
+                try
+                {
+                    int ordinal = reader.GetOrdinal(columnName);
+                    if (reader.IsDBNull(ordinal)) return defaultValue;
+                    return (T)reader.GetValue(ordinal);
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    return defaultValue;
+                }
+            }
+
+            string role = GetColumnValue<string>("Role", "FrontDesk"); 
+            string username = GetColumnValue<string>("Username", "Unknown");
+            string password = GetColumnValue<string>("Password", "");
+            
+            // Legacy schema fallbacks
+            string firstName = GetColumnValue<string>("FirstName", username); // Fallback to username
+            string middleName = GetColumnValue<string>("MiddleName", "");
+            string lastName = GetColumnValue<string>("LastName", "");
+            string email = GetColumnValue<string>("Email", "");
+            string employeeId = GetColumnValue<string>("EmployeeId", "000");
+            
+            DateTime birthday = GetColumnValue<DateTime>("Birthday", DateTime.MinValue);
+            DateTime dateAdded = GetColumnValue<DateTime>("DateAdded", DateTime.Now);
+            DateTime lastUpdated = GetColumnValue<DateTime>("LastUpdated", DateTime.Now);
+            bool isActive = GetColumnValue<bool>("IsActive", true);
+            DateTime lastActive = GetColumnValue<DateTime>("LastActive", DateTime.MinValue);
+
+            // Handle ID mismatch (Int vs Guid)
+            Guid id;
+            try
+            {
+                id = (Guid)reader["Id"];
+            }
+            catch
+            {
+                // Fallback for legacy 'UserID' (int)
+                int userId = GetColumnValue<int>("UserID", 0);
+                // Create a deterministic Guid from int ID for consistency
+                id = new Guid($"00000000-0000-0000-0000-{userId:D12}");
+                
+                // Also map CreatedAt if DateAdded missing
+                if (dateAdded == DateTime.Now || dateAdded == DateTime.MinValue)
+                {
+                    dateAdded = GetColumnValue<DateTime>("CreatedAt", DateTime.Now);
+                    lastUpdated = dateAdded;
+                }
+            }
 
             SystemUser user;
-            if (role == "SuperAdmin")
+            if (role == "SuperAdmin" || role == "Manager")
             {
                 user = new ManagerUser(firstName, middleName, lastName, username, email, password, birthday, employeeId, id);
             }
@@ -350,10 +392,10 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 user = new FrontDeskUser(firstName, middleName, lastName, username, email, password, birthday, employeeId, id);
             }
 
-            user.DateAdded = (DateTime)reader["DateAdded"];
-            user.LastUpdated = (DateTime)reader["LastUpdated"];
-            user.IsActive = (bool)reader["IsActive"];
-            if (reader["LastActive"] != DBNull.Value) user.LastActive = (DateTime)reader["LastActive"];
+            user.DateAdded = dateAdded;
+            user.LastUpdated = lastUpdated;
+            user.IsActive = isActive;
+            user.LastActive = lastActive;
 
             return user;
         }

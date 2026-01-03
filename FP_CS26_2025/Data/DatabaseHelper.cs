@@ -7,17 +7,85 @@ namespace FP_CS26_2025.Data
 {
     public static class DatabaseHelper
     {
+        private static string _cachedConnectionString = null;
+
         public static string ConnectionString
         {
             get
             {
-                return ConfigurationManager.ConnectionStrings["GrandNexusDB"].ConnectionString;
+                if (_cachedConnectionString == null)
+                {
+                    _cachedConnectionString = GetWorkingConnectionString();
+                }
+                return _cachedConnectionString;
             }
         }
 
         public static SqlConnection GetConnection()
         {
             return new SqlConnection(ConnectionString);
+        }
+
+        private static string GetWorkingConnectionString()
+        {
+            // 1. Get the configured string from App.config as the primary candidate
+            string configConnString = ConfigurationManager.ConnectionStrings["GrandNexusDB"].ConnectionString;
+            
+            // Extract the base parts (User ID, Password, Initial Catalog) to rebuild strings
+            // Note: A more robust parsing might be needed, but simple string replacement works for this specific format
+            // Assumes format: Data Source=...;Initial Catalog=...;...
+            
+            var sourcesToCheck = new System.Collections.Generic.List<string>
+            {
+                configConnString, // Try what's in config first
+                configConnString.Replace("Data Source=.\\SQLEXPRESS01;", "Data Source=.\\SQLEXPRESS;").Replace("Data Source=.\\SQLEXPRESS01", "Data Source=.\\SQLEXPRESS"),
+                configConnString.Replace("Data Source=.\\SQLEXPRESS01;", "Data Source=.;").Replace("Data Source=.\\SQLEXPRESS01", "Data Source=."),
+                configConnString.Replace("Data Source=.\\SQLEXPRESS01;", "Data Source=(localdb)\\MSSQLLocalDB;").Replace("Data Source=.\\SQLEXPRESS01", "Data Source=(localdb)\\MSSQLLocalDB")
+            };
+
+            // Also handle if the config string was NOT SQLEXPRESS01 originally
+            if (!sourcesToCheck.Contains(configConnString.Replace(GetDataSource(configConnString), "Data Source=.\\SQLEXPRESS01")))
+                 sourcesToCheck.Add(configConnString.Replace(GetDataSource(configConnString), "Data Source=.\\SQLEXPRESS01"));
+
+
+            foreach (var connString in sourcesToCheck)
+            {
+                if (TryConnect(connString))
+                {
+                    System.Diagnostics.Debug.WriteLine(string.Format("Successfully connected to: {0}", connString));
+                    return connString;
+                }
+            }
+
+            // If all fail, return the original one so the error bubbles up normally
+            return configConnString;
+        }
+
+        private static string GetDataSource(string connString)
+        {
+            // Simple helper to extract Data Source=...; part
+            int start = connString.IndexOf("Data Source=");
+            if (start == -1) return "";
+            int end = connString.IndexOf(";", start);
+            if (end == -1) return connString.Substring(start);
+            return connString.Substring(start, end - start);
+        }
+
+        private static bool TryConnect(string connString)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(connString))
+                {
+                    conn.Open();
+                    return true;
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to connect to: {0}. Error: {1}", connString, ex.Message));
+                return false;
+            }
         }
 
         public static bool ValidateUser(string username, string password, string role)
