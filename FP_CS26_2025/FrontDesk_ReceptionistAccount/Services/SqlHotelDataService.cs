@@ -37,7 +37,11 @@ namespace FP_CS26_2025.FrontDesk_MVC
                     {
                         while (reader.Read())
                         {
-                            int num = reader.GetInt32(0);
+                            // Safe parsing: RoomNumber is NVARCHAR in SQL but int in model
+                            int num = 0;
+                            if (reader[0] != DBNull.Value)
+                                int.TryParse(reader[0].ToString(), out num);
+
                             string type = reader.GetString(1);
                             decimal price = reader.GetDecimal(2);
                             int cap = reader.GetInt32(3);

@@ -13,6 +13,7 @@ namespace FP_CS26_2025
         private TableLayoutPanel mainLayout;
         private ModernTextBox txtSearch;
         private ModernShadowPanel shadowPanel;
+        private Button btnSetAvailable;
 
         public RoomsCalendarPanel() : base() { InitializeComponents(); }
 
@@ -30,7 +31,7 @@ namespace FP_CS26_2025
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 1,
-                RowCount = 3, 
+                RowCount = 4, 
                 Padding = new Padding(20)
             };
             mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
@@ -102,6 +103,27 @@ namespace FP_CS26_2025
             mainLayout.Controls.Add(searchWrapper, 0, 1);
             mainLayout.Controls.Add(shadowPanel, 0, 2);
 
+            // Button Panel
+            FlowLayoutPanel buttonFlow = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft, Padding = new Padding(0, 10, 0, 0) };
+            btnSetAvailable = new Button 
+            { 
+                Text = "Mark Selected as Available", 
+                Size = new Size(200, 35), 
+                BackColor = Color.FromArgb(46, 204, 113), 
+                ForeColor = Color.White, 
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 9f, FontStyle.Bold),
+                Enabled = false
+            };
+            btnSetAvailable.Click += BtnSetAvailable_Click;
+            buttonFlow.Controls.Add(btnSetAvailable);
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            mainLayout.Controls.Add(buttonFlow, 0, 3);
+
+            dgvRooms.SelectionChanged += (s, e) => {
+                btnSetAvailable.Enabled = dgvRooms.SelectedRows.Count > 0;
+            };
+
             this.Controls.Add(mainLayout);
             mainLayout.BringToFront();
             
@@ -141,6 +163,32 @@ namespace FP_CS26_2025
             }).ToList();
 
             dgvRooms.DataSource = filtered;
+        }
+
+        private void BtnSetAvailable_Click(object sender, EventArgs e)
+        {
+            if (dgvRooms.SelectedRows.Count == 0) return;
+
+            var row = dgvRooms.SelectedRows[0];
+            int roomNum = (int)row.Cells["Number"].Value;
+            string currentStatus = row.Cells["Status"].Value.ToString();
+
+            if (currentStatus == "Available")
+            {
+                MessageBox.Show("Room is already available.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                _controller.UpdateRoomStatus(roomNum, RoomStatus.Available);
+                MessageBox.Show($"Room {roomNum} is now marked as Available!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RefreshData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating room: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

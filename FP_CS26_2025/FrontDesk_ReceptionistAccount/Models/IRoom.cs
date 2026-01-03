@@ -6,8 +6,11 @@ namespace FP_CS26_2025.FrontDesk_MVC
     {
         Available,
         Occupied,
+        Reserved,
         Maintenance,
-        Reserved
+        Cleaning,
+        OutOfService,
+        ReadyForCheckIn
     }
 
     public interface IRoom

@@ -82,8 +82,13 @@ namespace FP_CS26_2025.FrontDesk_MVC
             {
                 _dataService.UpdateRoomStatus(
                     bill.Reservation.AssignedRoom.RoomNumber, 
-                    RoomStatus.Available);
+                    RoomStatus.Cleaning);
             }
+        }
+
+        public void UpdateRoomStatus(int roomNumber, RoomStatus status)
+        {
+            _dataService.UpdateRoomStatus(roomNumber, status);
         }
 
         public IEnumerable<Reservation> GetActiveReservations() => _dataService.GetAllReservations();
