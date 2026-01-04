@@ -1,0 +1,218 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using FP_CS26_2025.Rooms;
+using FP_CS26_2025.Services;
+using FP_CS26_2025.Services.Models;
+
+namespace FP_CS26_2025.ModernDesign
+{
+    /// <summary>
+    /// Modern booking modal following OOP and SOLID principles.
+    /// Implements robust exception handling and precise date/financial calculations.
+    /// </summary>
+    public partial class BookingModalForm : Form
+    {
+        private readonly IRoomService _roomService;
+        private readonly IBookingService _bookingService;
+        private List<IRoom> _allRooms;
+        private int _stayNights;
+        private DateTime _checkIn;
+        private DateTime _checkOut;
+        
+        // Property Encapsulation
+        public BookingResultData BookingResult { get; private set; }
+
+        // Dependency Inversion: Injecting services and stay context
+        public BookingModalForm(IRoomService roomService, IBookingService bookingService, DateTime checkIn, DateTime checkOut)
+        {
+            InitializeComponent();
+            _roomService = roomService ?? throw new ArgumentNullException(nameof(roomService));
+            _bookingService = bookingService ?? throw new ArgumentNullException(nameof(bookingService));
+            
+            // Precision Date Handling
+            _checkIn = checkIn.Date;
+            _checkOut = checkOut.Date;
+            _stayNights = Math.Max(1, (_checkOut - _checkIn).Days);
+            
+            // UI Event Hooks
+            this.btnBookNow.Click += BtnBookNow_Click;
+            this.cmbRoomType.SelectedIndexChanged += (s, e) => UpdateLiveTotalSafely();
+            this.numRooms.ValueChanged += (s, e) => UpdateLiveTotalSafely();
+            
+            this.Load += (s, e) => LoadRoomsDataSafely();
+        }
+
+        private void LoadRoomsDataSafely()
+        {
+            try
+            {
+                _allRooms = _roomService.GetAllRooms()?.ToList() ?? new List<IRoom>();
+                cmbRoomType.Items.Clear();
+                
+                foreach (var room in _allRooms)
+                {
+                    cmbRoomType.Items.Add(room.Name);
+                }
+
+                if (cmbRoomType.Items.Count > 0)
+                {
+                    cmbRoomType.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Robustness: No crashes allowed
+                MessageBox.Show("Security Alert: System failed to load room data safely.\n" + ex.Message, 
+                    "System Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void UpdateLiveTotalSafely()
+        {
+            try
+            {
+                if (cmbRoomType.SelectedIndex < 0) return;
+
+                var selectedRoomName = cmbRoomType.SelectedItem.ToString();
+                var selectedRoom = _allRooms.FirstOrDefault(r => r.Name == selectedRoomName);
+
+                if (selectedRoom != null)
+                {
+                    UpdateRoomDetailsUI(selectedRoom);
+
+                    // Financial Accuracy: Using precise types
+                    int roomCount = (int)numRooms.Value;
+                    decimal total = selectedRoom.Price * roomCount * _stayNights;
+
+                    lblPricePerNight.Text = $"Price: P{selectedRoom.Price:N2}/nt";
+                    lblStayDuration.Text = $"Stay Duration: {_stayNights} night(s)";
+                    lblLiveTotal.Text = $"Est. Total: P{total:N2}";
+                }
+            }
+            catch (Exception)
+            {
+                // Silently fail or log for live updates to prevent annoying popups during typing/selection
+                lblLiveTotal.Text = "Calculation Error";
+            }
+        }
+
+        private void UpdateRoomDetailsUI(IRoom room)
+        {
+            lblRoomDesc.Text = room.Description;
+            
+            if (!string.IsNullOrEmpty(room.ImagePath) && File.Exists(room.ImagePath))
+            {
+                try
+                {
+                    picRoom.Image?.Dispose();
+                    picRoom.Image = Image.FromFile(room.ImagePath);
+                }
+                catch
+                {
+                    picRoom.Image = null; // Robust fallback
+                }
+            }
+            else
+            {
+                picRoom.Image = null;
+            }
+        }
+
+        private void BtnBookNow_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ValidateInputs())
+                {
+                    ConfirmBookingRequested();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Security Failure: An error occurred while processing your booking.\n" + ex.Message,
+                    "Process Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ValidateInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtFirstName.Text) || string.IsNullOrWhiteSpace(txtLastName.Text))
+            {
+                MessageBox.Show("Precision Error: Please enter your full name.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtEmail.Text) || !txtEmail.Text.Contains("@"))
+            {
+                MessageBox.Show("Security Alert: Please enter a valid email address.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPhone.Text))
+            {
+                MessageBox.Show("Validation Error: Phone number is required for verification.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Room Capacity Validation
+            var selectedRoomName = cmbRoomType.SelectedItem.ToString();
+            var selectedRoom = _allRooms.FirstOrDefault(r => r.Name == selectedRoomName);
+            if (selectedRoom != null)
+            {
+                int totalGuests = (int)numAdults.Value + (int)numChildren.Value;
+                if (totalGuests > selectedRoom.Capacity)
+                {
+                    MessageBox.Show($"Capacity Error: The '{selectedRoomName}' only allows up to {selectedRoom.Capacity} guests.\n" +
+                                    $"You have entered {totalGuests} guests (Adults: {numAdults.Value}, Children: {numChildren.Value}).",
+                                    "Capacity Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void ConfirmBookingRequested()
+        {
+            var selectedRoomName = cmbRoomType.SelectedItem.ToString();
+            
+            // Precision & Security: Double check availability one last time before allowing OK
+            if (!_bookingService.CheckAvailability(_checkIn, _checkOut, selectedRoomName, (int)numRooms.Value))
+            {
+                MessageBox.Show($"Availability Error: Unfortunately, the '{selectedRoomName}' is no longer available for your selected dates.", 
+                    "No Availability", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var selectedRoom = _allRooms.First(r => r.Name == selectedRoomName);
+            decimal finalPrice = selectedRoom.Price * (int)numRooms.Value * _stayNights;
+
+            // Encapsulation: Creating the DTO securely
+            BookingResult = new BookingResultData
+            {
+                FirstName = txtFirstName.Text.Trim(),
+                LastName = txtLastName.Text.Trim(),
+                Email = txtEmail.Text.Trim().ToLower(),
+                Phone = txtPhone.Text.Trim(),
+                NumAdults = (int)numAdults.Value,
+                NumChildren = (int)numChildren.Value,
+                NumRooms = (int)numRooms.Value,
+                RoomType = selectedRoomName,
+                CheckInDate = _checkIn,
+                CheckOutDate = _checkOut,
+                TotalPrice = finalPrice
+            };
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+    }
+
+    public class BookingResultData : BookingRequestData
+    {
+    }
+}
