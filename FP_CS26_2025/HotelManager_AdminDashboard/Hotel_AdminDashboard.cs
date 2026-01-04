@@ -16,10 +16,11 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
     public partial class Hotel_AdminDashboard : Form
     {
         private readonly ILogoutService _logoutService;
-<<<<<<< HEAD
+
         private RoomRatesControl _roomRatesControl;
 =======
 >>>>>>> 2d839a00d5ea4e1d0bbbaf3500d0bf97d0c91e82
+
 
         public Hotel_AdminDashboard()
         {
@@ -27,13 +28,13 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             InitializeComponent();
 <<<<<<< HEAD
             
+            
             // Initialize RoomRatesControl
             _roomRatesControl = new RoomRatesControl();
             _roomRatesControl.Dock = DockStyle.Fill;
             _roomRatesControl.Visible = false;
             mainContentPanel.Controls.Add(_roomRatesControl);
-=======
->>>>>>> 2d839a00d5ea4e1d0bbbaf3500d0bf97d0c91e82
+
             this.DoubleBuffered = true;
             
             // Initial data load
@@ -86,10 +87,9 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 sidebarManager1.SelectButtonByText("Dashboard");
                 tableLayoutPanelContent.Visible = true;
                 userManagementControl1.Visible = false;
-<<<<<<< HEAD
+
                 _roomRatesControl.Visible = false;
-=======
->>>>>>> 2d839a00d5ea4e1d0bbbaf3500d0bf97d0c91e82
+
             };
 
             sidebarManager1.UserManagementClicked += (s, e) =>
@@ -97,26 +97,24 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 sidebarManager1.SelectButtonByText("User Management");
                 tableLayoutPanelContent.Visible = false;
                 userManagementControl1.Visible = true;
-<<<<<<< HEAD
+
                 _roomRatesControl.Visible = false;
-=======
->>>>>>> 2d839a00d5ea4e1d0bbbaf3500d0bf97d0c91e82
+
                 userManagementControl1.BringToFront();
             };
 
             sidebarManager1.RoomRatesClicked += (s, e) =>
             {
                 sidebarManager1.SelectButtonByText("Room Rates and Policies");
-<<<<<<< HEAD
+
                 tableLayoutPanelContent.Visible = false;
                 userManagementControl1.Visible = false;
                 _roomRatesControl.Visible = true;
                 _roomRatesControl.BringToFront();
                 _roomRatesControl.SetDataManager(dataManager);
-=======
-                var roomRatesForm = new RoomRates_and_Pricing_Form();
-                roomRatesForm.Show(); 
->>>>>>> 2d839a00d5ea4e1d0bbbaf3500d0bf97d0c91e82
+
+
+
             };
         }
 

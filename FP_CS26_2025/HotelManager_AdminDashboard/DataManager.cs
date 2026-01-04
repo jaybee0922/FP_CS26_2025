@@ -45,10 +45,9 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             }
         }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 2d839a00d5ea4e1d0bbbaf3500d0bf97d0c91e82
+
+
         #region Sample Data Generation
         public void LoadSampleData()
         {
