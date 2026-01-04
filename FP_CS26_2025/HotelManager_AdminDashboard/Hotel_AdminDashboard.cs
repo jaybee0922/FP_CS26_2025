@@ -16,22 +16,18 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
     public partial class Hotel_AdminDashboard : Form
     {
         private readonly ILogoutService _logoutService;
-
         private RoomRatesControl _roomRatesControl;
-
 
         public Hotel_AdminDashboard()
         {
             _logoutService = new LogoutService();
             InitializeComponent();
-
             
             // Initialize RoomRatesControl
             _roomRatesControl = new RoomRatesControl();
             _roomRatesControl.Dock = DockStyle.Fill;
             _roomRatesControl.Visible = false;
             mainContentPanel.Controls.Add(_roomRatesControl);
-
             this.DoubleBuffered = true;
             
             // Initial data load
@@ -84,9 +80,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 sidebarManager1.SelectButtonByText("Dashboard");
                 tableLayoutPanelContent.Visible = true;
                 userManagementControl1.Visible = false;
-
                 _roomRatesControl.Visible = false;
-
             };
 
             sidebarManager1.UserManagementClicked += (s, e) =>
@@ -94,24 +88,18 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 sidebarManager1.SelectButtonByText("User Management");
                 tableLayoutPanelContent.Visible = false;
                 userManagementControl1.Visible = true;
-
                 _roomRatesControl.Visible = false;
-
                 userManagementControl1.BringToFront();
             };
 
             sidebarManager1.RoomRatesClicked += (s, e) =>
             {
                 sidebarManager1.SelectButtonByText("Room Rates and Policies");
-
                 tableLayoutPanelContent.Visible = false;
                 userManagementControl1.Visible = false;
                 _roomRatesControl.Visible = true;
                 _roomRatesControl.BringToFront();
                 _roomRatesControl.SetDataManager(dataManager);
-
-
-
             };
         }
 

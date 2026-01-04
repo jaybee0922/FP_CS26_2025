@@ -7,11 +7,7 @@ using System.Windows.Forms;
 
 using FP_CS26_2025;
 using FP_CS26_2025.HotelManager_AdminDashboard;
-<<<<<<< HEAD
 
-=======
-using FP_CS26_2025.Room_Manager;
->>>>>>> 2d839a00d5ea4e1d0bbbaf3500d0bf97d0c91e82
 using FP_CS26_2025.Services;
 
 namespace FP_CS26_2025
