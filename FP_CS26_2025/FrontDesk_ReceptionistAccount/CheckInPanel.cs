@@ -9,7 +9,7 @@ namespace FP_CS26_2025
 {
     public class CheckInPanel : BaseFrontDeskPanel
     {
-        private ListBox lbReservations;
+        private DataGridView dgvReservations;
         private Button btnCheckIn;
         private TableLayoutPanel mainLayout;
         private ModernTextBox txtSearch;
@@ -67,15 +67,64 @@ namespace FP_CS26_2025
                 Padding = new Padding(15)
             };
 
-            lbReservations = new ListBox 
-            { 
-                Dock = DockStyle.Fill,
-                Font = new Font("Segoe UI", 11f),
-                ItemHeight = 30,
+            dgvReservations = new DataGridView
+            {
+                BackgroundColor = Color.White,
                 BorderStyle = BorderStyle.None,
-                BackColor = Color.White
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                AllowUserToAddRows = false,
+                ReadOnly = false,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                RowHeadersVisible = false,
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0),
+                DefaultCellStyle = new DataGridViewCellStyle 
+                { 
+                    SelectionBackColor = Color.FromArgb(52, 152, 219),
+                    SelectionForeColor = Color.White,
+                    Font = new Font("Segoe UI", 9.5f),
+                    Padding = new Padding(5)
+                },
+                ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+                {
+                    BackColor = Color.FromArgb(240, 240, 240),
+                    ForeColor = Color.FromArgb(64, 64, 64),
+                    Font = new Font("Segoe UI", 10f, FontStyle.Bold),
+                    SelectionBackColor = Color.FromArgb(240, 240, 240),
+                    Padding = new Padding(5)
+                },
+                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing,
+                ColumnHeadersHeight = 40,
+                EnableHeadersVisualStyles = false,
+                RowTemplate = { Height = 35 }
             };
-            shadowPanel.Controls.Add(lbReservations);
+
+            // Add Checkbox Column
+            DataGridViewCheckBoxColumn checkColumn = new DataGridViewCheckBoxColumn
+            {
+                Name = "colSelect",
+                HeaderText = "Select",
+                Width = 60,
+                ReadOnly = false,
+                DisplayIndex = 0,
+                FlatStyle = FlatStyle.Flat
+            };
+            checkColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvReservations.Columns.Add(checkColumn);
+            dgvReservations.CellContentClick += dgvReservations_CellContentClick;
+            dgvReservations.DataBindingComplete += (s, e) => {
+                if (dgvReservations.Columns["colSelect"] != null)
+                {
+                    dgvReservations.Columns["colSelect"].DisplayIndex = 0;
+                    dgvReservations.Columns["colSelect"].ReadOnly = false;
+                }
+                foreach (DataGridViewColumn col in dgvReservations.Columns)
+                {
+                    if (col.Name != "colSelect") col.ReadOnly = true;
+                }
+            };
+
+            shadowPanel.Controls.Add(dgvReservations);
 
             btnCheckIn = new Button 
             { 
@@ -92,10 +141,33 @@ namespace FP_CS26_2025
 
             btnCheckIn.Click += (s, e) => {
                 if (_controller == null) return;
-                if (lbReservations.SelectedItem is Reservation res) {
-                    _controller.CheckIn(res.ReservationId);
-                    MessageBox.Show($"Checked in: {res.Guest.FullName} to Room {res.AssignedRoom.RoomNumber}");
+                
+                DataGridViewRow selectedRow = null;
+                foreach (DataGridViewRow row in dgvReservations.Rows)
+                {
+                    if ((row.Cells["colSelect"].Value as bool?) == true)
+                    {
+                        selectedRow = row;
+                        break;
+                    }
+                }
+
+                if (selectedRow == null)
+                {
+                    MessageBox.Show("Please check the box for the reservation you want to check in.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string reservationId = selectedRow.Cells["ReservationID"].Value.ToString();
+                string guestName = selectedRow.Cells["GuestName"].Value.ToString();
+                int roomNum = int.Parse(selectedRow.Cells["Room"].Value.ToString());
+
+                try {
+                    _controller.CheckIn(reservationId);
+                    MessageBox.Show($"Checked in: {guestName} to Room {roomNum}", "Check-In Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshData();
+                } catch (Exception ex) {
+                    MessageBox.Show($"Error processing check-in: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             };
 
@@ -116,13 +188,22 @@ namespace FP_CS26_2025
         }
 
         public override void RefreshData() {
-            lbReservations.DataSource = null;
-             if (_controller == null) return;
-            // Filter to show ONLY Approved reservations that are not checked in
-            lbReservations.DataSource = _controller.GetActiveReservations()
-                .Where(r => r.Status == "Approved" && !r.IsCheckedIn)
-                .ToList();
-            lbReservations.DisplayMember = "ReservationId"; 
+            if (_controller == null) return;
+            try {
+                var data = _controller.GetActiveReservations()
+                    .Where(r => r.Status == "Approved" && !r.IsCheckedIn)
+                    .Select(r => new {
+                        ReservationID = r.ReservationId,
+                        GuestName = r.Guest.FullName,
+                        Room = r.AssignedRoom.RoomNumber,
+                        CheckIn = r.CheckInDate.ToString("MM/dd/yyyy"),
+                        CheckOut = r.CheckOutDate.ToString("MM/dd/yyyy")
+                    }).ToList();
+                
+                dgvReservations.DataSource = data;
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine("UI Error in RefreshData: " + ex.Message);
+            }
         }
 
         public override void PerformSearch(string query)
@@ -134,17 +215,42 @@ namespace FP_CS26_2025
                 return;
             }
 
-            // Filter to show ONLY Approved reservations that are not checked in
-            var active = _controller.GetActiveReservations()
-                .Where(r => r.Status == "Approved" && !r.IsCheckedIn);
-            var filtered = active.Where(r => 
-                r.Guest.FullName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                r.ReservationId.ToString().Contains(query)
-            ).ToList();
+            try {
+                var filtered = _controller.GetActiveReservations()
+                    .Where(r => r.Status == "Approved" && !r.IsCheckedIn)
+                    .Where(r => r.Guest.FullName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                r.ReservationId.Contains(query))
+                    .Select(r => new {
+                        ReservationID = r.ReservationId,
+                        GuestName = r.Guest.FullName,
+                        Room = r.AssignedRoom.RoomNumber,
+                        CheckIn = r.CheckInDate.ToString("MM/dd/yyyy"),
+                        CheckOut = r.CheckOutDate.ToString("MM/dd/yyyy")
+                    }).ToList();
 
-            lbReservations.DataSource = null;
-            lbReservations.DataSource = filtered;
-            lbReservations.DisplayMember = "ReservationId";
+                dgvReservations.DataSource = filtered;
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine("UI Error in PerformSearch: " + ex.Message);
+            }
+        }
+
+        private void dgvReservations_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvReservations.Columns[e.ColumnIndex].Name == "colSelect")
+            {
+                bool isChecked = (dgvReservations.Rows[e.RowIndex].Cells["colSelect"].Value as bool?) ?? false;
+                
+                foreach (DataGridViewRow row in dgvReservations.Rows)
+                {
+                    row.Cells["colSelect"].Value = false;
+                }
+                
+                dgvReservations.Rows[e.RowIndex].Cells["colSelect"].Value = !isChecked;
+                dgvReservations.ClearSelection();
+                if (!isChecked) dgvReservations.Rows[e.RowIndex].Selected = true;
+                
+                dgvReservations.EndEdit();
+            }
         }
 
         private void InitializeComponent()

@@ -79,7 +79,7 @@ namespace FP_CS26_2025
                 BorderStyle = BorderStyle.None,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                 AllowUserToAddRows = false,
-                ReadOnly = true,
+                ReadOnly = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 RowHeadersVisible = false,
                 Dock = DockStyle.Fill,
@@ -104,6 +104,36 @@ namespace FP_CS26_2025
                 EnableHeadersVisualStyles = false,
                 RowTemplate = { Height = 35 }
             };
+
+            // Add Checkbox Column
+            DataGridViewCheckBoxColumn checkColumn = new DataGridViewCheckBoxColumn
+            {
+                Name = "colSelect",
+                HeaderText = "Select",
+                Width = 60,
+                ReadOnly = false,
+                DisplayIndex = 0,
+                FlatStyle = FlatStyle.Flat
+            };
+            checkColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvReservations.Columns.Add(checkColumn);
+            dgvReservations.CellContentClick += dgvReservations_CellContentClick;
+            dgvReservations.DataBindingComplete += (s, e) => {
+                // Ensure checkbox column stays at the beginning
+                if (dgvReservations.Columns["colSelect"] != null)
+                {
+                    dgvReservations.Columns["colSelect"].DisplayIndex = 0;
+                    dgvReservations.Columns["colSelect"].ReadOnly = false;
+                }
+
+                // Set all other columns as ReadOnly
+                foreach (DataGridViewColumn col in dgvReservations.Columns)
+                {
+                    if (col.Name != "colSelect")
+                        col.ReadOnly = true;
+                }
+            };
+
             shadowPanel.Controls.Add(dgvReservations);
 
             // Buttons
@@ -248,19 +278,56 @@ namespace FP_CS26_2025
             }
         }
 
+        private void dgvReservations_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvReservations.Columns[e.ColumnIndex].Name == "colSelect")
+            {
+                // Toggle the checkbox
+                bool isChecked = (dgvReservations.Rows[e.RowIndex].Cells["colSelect"].Value as bool?) ?? false;
+                
+                // Clear all other checkboxes (Radio button behavior for clarity)
+                foreach (DataGridViewRow row in dgvReservations.Rows)
+                {
+                    row.Cells["colSelect"].Value = false;
+                }
+                
+                dgvReservations.Rows[e.RowIndex].Cells["colSelect"].Value = !isChecked;
+                
+                // Force row selection to highlight it
+                dgvReservations.ClearSelection();
+                if (!isChecked) // If we just checked it
+                {
+                    dgvReservations.Rows[e.RowIndex].Selected = true;
+                }
+                
+                dgvReservations.EndEdit();
+            }
+        }
+
         private void ApproveSelectedReservation()
         {
             if (_controller == null) return;
             
-            if (dgvReservations.SelectedRows.Count == 0)
+            DataGridViewRow selectedRow = null;
+            
+            // Find the row that is CHECKED
+            foreach (DataGridViewRow row in dgvReservations.Rows)
             {
-                MessageBox.Show("Please select a reservation to approve.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if ((row.Cells["colSelect"].Value as bool?) == true)
+                {
+                    selectedRow = row;
+                    break;
+                }
+            }
+
+            if (selectedRow == null)
+            {
+                MessageBox.Show("Please check the box for the reservation you want to approve.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                var selectedRow = dgvReservations.SelectedRows[0];
                 var reservationId = selectedRow.Cells["ID"].Value.ToString();
                 var guestName = selectedRow.Cells["Guest"].Value.ToString();
 
