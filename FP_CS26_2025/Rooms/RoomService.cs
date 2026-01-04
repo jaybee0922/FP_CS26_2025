@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Data.SqlClient;
+using FP_CS26_2025.Data;
 
 namespace FP_CS26_2025.Rooms
 {
-    /// <summary>
-    /// Service to manage room data and pagination.
-    /// Following Single Responsibility Principle (SRP).
-    /// </summary>
     public class RoomService : IRoomService
     {
         private readonly List<IRoom> _rooms;
@@ -16,43 +14,94 @@ namespace FP_CS26_2025.Rooms
 
         public RoomService()
         {
-            // Path setup - using the provided Assets/IMAGES path
             _baseImagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Assets", "IMAGES");
-            
             _rooms = new List<IRoom>();
             InitializeRooms();
         }
 
         private void InitializeRooms()
         {
-            var roomDetails = new[]
+            // 1. Get unique room types from Database
+            var activeRoomTypes = GetActiveTypesFromDb();
+
+            // 2. Metadata for rooms (Descriptions, Categories, etc.)
+            var metadata = new Dictionary<string, (string Cat, string Desc)>
             {
-                new { Name = "Celebrity Suite", Cat = "Luxe", Price = 1200m, Desc = "Experience the ultimate luxury in our most prestigious suite, featuring panoramic views and bespoke service." },
-                new { Name = "Club Room", Cat = "Premium", Price = 450m, Desc = "Modern elegance meets comfort, with exclusive access to the Club Lounge and premium amenities." },
-                new { Name = "Deluxe King", Cat = "standard", Price = 250m, Desc = "A spacious retreat with a plush King-sized bed, perfect for business or leisure travelers." },
-                new { Name = "Deluxe Twin", Cat = "standard", Price = 250m, Desc = "Comfortably designed with twin beds and contemporary decor, ideal for friends or family." },
-                new { Name = "Executive Suite Double", Cat = "Executive", Price = 650m, Desc = "Combining sophistication with functionality, featuring two double beds and a separate living area." },
-                new { Name = "Executive Suite King", Cat = "Executive", Price = 700m, Desc = "Our premier suite for executives, offering a King bed, work-friendly space, and luxury bathroom." },
-                new { Name = "Garden Suite", Cat = "Nature", Price = 400m, Desc = "Tranquil and serene, this suite offers direct views of our lush tropical gardens." },
-                new { Name = "Grand Deluxe Family", Cat = "Family", Price = 550m, Desc = "Perfectly sized for families, featuring multiple bedding options and child-friendly features." },
-                new { Name = "Grand Deluxe King", Cat = "standard+", Price = 350m, Desc = "An elevated stay with extra space and stunning views of the city skyline." },
-                new { Name = "Grand Deluxe Twin", Cat = "standard+", Price = 350m, Desc = "Spacious and modern, designed for those who value both style and shared comfort." },
-                new { Name = "Junior Suite", Cat = "Luxe", Price = 500m, Desc = "A seamless blend of living and sleeping areas with a touch of modern artistic design." },
-                new { Name = "Manila Bay Suite", Cat = "Luxe", Price = 850m, Desc = "Breathtaking floor-to-ceiling views of the iconic Manila Bay sunset." },
-                new { Name = "Premium Suite Double", Cat = "Premium", Price = 480m, Desc = "Two double beds and premium furnishings make this an excellent choice for groups." },
-                new { Name = "Premium Suite King", Cat = "Premium", Price = 520m, Desc = "Unmatched comfort with a King bed, premium linens, and a dedicated workspace." },
-                new { Name = "Presidential Suite", Cat = "Imperial", Price = 2500m, Desc = "The pinnacle of opulence, offering sprawling space, a private dining room, and 24/7 butler service." }
+                { "Celebrity Suite", ("Luxe", "Experience the ultimate luxury in our most prestigious suite, featuring panoramic views and bespoke service.") },
+                { "Club Room", ("Premium", "Modern elegance meets comfort, with exclusive access to the Club Lounge and premium amenities.") },
+                { "Deluxe King", ("standard", "A spacious retreat with a plush King-sized bed, perfect for business or leisure travelers.") },
+                { "Deluxe Twin", ("standard", "Comfortably designed with twin beds and contemporary decor, ideal for friends or family.") },
+                { "Executive Suite", ("Executive", "Sophisticated and functional, featuring premium furnishings and a dedicated workspace.") },
+                { "Executive Suite Double", ("Executive", "Combining sophistication with functionality, featuring two double beds and a separate living area.") },
+                { "Executive Suite King", ("Executive", "Our premier suite for executives, offering a King bed, work-friendly space, and luxury bathroom.") },
+                { "Garden Suite", ("Nature", "Tranquil and serene, this suite offers direct views of our lush tropical gardens.") },
+                { "Grand Deluxe Family", ("Family", "Perfectly sized for families, featuring multiple bedding options and child-friendly features.") },
+                { "Grand Deluxe King", ("standard+", "An elevated stay with extra space and stunning views of the city skyline.") },
+                { "Grand Deluxe Twin", ("standard+", "Spacious and modern, designed for those who value both style and shared comfort.") },
+                { "Junior Suite", ("Luxe", "A seamless blend of living and sleeping areas with a touch of modern artistic design.") },
+                { "Manila Bay Suite", ("Luxe", "Breathtaking floor-to-ceiling views of the iconic Manila Bay sunset.") },
+                { "Premium Suite Double", ("Premium", "Two double beds and premium furnishings make this an excellent choice for groups.") },
+                { "Premium Suite King", ("Premium", "Unmatched comfort with a King bed, premium linens, and a dedicated workspace.") },
+                { "Presidential Suite", ("Imperial", "The pinnacle of opulence, offering sprawling space, a private dining room, and 24/7 butler service.") }
             };
 
-            foreach (var room in roomDetails)
+            // 3. Populate services with ONLY rooms that exist in the DB
+            foreach (var dbType in activeRoomTypes)
             {
-                string imagePath = GetImagePath(room.Name);
-                _rooms.Add(new Room(room.Name, imagePath, category: room.Cat, price: room.Price, description: room.Desc));
+                string name = dbType.Name;
+                string cat = "standard";
+                string desc = "A high-quality room offering modern comfort and essential amenities.";
+                decimal price = dbType.Price;
+
+                // Handle the case where the DB name might differ slightly (e.g., "Executive Suite" vs "Executive Suite King")
+                var match = metadata.Keys.FirstOrDefault(k => k.Equals(name, StringComparison.OrdinalIgnoreCase));
+                if (match != null)
+                {
+                    cat = metadata[match].Cat;
+                    desc = metadata[match].Desc;
+                }
+
+                string imagePath = GetImagePath(name);
+                _rooms.Add(new Room(name, imagePath, category: cat, price: price, description: desc));
             }
+        }
+
+        private List<(string Name, decimal Price)> GetActiveTypesFromDb()
+        {
+            var types = new List<(string Name, decimal Price)>();
+            try
+            {
+                using (var conn = DatabaseHelper.GetConnection())
+                {
+                    conn.Open();
+                    // Get only types that are assigned to at least one room
+                    const string query = @"
+                        SELECT DISTINCT rt.TypeName, rt.BasePrice
+                        FROM Rooms r
+                        JOIN RoomTypes rt ON r.RoomTypeID = rt.RoomTypeID
+                        ORDER BY rt.TypeName";
+                    
+                    using (var cmd = new SqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            types.Add((reader.GetString(0), reader.GetDecimal(1)));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("RoomService DB Error: " + ex.Message);
+                // Fallback: If DB fail, return a default set to avoid crash
+            }
+            return types;
         }
 
         private string GetImagePath(string roomName)
         {
+            if (string.IsNullOrEmpty(_baseImagePath)) return "";
             string[] extensions = { ".png", ".jpg", ".jpeg" };
             foreach (var ext in extensions)
             {
@@ -60,13 +109,10 @@ namespace FP_CS26_2025.Rooms
                 if (File.Exists(path))
                     return path;
             }
-            return ""; // Fallback or handle missing image
+            return "";
         }
 
-        public IEnumerable<IRoom> GetAllRooms()
-        {
-            return _rooms;
-        }
+        public IEnumerable<IRoom> GetAllRooms() => _rooms;
 
         public IEnumerable<IRoom> GetRoomsPage(int page, int pageSize)
         {

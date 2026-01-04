@@ -26,9 +26,15 @@ namespace FP_CS26_2025.FrontDesk_MVC
             {
                 Guest = guest,
                 AssignedRoom = room,
+                RoomType = room.RoomType,
+                TotalPrice = room.BasePrice * Math.Max((checkOut - checkIn).Days, 1),
                 CheckInDate = checkIn,
                 CheckOutDate = checkOut,
-                IsCheckedIn = false
+                IsCheckedIn = false,
+                Status = "Pending",
+                NumAdults = 2,
+                NumChildren = 0,
+                NumRooms = 1
             };
 
             _dataService.AddReservation(reservation);

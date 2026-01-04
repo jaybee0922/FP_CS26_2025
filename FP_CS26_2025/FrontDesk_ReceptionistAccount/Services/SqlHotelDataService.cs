@@ -126,7 +126,89 @@ namespace FP_CS26_2025.FrontDesk_MVC
 
         public void AddReservation(Reservation reservation)
         {
-            // Implementation for direct dashboard-created reservations if needed
+            if (reservation == null) return;
+
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    using (var trans = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            // 1. Insert Guest
+                            string firstName = reservation.Guest.FullName;
+                            string lastName = "";
+                            if (reservation.Guest.FullName.Contains(" "))
+                            {
+                                int lastSpace = reservation.Guest.FullName.LastIndexOf(" ");
+                                firstName = reservation.Guest.FullName.Substring(0, lastSpace);
+                                lastName = reservation.Guest.FullName.Substring(lastSpace + 1);
+                            }
+
+                            const string insertGuestQuery = @"
+                                INSERT INTO Guests (FirstName, LastName, Email, PhoneNumber) 
+                                VALUES (@FirstName, @LastName, @Email, @Phone);
+                                SELECT SCOPE_IDENTITY();";
+                            
+                            int guestId;
+                            using (var cmd = new SqlCommand(insertGuestQuery, conn, trans))
+                            {
+                                cmd.Parameters.AddWithValue("@FirstName", firstName);
+                                cmd.Parameters.AddWithValue("@LastName", lastName);
+                                cmd.Parameters.AddWithValue("@Email", reservation.Guest.Email ?? "");
+                                cmd.Parameters.AddWithValue("@Phone", reservation.Guest.PhoneNumber ?? "");
+                                guestId = Convert.ToInt32(cmd.ExecuteScalar());
+                            }
+
+                            // 2. Insert Reservation
+                            const string insertResQuery = @"
+                                INSERT INTO Reservations (ReservationID, GuestID, RoomNumber, CheckInDate, CheckOutDate, Status, TotalAmount, RoomType, NumAdults, NumChildren, NumRooms)
+                                VALUES (@ResId, @GuestId, @RoomNum, @CheckIn, @CheckOut, @Status, @Amount, @Type, @Adults, @Children, @Rooms)";
+                            
+                            using (var cmd = new SqlCommand(insertResQuery, conn, trans))
+                            {
+                                cmd.Parameters.AddWithValue("@ResId", reservation.ReservationId);
+                                cmd.Parameters.AddWithValue("@GuestId", guestId);
+                                cmd.Parameters.AddWithValue("@RoomNum", reservation.AssignedRoom.RoomNumber.ToString());
+                                cmd.Parameters.AddWithValue("@CheckIn", reservation.CheckInDate);
+                                cmd.Parameters.AddWithValue("@CheckOut", reservation.CheckOutDate);
+                                cmd.Parameters.AddWithValue("@Status", reservation.Status);
+                                cmd.Parameters.AddWithValue("@Amount", reservation.TotalPrice);
+                                cmd.Parameters.AddWithValue("@Type", reservation.RoomType ?? "");
+                                cmd.Parameters.AddWithValue("@Adults", reservation.NumAdults);
+                                cmd.Parameters.AddWithValue("@Children", reservation.NumChildren);
+                                cmd.Parameters.AddWithValue("@Rooms", reservation.NumRooms);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            // 3. Update Room Status ONLY if not Pending (Strict Workflow)
+                            if (reservation.Status != "Pending")
+                            {
+                                const string updateRoomQuery = "UPDATE Rooms SET Status = 'Reserved' WHERE RoomNumber = @RoomNum";
+                                using (var cmd = new SqlCommand(updateRoomQuery, conn, trans))
+                                {
+                                    cmd.Parameters.AddWithValue("@RoomNum", reservation.AssignedRoom.RoomNumber.ToString());
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+
+                            trans.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            trans.Rollback();
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error adding reservation: " + ex.Message);
+                throw new Exception("Failed to save reservation to database.", ex);
+            }
         }
 
         public void UpdateRoomStatus(int roomNumber, RoomStatus status)
@@ -165,15 +247,43 @@ namespace FP_CS26_2025.FrontDesk_MVC
                 using (var conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-                    const string query = "UPDATE Reservations SET Status = 'Approved' WHERE ReservationID = @ResId";
-                    using (var cmd = new SqlCommand(query, conn))
+                    using (var trans = conn.BeginTransaction())
                     {
-                        cmd.Parameters.AddWithValue("@ResId", reservationId);
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        
-                        if (rowsAffected == 0)
+                        try
                         {
-                            throw new InvalidOperationException($"Reservation {reservationId} not found.");
+                            // 1. Get the RoomNumber for this reservation first
+                            string roomNumber = "";
+                            const string getRoomQuery = "SELECT RoomNumber FROM Reservations WHERE ReservationID = @ResId";
+                            using (var cmd = new SqlCommand(getRoomQuery, conn, trans))
+                            {
+                                cmd.Parameters.AddWithValue("@ResId", reservationId);
+                                var result = cmd.ExecuteScalar();
+                                if (result == null) throw new Exception("Reservation not found.");
+                                roomNumber = result.ToString();
+                            }
+
+                            // 2. Update Reservation Status to Approved
+                            const string updateResQuery = "UPDATE Reservations SET Status = 'Approved' WHERE ReservationID = @ResId";
+                            using (var cmd = new SqlCommand(updateResQuery, conn, trans))
+                            {
+                                cmd.Parameters.AddWithValue("@ResId", reservationId);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            // 3. Update Room Status to Reserved (Actual Lock)
+                            const string updateRoomQuery = "UPDATE Rooms SET Status = 'Reserved' WHERE RoomNumber = @RoomNum";
+                            using (var cmd = new SqlCommand(updateRoomQuery, conn, trans))
+                            {
+                                cmd.Parameters.AddWithValue("@RoomNum", roomNumber);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            trans.Commit();
+                        }
+                        catch
+                        {
+                            trans.Rollback();
+                            throw;
                         }
                     }
                 }

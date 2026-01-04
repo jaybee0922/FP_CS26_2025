@@ -133,9 +133,16 @@ namespace FP_CS26_2025
         public override void RefreshData()
         {
             if (_controller == null) return;
-            dgvRooms.DataSource = _controller.GetAllRooms().Select(r => new {
+            var allRooms = _controller.GetAllRooms().ToList();
+            
+            // Calculate available rooms per type
+            var availabilityCounts = allRooms
+                .GroupBy(r => r.RoomType)
+                .ToDictionary(g => g.Key ?? "Unknown", g => g.Count(r => r.Status == RoomStatus.Available));
+
+            dgvRooms.DataSource = allRooms.Select(r => new {
                 Number = r.RoomNumber,
-                Type = r.RoomType,
+                Type = $"{r.RoomType} (Available: {(availabilityCounts.ContainsKey(r.RoomType ?? "") ? availabilityCounts[r.RoomType ?? ""] : 0)})",
                 Price = r.BasePrice,
                 Status = r.Status
             }).ToList();
@@ -150,14 +157,20 @@ namespace FP_CS26_2025
                 return;
             }
 
-            var allRooms = _controller.GetAllRooms();
+            var allRooms = _controller.GetAllRooms().ToList();
+            
+            // Calculate availability counts for the formatted display
+            var availabilityCounts = allRooms
+                .GroupBy(r => r.RoomType)
+                .ToDictionary(g => g.Key ?? "Unknown", g => g.Count(r => r.Status == RoomStatus.Available));
+
             var filtered = allRooms.Where(r => 
                 r.RoomNumber.ToString().Contains(query) ||
-                r.RoomType.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                (r.RoomType != null && r.RoomType.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0) ||
                 r.Status.ToString().IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0
             ).Select(r => new {
                 Number = r.RoomNumber,
-                Type = r.RoomType,
+                Type = $"{r.RoomType} (Available: {(availabilityCounts.ContainsKey(r.RoomType ?? "") ? availabilityCounts[r.RoomType ?? ""] : 0)})",
                 Price = r.BasePrice,
                 Status = r.Status
             }).ToList();
