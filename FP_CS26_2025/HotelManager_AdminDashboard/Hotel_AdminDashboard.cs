@@ -18,16 +18,13 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         private readonly ILogoutService _logoutService;
 
         private RoomRatesControl _roomRatesControl;
-=======
->>>>>>> 2d839a00d5ea4e1d0bbbaf3500d0bf97d0c91e82
 
 
         public Hotel_AdminDashboard()
         {
             _logoutService = new LogoutService();
             InitializeComponent();
-<<<<<<< HEAD
-            
+
             
             // Initialize RoomRatesControl
             _roomRatesControl = new RoomRatesControl();
