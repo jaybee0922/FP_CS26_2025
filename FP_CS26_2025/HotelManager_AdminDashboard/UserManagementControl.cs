@@ -10,8 +10,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
     public partial class UserManagementControl : UserControl
     {
         private DataManager _dataManager;
-        private int _currentPage = 1;
-        private const int ItemsPerPage = 10;
+
         private List<SystemUser> _filteredUsers;
 
         public UserManagementControl()
@@ -81,22 +80,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
             if (_filteredUsers == null) return;
 
-            int totalPages = (int)Math.Ceiling((double)_filteredUsers.Count / ItemsPerPage);
-            if (totalPages == 0) totalPages = 1;
-
-            if (_currentPage > totalPages) _currentPage = totalPages;
-            if (_currentPage < 1) _currentPage = 1;
-
-            pageLabel.Text = $"Page {_currentPage} of {totalPages}";
-            prevButton.Enabled = _currentPage > 1;
-            nextButton.Enabled = _currentPage < totalPages;
-
-            var pageUsers = _filteredUsers
-                .Skip((_currentPage - 1) * ItemsPerPage)
-                .Take(ItemsPerPage)
-                .ToList();
-
-            foreach (var user in pageUsers)
+            foreach (var user in _filteredUsers)
             {
                 var item = new UserListItemControl(user);
                 item.EditClicked += (s, e) => EditUser(user);
@@ -105,21 +89,17 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             }
         }
 
-        private void ChangePage(int delta)
-        {
-            _currentPage += delta;
-            RenderPage();
-        }
+
 
         private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
-            _currentPage = 1;
+
             RefreshList();
         }
 
         private void filterComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _currentPage = 1;
+
             RefreshList();
         }
 

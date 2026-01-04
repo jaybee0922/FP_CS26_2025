@@ -24,13 +24,10 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.addUserButton = new Button();
             this.headerPanel = new Panel();
             this.usersFlowPanel = new FlowLayoutPanel();
-            this.paginationPanel = new Panel();
-            this.prevButton = new Button();
-            this.nextButton = new Button();
-            this.pageLabel = new Label();
+
 
             this.headerPanel.SuspendLayout();
-            this.paginationPanel.SuspendLayout();
+
             this.SuspendLayout();
 
             // 
@@ -89,36 +86,13 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.usersFlowPanel.FlowDirection = FlowDirection.TopDown;
             this.usersFlowPanel.WrapContents = false;
             this.usersFlowPanel.Location = new Point(28, 60); 
-            this.usersFlowPanel.Size = new Size(1150, 560); 
+            this.usersFlowPanel.Size = new Size(1150, 610); 
             this.usersFlowPanel.Padding = new Padding(0, 0, 20, 0); // Add padding on right for scrollbar
             this.usersFlowPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             this.usersFlowPanel.BackColor = Color.White;
             this.usersFlowPanel.AutoScroll = true; // Duplicate for safety in generated code snippets sometimes helps
 
-            // 
-            // paginationPanel
-            // 
-            this.paginationPanel.Controls.Add(this.prevButton);
-            this.paginationPanel.Controls.Add(this.pageLabel);
-            this.paginationPanel.Controls.Add(this.nextButton);
-            this.paginationPanel.Location = new Point(28, 630);
-            this.paginationPanel.Size = new Size(1150, 50);
-            this.paginationPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
-            // prevButton
-            this.prevButton.Text = "Previous";
-            this.prevButton.Location = new Point(400, 10);
-            this.prevButton.Click += (s, e) => ChangePage(-1);
-
-            // nextButton
-            this.nextButton.Text = "Next";
-            this.nextButton.Location = new Point(600, 10);
-            this.nextButton.Click += (s, e) => ChangePage(1);
-
-            // pageLabel
-            this.pageLabel.AutoSize = true;
-            this.pageLabel.Location = new Point(520, 15);
-            this.pageLabel.Text = "Page 1";
 
             // 
             // UserManagementControl
@@ -130,15 +104,14 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.Controls.Add(this.filterComboBox);
             this.Controls.Add(this.headerPanel);
             this.Controls.Add(this.usersFlowPanel);
-            this.Controls.Add(this.paginationPanel);
+
             this.Controls.Add(this.addUserButton); 
             this.Name = "UserManagementControl";
             this.Size = new Size(1250, 700);
             
             this.headerPanel.ResumeLayout(false);
             this.headerPanel.PerformLayout();
-            this.paginationPanel.ResumeLayout(false);
-            this.paginationPanel.PerformLayout();
+
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -149,9 +122,6 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         private Button addUserButton;
         private Panel headerPanel;
         private FlowLayoutPanel usersFlowPanel;
-        private Panel paginationPanel;
-        private Button prevButton;
-        private Button nextButton;
-        private Label pageLabel;
+
     }
 }

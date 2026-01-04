@@ -165,31 +165,48 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
             if (e.ColumnIndex == 5 && e.Value != null) // Status column
             {
-                string status = e.Value.ToString().ToLower();
-                e.CellStyle.Font = new Font("Segoe UI", 8, FontStyle.Bold);
+                // Normalize status string for comparison (remove spaces, toLower)
+                string status = e.Value.ToString().ToLower().Replace(" ", "");
+                
+                e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
                 e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 e.CellStyle.Padding = new Padding(2);
 
-                if (status.Contains("checked in"))
+                if (status.Contains("checkedin"))
                 {
-                    e.CellStyle.BackColor = Color.FromArgb(220, 252, 231); // Light Green
-                    e.CellStyle.ForeColor = Color.FromArgb(22, 101, 52);  // Dark Green
+                    e.CellStyle.BackColor = Color.FromArgb(1, 209, 1); // Bright Green
+                    e.CellStyle.ForeColor = Color.White;
                 }
-                else if (status.Contains("checked out"))
+                else if (status.Contains("checkedout"))
                 {
-                    e.CellStyle.BackColor = Color.FromArgb(241, 245, 249); // Slate Gray
-                    e.CellStyle.ForeColor = Color.FromArgb(71, 85, 105);
+                    e.CellStyle.BackColor = Color.FromArgb(255, 0, 0); // Pure Red
+                    e.CellStyle.ForeColor = Color.White;
                 }
                 else if (status.Contains("pending"))
                 {
-                    e.CellStyle.BackColor = Color.FromArgb(254, 249, 195); // Light Yellow
-                    e.CellStyle.ForeColor = Color.FromArgb(133, 77, 14);
+                    e.CellStyle.BackColor = Color.FromArgb(253, 224, 71); // Yellow
+                    e.CellStyle.ForeColor = Color.White;
+                }
+                else if (status.Contains("reservation") || status.Contains("reserved"))
+                {
+                    e.CellStyle.BackColor = Color.FromArgb(253, 186, 116); // Orange
+                    e.CellStyle.ForeColor = Color.White;
+                }
+                else if (status.Contains("approve"))
+                {
+                    e.CellStyle.BackColor = Color.FromArgb(0, 100, 0); // DarkGreen
+                    e.CellStyle.ForeColor = Color.White;
                 }
                 else
                 {
                     e.CellStyle.BackColor = Color.FromArgb(243, 244, 246);
                     e.CellStyle.ForeColor = Color.FromArgb(107, 114, 128);
                 }
+
+                // IMPORTANT: Ensure the color doesn't change when the row is selected
+                e.CellStyle.SelectionBackColor = e.CellStyle.BackColor;
+                e.CellStyle.SelectionForeColor = e.CellStyle.ForeColor;
+
                 e.FormattingApplied = true;
             }
         }
