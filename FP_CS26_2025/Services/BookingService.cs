@@ -22,7 +22,7 @@ namespace FP_CS26_2025.Services
         /// Precision Availability Check: Verifies if a room of the requested type is free for the entire duration.
         /// Accounts for overlapping reservations to prevent double-booking (Security & Robustness).
         /// </summary>
-        public bool CheckAvailability(DateTime arrival, DateTime departure, string roomType)
+        public bool CheckAvailability(DateTime arrival, DateTime departure, string roomType, int numRooms = 1)
         {
             if (arrival.Date >= departure.Date) return false;
 
@@ -31,17 +31,20 @@ namespace FP_CS26_2025.Services
                 using (var conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-                    // Accurate Overlap Logic: (RequestedStart < ReservedEnd) AND (RequestedEnd > ReservedStart)
+                    // Nuclear Robustness Logic:
+                    // 1. TRIM() all identifiers to prevent space-mismatch bugs.
+                    // 2. Include 'Approved' in subquery to prevent overbooking committed rooms.
+                    // 3. (Optional but safer) Handle case-sensitivity by using UPPER/LOWER if needed.
                     const string query = @"
                         SELECT COUNT(*) 
                         FROM Rooms r
                         JOIN RoomTypes rt ON r.RoomTypeID = rt.RoomTypeID
-                        WHERE rt.TypeName = @RoomType 
-                        AND r.Status <> 'Maintenance'
-                        AND r.RoomNumber NOT IN (
-                            SELECT RoomNumber 
+                        WHERE TRIM(rt.TypeName) = TRIM(@RoomType) 
+                        AND r.Status NOT IN ('Maintenance', 'OutOfService')
+                        AND TRIM(r.RoomNumber) NOT IN (
+                            SELECT TRIM(RoomNumber) 
                             FROM Reservations 
-                            WHERE Status IN ('Pending', 'CheckedIn')
+                            WHERE Status IN ('Pending', 'Approved', 'CheckedIn')
                             AND (@Arrival < CheckOutDate AND @Departure > CheckInDate)
                         )";
 
@@ -52,7 +55,7 @@ namespace FP_CS26_2025.Services
                         cmd.Parameters.AddWithValue("@Departure", departure.Date);
 
                         var availableCount = Convert.ToInt32(cmd.ExecuteScalar());
-                        return availableCount > 0;
+                        return availableCount >= numRooms;
                     }
                 }
             }
@@ -167,16 +170,17 @@ namespace FP_CS26_2025.Services
         private string FindActualAvailableRoom(BookingRequestData request, SqlConnection conn, SqlTransaction trans)
         {
             // Robustness: Ensuring the room is truly available for the duration
+            // Using TRIM() to ensure clean matches against messy database data
             const string query = @"
                 SELECT TOP 1 r.RoomNumber 
                 FROM Rooms r
                 JOIN RoomTypes rt ON r.RoomTypeID = rt.RoomTypeID
-                WHERE rt.TypeName = @RoomType 
-                AND r.Status <> 'Maintenance'
-                AND r.RoomNumber NOT IN (
-                    SELECT RoomNumber 
+                WHERE TRIM(rt.TypeName) = TRIM(@RoomType) 
+                AND r.Status NOT IN ('Maintenance', 'OutOfService')
+                AND TRIM(r.RoomNumber) NOT IN (
+                    SELECT TRIM(RoomNumber) 
                     FROM Reservations 
-                    WHERE Status IN ('Pending', 'CheckedIn')
+                    WHERE Status IN ('Pending', 'Approved', 'CheckedIn')
                     AND (@Arrival < CheckOutDate AND @Departure > CheckInDate)
                 )";
 

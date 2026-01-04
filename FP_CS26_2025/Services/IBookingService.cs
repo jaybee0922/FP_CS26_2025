@@ -9,7 +9,7 @@ namespace FP_CS26_2025.Services
         /// Precision Availability Check: Verifies if a specific room type is free.
         /// Accounts for overlapping reservations to prevent double-booking.
         /// </summary>
-        bool CheckAvailability(DateTime arrival, DateTime departure, string roomType);
+        bool CheckAvailability(DateTime arrival, DateTime departure, string roomType, int numRooms = 1);
         
         /// <summary>
         /// Processes a new booking request following SRP and Abstraction.

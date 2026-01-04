@@ -28,7 +28,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
                 {
                     conn.Open();
                     const string query = @"
-                        SELECT r.RoomNumber, rt.TypeName, rt.BasePrice, rt.Capacity, r.Status 
+                        SELECT TRIM(r.RoomNumber), TRIM(rt.TypeName), rt.BasePrice, rt.Capacity, TRIM(r.Status) 
                         FROM Rooms r
                         JOIN RoomTypes rt ON r.RoomTypeID = rt.RoomTypeID";
                     
@@ -186,7 +186,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
                             // 3. Update Room Status ONLY if not Pending (Strict Workflow)
                             if (reservation.Status != "Pending")
                             {
-                                const string updateRoomQuery = "UPDATE Rooms SET Status = 'Reserved' WHERE RoomNumber = @RoomNum";
+                                const string updateRoomQuery = "UPDATE Rooms SET Status = 'Reserved' WHERE TRIM(RoomNumber) = TRIM(@RoomNum)";
                                 using (var cmd = new SqlCommand(updateRoomQuery, conn, trans))
                                 {
                                     cmd.Parameters.AddWithValue("@RoomNum", reservation.AssignedRoom.RoomNumber.ToString());
@@ -218,11 +218,11 @@ namespace FP_CS26_2025.FrontDesk_MVC
                 using (var conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-                    const string query = "UPDATE Rooms SET Status = @Status WHERE RoomNumber = @Num";
+                    const string query = "UPDATE Rooms SET Status = @Status WHERE TRIM(RoomNumber) = TRIM(@Num)";
                     using (var cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Status", status.ToString());
-                        cmd.Parameters.AddWithValue("@Num", roomNumber);
+                        cmd.Parameters.AddWithValue("@Num", roomNumber.ToString());
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -271,7 +271,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
                             }
 
                             // 3. Update Room Status to Reserved (Actual Lock)
-                            const string updateRoomQuery = "UPDATE Rooms SET Status = 'Reserved' WHERE RoomNumber = @RoomNum";
+                            const string updateRoomQuery = "UPDATE Rooms SET Status = 'Reserved' WHERE TRIM(RoomNumber) = TRIM(@RoomNum)";
                             using (var cmd = new SqlCommand(updateRoomQuery, conn, trans))
                             {
                                 cmd.Parameters.AddWithValue("@RoomNum", roomNumber);
@@ -320,6 +320,39 @@ namespace FP_CS26_2025.FrontDesk_MVC
             {
                 System.Diagnostics.Debug.WriteLine("Error saving payment: " + ex.Message);
                 throw new Exception("Failed to save payment. Please try again.", ex);
+            }
+        }
+
+        public bool IsRoomAvailable(int roomNumber, DateTime start, DateTime end)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    // Robust overlap check for a specific room
+                    const string query = @"
+                        SELECT COUNT(*) 
+                        FROM Reservations 
+                        WHERE TRIM(RoomNumber) = TRIM(@RoomNum)
+                        AND Status IN ('Pending', 'Approved', 'CheckedIn')
+                        AND (@Start < CheckOutDate AND @End > CheckInDate)";
+                    
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@RoomNum", roomNumber.ToString());
+                        cmd.Parameters.AddWithValue("@Start", start.Date);
+                        cmd.Parameters.AddWithValue("@End", end.Date);
+                        
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        return count == 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error checking room availability: " + ex.Message);
+                return false;
             }
         }
 

@@ -158,6 +158,21 @@ namespace FP_CS26_2025.ModernDesign
                 return false;
             }
 
+            // Room Capacity Validation
+            var selectedRoomName = cmbRoomType.SelectedItem.ToString();
+            var selectedRoom = _allRooms.FirstOrDefault(r => r.Name == selectedRoomName);
+            if (selectedRoom != null)
+            {
+                int totalGuests = (int)numAdults.Value + (int)numChildren.Value;
+                if (totalGuests > selectedRoom.Capacity)
+                {
+                    MessageBox.Show($"Capacity Error: The '{selectedRoomName}' only allows up to {selectedRoom.Capacity} guests.\n" +
+                                    $"You have entered {totalGuests} guests (Adults: {numAdults.Value}, Children: {numChildren.Value}).",
+                                    "Capacity Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -166,7 +181,7 @@ namespace FP_CS26_2025.ModernDesign
             var selectedRoomName = cmbRoomType.SelectedItem.ToString();
             
             // Precision & Security: Double check availability one last time before allowing OK
-            if (!_bookingService.CheckAvailability(_checkIn, _checkOut, selectedRoomName))
+            if (!_bookingService.CheckAvailability(_checkIn, _checkOut, selectedRoomName, (int)numRooms.Value))
             {
                 MessageBox.Show($"Availability Error: Unfortunately, the '{selectedRoomName}' is no longer available for your selected dates.", 
                     "No Availability", MessageBoxButtons.OK, MessageBoxIcon.Warning);

@@ -19,8 +19,12 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public void CreateReservation(Guest guest, int roomNumber, DateTime checkIn, DateTime checkOut)
         {
             var room = _dataService.GetRoomByNumber(roomNumber);
-            if (room == null || room.Status != RoomStatus.Available)
-                throw new Exception("Room is not available.");
+            if (room == null)
+                throw new Exception("Room not found.");
+
+            // Global Overbooking Protection: Check for overlapping dates
+            if (!_dataService.IsRoomAvailable(roomNumber, checkIn, checkOut))
+                throw new Exception($"Room {roomNumber} is already reserved for the selected dates.");
 
             var reservation = new Reservation
             {

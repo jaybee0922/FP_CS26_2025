@@ -14,6 +14,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
         void AddBill(Bill bill);
         IRoom GetRoomByNumber(int roomNumber);
         void UpdateReservationStatus(string reservationId, string status);
+        bool IsRoomAvailable(int roomNumber, DateTime start, DateTime end);
         IEnumerable<PaymentRecord> GetAllPayments();
     }
 
@@ -53,6 +54,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public void AddBill(Bill bill) => _bills.Add(bill);
         public IRoom GetRoomByNumber(int roomNumber) => _rooms.FirstOrDefault(r => r.RoomNumber == roomNumber);
         public void UpdateReservationStatus(string reservationId, string status) { }
+        public bool IsRoomAvailable(int roomNumber, DateTime start, DateTime end) => true;
         public IEnumerable<PaymentRecord> GetAllPayments() => new List<PaymentRecord>();
     }
 }

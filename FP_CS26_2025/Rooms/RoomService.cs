@@ -62,13 +62,13 @@ namespace FP_CS26_2025.Rooms
                 }
 
                 string imagePath = GetImagePath(name);
-                _rooms.Add(new Room(name, imagePath, category: cat, price: price, description: desc));
+                _rooms.Add(new Room(name, imagePath, category: cat, price: price, description: desc, capacity: dbType.Capacity));
             }
         }
 
-        private List<(string Name, decimal Price)> GetActiveTypesFromDb()
+        private List<(string Name, decimal Price, int Capacity)> GetActiveTypesFromDb()
         {
-            var types = new List<(string Name, decimal Price)>();
+            var types = new List<(string Name, decimal Price, int Capacity)>();
             try
             {
                 using (var conn = DatabaseHelper.GetConnection())
@@ -76,7 +76,7 @@ namespace FP_CS26_2025.Rooms
                     conn.Open();
                     // Get only types that are assigned to at least one room
                     const string query = @"
-                        SELECT DISTINCT rt.TypeName, rt.BasePrice
+                        SELECT DISTINCT rt.TypeName, rt.BasePrice, rt.Capacity
                         FROM Rooms r
                         JOIN RoomTypes rt ON r.RoomTypeID = rt.RoomTypeID
                         ORDER BY rt.TypeName";
@@ -86,7 +86,7 @@ namespace FP_CS26_2025.Rooms
                     {
                         while (reader.Read())
                         {
-                            types.Add((reader.GetString(0), reader.GetDecimal(1)));
+                            types.Add((reader.GetString(0), reader.GetDecimal(1), reader.GetInt32(2)));
                         }
                     }
                 }
