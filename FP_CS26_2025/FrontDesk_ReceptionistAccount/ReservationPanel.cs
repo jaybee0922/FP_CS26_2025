@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using FP_CS26_2025.FrontDesk_MVC;
 using FP_CS26_2025.ModernDesign;
+using FP_CS26_2025.FrontDesk_ReceptionistAccount;
 
 namespace FP_CS26_2025
 {
@@ -188,27 +189,13 @@ namespace FP_CS26_2025
         private void CreateNewReservationFlow()
         {
              if (_controller == null) return;
-            // Simplified "Wizard" logic for now - prompting via simple inputs or form
-            // ideally this opens a Modern Dialog
-            var guest = new Guest { FullName = "Walk-in Guest", Email = "walkin@hotel.com" };
-            var availableRoom = _controller.GetAvailableRooms().FirstOrDefault();
-            
-            if (availableRoom != null) {
-                DialogResult result = MessageBox.Show(
-                    $"Create reservation for Standard Walk-In?\nRoom: {availableRoom.RoomNumber}\nPrice: {availableRoom.BasePrice:C}", 
-                    "Quick Reservation", 
-                    MessageBoxButtons.YesNo, 
-                    MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    _controller.CreateReservation(guest, availableRoom.RoomNumber, DateTime.Now, DateTime.Now.AddDays(1));
-                    MessageBox.Show("Reservation Created Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    RefreshData();
-                }
-            } else {
-                MessageBox.Show("No rooms available for immediate check-in.", "Occupancy Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+             using (var form = new NewReservationForm(_controller))
+             {
+                 if (form.ShowDialog() == DialogResult.OK)
+                 {
+                     RefreshData();
+                 }
+             }
         }
 
         public override void RefreshData()

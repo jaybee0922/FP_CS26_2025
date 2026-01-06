@@ -16,6 +16,27 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public IEnumerable<IRoom> GetAvailableRooms() 
             => _dataService.GetAllRooms().Where(r => r.Status == RoomStatus.Available);
 
+        public IEnumerable<IRoom> GetAvailableRoomsByDate(string roomType, DateTime checkIn, DateTime checkOut)
+        {
+            var allRooms = _dataService.GetAllRooms();
+            if (!string.IsNullOrEmpty(roomType))
+            {
+                allRooms = allRooms.Where(r => r.RoomType.Equals(roomType, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // Filter out rooms that have overlapping reservations
+            return allRooms.Where(r => _dataService.IsRoomAvailable(r.RoomNumber, checkIn, checkOut));
+        }
+
+        public List<string> GetRoomTypes()
+        {
+             return _dataService.GetAllRooms()
+                 .Select(r => r.RoomType)
+                 .Distinct()
+                 .OrderBy(t => t)
+                 .ToList();
+        }
+
         public void CreateReservation(Guest guest, int roomNumber, DateTime checkIn, DateTime checkOut)
         {
             var room = _dataService.GetRoomByNumber(roomNumber);

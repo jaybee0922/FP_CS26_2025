@@ -153,6 +153,12 @@
     <Compile Include="FrontDesk_ReceptionistAccount\Hotel_FrontDeskDashboard.Designer.cs">
       <DependentUpon>Hotel_FrontDeskDashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\NewReservationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\NewReservationForm.Designer.cs">
+      <DependentUpon>NewReservationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\FrontDesk_SidebarManager.cs">
       <SubType>UserControl</SubType>
     </Compile>
