@@ -597,6 +597,38 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             }
         }
 
+        public bool BackupDatabase(string destinationPath)
+        {
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                try
+                {
+                    conn.Open();
+                    string dbName = conn.Database;
+                    string fileName = $"{dbName}_{DateTime.Now:yyyyMMdd_HHmmss}.bak";
+                    string fullPath = System.IO.Path.Combine(destinationPath, fileName);
+
+                    // T-SQL Backup Command
+                    string query = $"BACKUP DATABASE [{dbName}] TO DISK = @FullPath";
+
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FullPath", fullPath);
+                        cmd.ExecuteNonQuery();
+                    }
+                    
+                    DataOperationPerformed?.Invoke(this, $"Database backed up to {fullPath}");
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    // Log error or rethrow depending on policy. For now, return false.
+                    System.Diagnostics.Debug.WriteLine($"Backup failed: {ex.Message}");
+                    return false;
+                }
+            }
+        }
+
         public DataTable GetRecentBookingsFromDb()
         {
             DataTable dt = new DataTable();

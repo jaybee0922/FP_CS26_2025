@@ -14,6 +14,7 @@ namespace FP_CS26_2025
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            try { FP_CS26_2025.Data.DatabaseHelper.EnsureSchema(); } catch { /* Ignore schema update errors on init */ }
             //Application.Run(new RoomRates_and_Pricing_Form());
            // Application.Run(new Hotel_AdminDashboard());
             //Application.Run(new RoomsShowcaseForm());

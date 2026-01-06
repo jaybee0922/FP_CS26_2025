@@ -98,6 +98,17 @@
     <Compile Include="HotelManager_AdminDashboard\UserManagementControl.Designer.cs">
       <DependentUpon>UserManagementControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="HotelManager_AdminDashboard\SystemConfigurationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HotelManager_AdminDashboard\SystemConfigurationControl.Designer.cs">
+      <DependentUpon>SystemConfigurationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HotelManager_AdminDashboard\Configuration\IConfigService.cs" />
+    <Compile Include="HotelManager_AdminDashboard\Configuration\IDatabaseService.cs" />
+    <Compile Include="HotelManager_AdminDashboard\Configuration\XmlConfigService.cs" />
+    <Compile Include="HotelManager_AdminDashboard\Configuration\SqlDatabaseService.cs" />
+    <Compile Include="HotelManager_AdminDashboard\Configuration\SystemConfigController.cs" />
     <Compile Include="HotelManager_AdminDashboard\UserAddDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,17 +127,24 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="ConfigHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\PriceInputDialog.cs">
+    <Compile Include="Room Rates &amp; Policies\PriceInputDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\PriceInputDialog.Designer.cs">
+    <Compile Include="Room Rates &amp; Policies\PriceInputDialog.Designer.cs">
       <DependentUpon>PriceInputDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\RoomRatesControl.cs">
+    <Compile Include="Room Rates &amp; Policies\EditRoomForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Room Rates &amp; Policies\EditRoomForm.Designer.cs">
+      <DependentUpon>EditRoomForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Room Rates &amp; Policies\RoomRatesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\RoomRatesControl.Designer.cs">
+    <Compile Include="Room Rates &amp; Policies\RoomRatesControl.Designer.cs">
       <DependentUpon>RoomRatesControl.cs</DependentUpon>
     </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\Hotel_FrontDeskDashboard.cs">
@@ -269,7 +287,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\PriceInputDialog.resx">
+    <EmbeddedResource Include="Room Rates &amp; Policies\PriceInputDialog.resx">
       <DependentUpon>PriceInputDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Rooms\RoomsShowcaseForm.resx">

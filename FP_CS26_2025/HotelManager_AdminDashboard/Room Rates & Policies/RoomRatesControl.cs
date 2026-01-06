@@ -59,7 +59,8 @@ namespace FP_CS26_2025.Room_Rates___Policies
                             rt.TypeName as RoomType, 
                             rt.BasePrice as PricePerNight, 
                             rt.Capacity as CapacityInfo,
-                            (SELECT TOP 1 Status FROM Rooms WHERE RoomTypeID = rt.RoomTypeID) as Status
+                            rt.ImageFilename,
+                            (SELECT COUNT(*) FROM Rooms r WHERE r.RoomTypeID = rt.RoomTypeID AND r.Status = 'Available') as AvailableCount
                         FROM RoomTypes rt";
 
                     if (!string.IsNullOrWhiteSpace(txtSearch.Text))
@@ -78,9 +79,11 @@ namespace FP_CS26_2025.Room_Rates___Policies
                         {
                             while (reader.Read())
                             {
-                                string roomType = reader["RoomType"].ToString() ;
-                                Image roomImg = GetRoomImage(roomType);
-                                string status = reader["Status"]?.ToString() ?? "N/A";
+                                string roomType = reader["RoomType"].ToString();
+                                string imgName = reader["ImageFilename"] != DBNull.Value ? reader["ImageFilename"].ToString() : roomType;
+                                Image roomImg = GetRoomImage(imgName);
+                                int avail = Convert.ToInt32(reader["AvailableCount"]);
+                                string status = $"Available: {avail}";
                                 string capacity = reader["CapacityInfo"].ToString() + " Persons";
 
                                 dgvRoomRates.Rows.Add(
@@ -135,20 +138,12 @@ namespace FP_CS26_2025.Room_Rates___Policies
 
             var selectedRow = dgvRoomRates.SelectedRows[0];
             string roomType = selectedRow.Cells[1].Value.ToString();
-            string priceOld = selectedRow.Cells[2].Value.ToString();
 
-            using (PriceInputDialog dialog = new PriceInputDialog(roomType, priceOld))
+            using (EditRoomForm dialog = new EditRoomForm(roomType))
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (!string.IsNullOrEmpty(dialog.NewPrice))
-                    {
-                        if (UpdateRoomPrice(roomType, dialog.NewPrice))
-                        {
-                            MessageBox.Show("Pricing updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            LoadRoomData();
-                        }
-                    }
+                    LoadRoomData();
                 }
             }
         }
