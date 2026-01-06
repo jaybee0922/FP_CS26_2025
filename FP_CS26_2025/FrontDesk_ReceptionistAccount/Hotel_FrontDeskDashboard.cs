@@ -94,5 +94,7 @@ namespace FP_CS26_2025
                 e.Graphics.FillRectangle(brush, this.ClientRectangle);
             }
         }
+
+       
     }
 }

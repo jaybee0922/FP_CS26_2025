@@ -78,7 +78,7 @@ namespace FP_CS26_2025.Room_Rates___Policies
                         {
                             while (reader.Read())
                             {
-                                string roomType = reader["RoomType"].ToString();
+                                string roomType = reader["RoomType"].ToString() ;
                                 Image roomImg = GetRoomImage(roomType);
                                 string status = reader["Status"]?.ToString() ?? "N/A";
                                 string capacity = reader["CapacityInfo"].ToString() + " Persons";

@@ -240,7 +240,7 @@ namespace FP_CS26_2025
             }
         }
 
-        public override void PerformSearch(string query)
+        public override void PerformSearch(string query)    
         {
             if (_controller == null) return;
             if (string.IsNullOrWhiteSpace(query))
@@ -278,7 +278,7 @@ namespace FP_CS26_2025
             }
         }
 
-        private void dgvReservations_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvReservations_CellContentClick(object sender, DataGridViewCellEventArgs e)   
         {
             if (e.RowIndex >= 0 && dgvReservations.Columns[e.ColumnIndex].Name == "colSelect")
             {
