@@ -36,6 +36,7 @@
             this.statsPanelManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.StatsPanelManager();
             this.sidebarManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.SidebarManager();
             this.userManagementControl1 = new FP_CS26_2025.HotelManager_AdminDashboard.UserManagementControl();
+            this.systemConfigurationControl1 = new FP_CS26_2025.HotelManager_AdminDashboard.SystemConfigurationControl();
             
             this.mainLayout.SuspendLayout();
             this.dashboardContainer.SuspendLayout();
@@ -76,6 +77,7 @@
             // 
             this.mainContentPanel.Controls.Add(this.tableLayoutPanelContent);
             this.mainContentPanel.Controls.Add(this.userManagementControl1);
+            this.mainContentPanel.Controls.Add(this.systemConfigurationControl1);
             this.mainContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainContentPanel.Location = new System.Drawing.Point(191, 0);
             this.mainContentPanel.Margin = new System.Windows.Forms.Padding(2);
@@ -159,6 +161,17 @@
             this.userManagementControl1.TabIndex = 1;
             this.userManagementControl1.Visible = false;
             // 
+            // systemConfigurationControl1
+            // 
+            this.systemConfigurationControl1.BackColor = System.Drawing.Color.White;
+            this.systemConfigurationControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.systemConfigurationControl1.Location = new System.Drawing.Point(11, 12);
+            this.systemConfigurationControl1.Margin = new System.Windows.Forms.Padding(2);
+            this.systemConfigurationControl1.Name = "systemConfigurationControl1";
+            this.systemConfigurationControl1.Size = new System.Drawing.Size(1153, 621);
+            this.systemConfigurationControl1.TabIndex = 2;
+            this.systemConfigurationControl1.Visible = false;
+            // 
             // 
             // 
             // 
@@ -207,5 +220,6 @@
         private System.Windows.Forms.Panel mainContentPanel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelContent;
         private UserManagementControl userManagementControl1;
+        private SystemConfigurationControl systemConfigurationControl1;
     }
 }

@@ -81,6 +81,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 tableLayoutPanelContent.Visible = true;
                 userManagementControl1.Visible = false;
                 _roomRatesControl.Visible = false;
+                systemConfigurationControl1.Visible = false;
             };
 
             sidebarManager1.UserManagementClicked += (s, e) =>
@@ -89,6 +90,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 tableLayoutPanelContent.Visible = false;
                 userManagementControl1.Visible = true;
                 _roomRatesControl.Visible = false;
+                systemConfigurationControl1.Visible = false;
                 userManagementControl1.BringToFront();
             };
 
@@ -97,9 +99,21 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 sidebarManager1.SelectButtonByText("Room Rates and Policies");
                 tableLayoutPanelContent.Visible = false;
                 userManagementControl1.Visible = false;
+                systemConfigurationControl1.Visible = false;
                 _roomRatesControl.Visible = true;
                 _roomRatesControl.BringToFront();
                 _roomRatesControl.SetDataManager(dataManager);
+            };
+
+            sidebarManager1.SystemConfigClicked += (s, e) =>
+            {
+                sidebarManager1.SelectButtonByText("System Configuration");
+                tableLayoutPanelContent.Visible = false;
+                userManagementControl1.Visible = false;
+                _roomRatesControl.Visible = false;
+                systemConfigurationControl1.Visible = true;
+                systemConfigurationControl1.BringToFront();
+                systemConfigurationControl1.SetDataManager(dataManager);
             };
         }
 
