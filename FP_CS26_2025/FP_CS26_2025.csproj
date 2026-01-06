@@ -129,22 +129,22 @@
     <Compile Include="Program.cs" />
     <Compile Include="ConfigHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Room Rates &amp; Policies\PriceInputDialog.cs">
+    <Compile Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\PriceInputDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Room Rates &amp; Policies\PriceInputDialog.Designer.cs">
+    <Compile Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\PriceInputDialog.Designer.cs">
       <DependentUpon>PriceInputDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Room Rates &amp; Policies\EditRoomForm.cs">
+    <Compile Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\EditRoomForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Room Rates &amp; Policies\EditRoomForm.Designer.cs">
+    <Compile Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\EditRoomForm.Designer.cs">
       <DependentUpon>EditRoomForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Room Rates &amp; Policies\RoomRatesControl.cs">
+    <Compile Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\RoomRatesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Room Rates &amp; Policies\RoomRatesControl.Designer.cs">
+    <Compile Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\RoomRatesControl.Designer.cs">
       <DependentUpon>RoomRatesControl.cs</DependentUpon>
     </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\Hotel_FrontDeskDashboard.cs">
@@ -257,6 +257,9 @@
     <Compile Include="Services\LogoutService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\RoomRatesControl.resx">
+      <DependentUpon>RoomRatesControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -287,7 +290,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Room Rates &amp; Policies\PriceInputDialog.resx">
+    <EmbeddedResource Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\PriceInputDialog.resx">
       <DependentUpon>PriceInputDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Rooms\RoomsShowcaseForm.resx">
