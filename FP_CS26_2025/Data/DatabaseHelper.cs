@@ -114,5 +114,40 @@ namespace FP_CS26_2025.Data
                 }
             }
         }
+
+        public static void EnsureSchema()
+        {
+            using (var conn = GetConnection())
+            {
+                try
+                {
+                    conn.Open();
+                    // Check if Description column exists in RoomTypes
+                    var checkCmd = new SqlCommand("SELECT COL_LENGTH('RoomTypes', 'Description')", conn);
+                    if (checkCmd.ExecuteScalar() == DBNull.Value)
+                    {
+                        var alterCmd = new SqlCommand("ALTER TABLE RoomTypes ADD Description NVARCHAR(MAX)", conn);
+                        alterCmd.ExecuteNonQuery();
+                    }
+
+                    // Check if ImageFilename column exists in RoomTypes
+                    var checkImgCmd = new SqlCommand("SELECT COL_LENGTH('RoomTypes', 'ImageFilename')", conn);
+                    if (checkImgCmd.ExecuteScalar() == DBNull.Value)
+                    {
+                        // Add column
+                        var alterImgCmd = new SqlCommand("ALTER TABLE RoomTypes ADD ImageFilename NVARCHAR(255)", conn);
+                        alterImgCmd.ExecuteNonQuery();
+
+                        // Backfill: Initially set ImageFilename = TypeName for existing rows
+                        var updateImgCmd = new SqlCommand("UPDATE RoomTypes SET ImageFilename = TypeName WHERE ImageFilename IS NULL", conn);
+                        updateImgCmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Schema Update Error: " + ex.Message);
+                }
+            }
+        }
     }
 }

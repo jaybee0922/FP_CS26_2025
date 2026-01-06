@@ -24,14 +24,13 @@ namespace FP_CS26_2025.Rooms
             // 1. Get unique room types from Database
             var activeRoomTypes = GetActiveTypesFromDb();
 
-            // 2. Metadata for rooms (Descriptions, Categories, etc.)
+            // 2. Metadata for rooms - Default fallbacks if DB description is empty
             var metadata = new Dictionary<string, (string Cat, string Desc)>
             {
                 { "Celebrity Suite", ("Luxe", "Experience the ultimate luxury in our most prestigious suite, featuring panoramic views and bespoke service.") },
                 { "Club Room", ("Premium", "Modern elegance meets comfort, with exclusive access to the Club Lounge and premium amenities.") },
                 { "Deluxe King", ("standard", "A spacious retreat with a plush King-sized bed, perfect for business or leisure travelers.") },
                 { "Deluxe Twin", ("standard", "Comfortably designed with twin beds and contemporary decor, ideal for friends or family.") },
-                { "Executive Suite", ("Executive", "Sophisticated and functional, featuring premium furnishings and a dedicated workspace.") },
                 { "Executive Suite Double", ("Executive", "Combining sophistication with functionality, featuring two double beds and a separate living area.") },
                 { "Executive Suite King", ("Executive", "Our premier suite for executives, offering a King bed, work-friendly space, and luxury bathroom.") },
                 { "Garden Suite", ("Nature", "Tranquil and serene, this suite offers direct views of our lush tropical gardens.") },
@@ -52,31 +51,48 @@ namespace FP_CS26_2025.Rooms
                 string cat = "standard";
                 string desc = "A high-quality room offering modern comfort and essential amenities.";
                 decimal price = dbType.Price;
+                string imgName = dbType.ImageFilename ?? name;
 
-                // Handle the case where the DB name might differ slightly (e.g., "Executive Suite" vs "Executive Suite King")
-                var match = metadata.Keys.FirstOrDefault(k => k.Equals(name, StringComparison.OrdinalIgnoreCase));
-                if (match != null)
+                // Priority: DB Description -> Hardcoded Metadata -> Default
+                if (!string.IsNullOrWhiteSpace(dbType.Description))
                 {
-                    cat = metadata[match].Cat;
-                    desc = metadata[match].Desc;
+                    desc = dbType.Description;
+                }
+                else
+                {
+                    var match = metadata.Keys.FirstOrDefault(k => k.Equals(name, StringComparison.OrdinalIgnoreCase));
+                    if (match != null)
+                    {
+                        desc = metadata[match].Desc;
+                    }
+                }
+                
+                // Category fallback to hardcoded or inference
+                var catMatch = metadata.Keys.FirstOrDefault(k => k.Equals(name, StringComparison.OrdinalIgnoreCase));
+                if (catMatch != null)
+                {
+                    cat = metadata[catMatch].Cat;
                 }
 
-                string imagePath = GetImagePath(name);
+                // Use Image Filename from DB
+                string imagePath = GetImagePath(imgName);
                 _rooms.Add(new Room(name, imagePath, category: cat, price: price, description: desc, capacity: dbType.Capacity));
             }
         }
 
-        private List<(string Name, decimal Price, int Capacity)> GetActiveTypesFromDb()
+        private List<(string Name, decimal Price, int Capacity, string Description, string ImageFilename)> GetActiveTypesFromDb()
         {
-            var types = new List<(string Name, decimal Price, int Capacity)>();
+            var types = new List<(string Name, decimal Price, int Capacity, string Description, string ImageFilename)>();
             try
             {
                 using (var conn = DatabaseHelper.GetConnection())
                 {
                     conn.Open();
                     // Get only types that are assigned to at least one room
+                    // Note: If Description or ImageFilename column doesn't exist yet, this might fail unless EnsureSchema run first.
+                    // We rely on EnsureSchema
                     const string query = @"
-                        SELECT DISTINCT rt.TypeName, rt.BasePrice, rt.Capacity
+                        SELECT DISTINCT rt.TypeName, rt.BasePrice, rt.Capacity, rt.Description, rt.ImageFilename
                         FROM Rooms r
                         JOIN RoomTypes rt ON r.RoomTypeID = rt.RoomTypeID
                         ORDER BY rt.TypeName";
@@ -86,7 +102,9 @@ namespace FP_CS26_2025.Rooms
                     {
                         while (reader.Read())
                         {
-                            types.Add((reader.GetString(0), reader.GetDecimal(1), reader.GetInt32(2)));
+                            string desc = reader.IsDBNull(3) ? null : reader.GetString(3);
+                            string imgFile = reader.IsDBNull(4) ? reader.GetString(0) : reader.GetString(4); // Fallback to Name if null
+                            types.Add((reader.GetString(0), reader.GetDecimal(1), reader.GetInt32(2), desc, imgFile));
                         }
                     }
                 }
@@ -94,7 +112,6 @@ namespace FP_CS26_2025.Rooms
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("RoomService DB Error: " + ex.Message);
-                // Fallback: If DB fail, return a default set to avoid crash
             }
             return types;
         }

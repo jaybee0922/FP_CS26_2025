@@ -135,6 +135,12 @@
     <Compile Include="Room Rates &amp; Policies\PriceInputDialog.Designer.cs">
       <DependentUpon>PriceInputDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Room Rates &amp; Policies\EditRoomForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Room Rates &amp; Policies\EditRoomForm.Designer.cs">
+      <DependentUpon>EditRoomForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Room Rates &amp; Policies\RoomRatesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
