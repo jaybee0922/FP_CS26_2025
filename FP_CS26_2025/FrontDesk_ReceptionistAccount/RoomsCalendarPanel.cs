@@ -143,6 +143,7 @@ namespace FP_CS26_2025
             dgvRooms.DataSource = allRooms.Select(r => new {
                 Number = r.RoomNumber,
                 Type = $"{r.RoomType} (Available: {(availabilityCounts.ContainsKey(r.RoomType ?? "") ? availabilityCounts[r.RoomType ?? ""] : 0)})",
+                Floor = GetFloorOrdinal(r.Floor),
                 Price = r.BasePrice,
                 Status = r.Status
             }).ToList();
@@ -171,6 +172,7 @@ namespace FP_CS26_2025
             ).Select(r => new {
                 Number = r.RoomNumber,
                 Type = $"{r.RoomType} (Available: {(availabilityCounts.ContainsKey(r.RoomType ?? "") ? availabilityCounts[r.RoomType ?? ""] : 0)})",
+                Floor = GetFloorOrdinal(r.Floor),
                 Price = r.BasePrice,
                 Status = r.Status
             }).ToList();
@@ -202,6 +204,23 @@ namespace FP_CS26_2025
             {
                 MessageBox.Show($"Error updating room: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private string GetFloorOrdinal(int floor)
+        {
+            if (floor <= 0) return floor.ToString();
+            int lastDigit = floor % 10;
+            int lastTwoDigits = floor % 100;
+            string suffix = "th";
+            if (lastTwoDigits < 11 || lastTwoDigits > 13)
+            {
+                switch (lastDigit)
+                {
+                    case 1: suffix = "st"; break;
+                    case 2: suffix = "nd"; break;
+                    case 3: suffix = "rd"; break;
+                }
+            }
+            return $"{floor}{suffix} Floor";
         }
     }
 }

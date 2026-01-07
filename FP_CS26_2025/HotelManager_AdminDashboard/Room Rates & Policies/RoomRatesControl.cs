@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data;
 using FP_CS26_2025.HotelManager_AdminDashboard;
 using FP_CS26_2025.FrontDesk_MVC;
 
@@ -62,9 +63,34 @@ namespace FP_CS26_2025.Room_Rates___Policies
         {
             try
             {
-                dgvRoomInventory.DataSource = _dataService.GetAllPhysicalRooms();
+                DataTable dt = _dataService.GetAllPhysicalRooms();
+                
+                // Add ordinal display for Floor
+                if (dt.Columns.Contains("Floor") && !dt.Columns.Contains("FloorDisplay"))
+                {
+                    dt.Columns.Add("FloorDisplay", typeof(string));
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        if (row["Floor"] != DBNull.Value)
+                        {
+                            row["FloorDisplay"] = GetFloorOrdinal(Convert.ToInt32(row["Floor"]));
+                        }
+                    }
+                }
+
+                dgvRoomInventory.DataSource = dt;
+                
                 if (dgvRoomInventory.Columns.Contains("RoomTypeID"))
                     dgvRoomInventory.Columns["RoomTypeID"].Visible = false;
+                
+                if (dgvRoomInventory.Columns.Contains("Floor"))
+                    dgvRoomInventory.Columns["Floor"].Visible = false;
+                
+                if (dgvRoomInventory.Columns.Contains("FloorDisplay"))
+                {
+                    dgvRoomInventory.Columns["FloorDisplay"].HeaderText = "Floor";
+                    dgvRoomInventory.Columns["FloorDisplay"].DisplayIndex = 2;
+                }
                 
                 // Color rows based on status
                 foreach (DataGridViewRow row in dgvRoomInventory.Rows)
@@ -265,6 +291,23 @@ namespace FP_CS26_2025.Room_Rates___Policies
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             RefreshCurrentView();
+        }
+        private string GetFloorOrdinal(int floor)
+        {
+            if (floor <= 0) return floor.ToString();
+            int lastDigit = floor % 10;
+            int lastTwoDigits = floor % 100;
+            string suffix = "th";
+            if (lastTwoDigits < 11 || lastTwoDigits > 13)
+            {
+                switch (lastDigit)
+                {
+                    case 1: suffix = "st"; break;
+                    case 2: suffix = "nd"; break;
+                    case 3: suffix = "rd"; break;
+                }
+            }
+            return $"{floor}{suffix} Floor";
         }
     }
 }
