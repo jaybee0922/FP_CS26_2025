@@ -69,7 +69,6 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.panelMain.Controls.Add(this.btnChangePrice);
             this.panelMain.Controls.Add(this.btnRefresh);
             this.panelMain.Controls.Add(this.gbPolicies);
-            this.panelMain.Controls.Add(this.btnRoomCategories);
             this.panelMain.Controls.Add(this.btnRoomInventory);
             this.panelMain.Controls.Add(this.btnAddRoom);
             this.panelMain.Controls.Add(this.dgvRoomInventory);
@@ -88,7 +87,7 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(250, 32);
             this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Room Rates & Policies";
+            this.lblTitle.Text = "Room Rates and Policies";
             // 
             // lblSearch
             // 
@@ -223,19 +222,7 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.lblPolicyText.Text = "• Check-in: 2:00 PM\n• Check-out: 12:00 PM\n• No smoking inside rooms\n• Pets allowe" +
     "d only in designated rooms\n• Free cancellation up to 24 hours";
             // 
-            // btnRoomCategories
-            // 
-            this.btnRoomCategories.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.btnRoomCategories.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRoomCategories.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnRoomCategories.ForeColor = System.Drawing.Color.White;
-            this.btnRoomCategories.Location = new System.Drawing.Point(530, 20);
-            this.btnRoomCategories.Name = "btnRoomCategories";
-            this.btnRoomCategories.Size = new System.Drawing.Size(140, 35);
-            this.btnRoomCategories.TabIndex = 7;
-            this.btnRoomCategories.Text = "Room Categories";
-            this.btnRoomCategories.UseVisualStyleBackColor = false;
-            this.btnRoomCategories.Click += new System.EventHandler(this.btnRoomCategories_Click);
+
             // 
             // btnRoomInventory
             // 

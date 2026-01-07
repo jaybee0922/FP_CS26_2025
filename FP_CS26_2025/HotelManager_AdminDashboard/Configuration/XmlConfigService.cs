@@ -16,14 +16,14 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard.Configuration
             ConfigHelper.SaveConfig(config);
         }
 
-        public void UpdateGeneralSettings(string name, string address, string phone, string email, decimal taxRate)
+        public void UpdateGeneralSettings(string name, string address, string phone, string email, string copyright)
         {
             var config = ConfigHelper.LoadConfig();
             config.HotelName = name;
             config.HotelAddress = address;
             config.HotelPhone = phone;
             config.HotelEmail = email;
-            config.TaxRate = taxRate;
+            config.CopyrightText = copyright;
             ConfigHelper.SaveConfig(config);
         }
 

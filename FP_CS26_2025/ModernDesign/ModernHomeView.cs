@@ -5,6 +5,8 @@ using FP_CS26_2025.Services;
 using FP_CS26_2025.Rooms;
 using FP_CS26_2025.Services.Models;
 
+using FP_CS26_2025.HotelManager_AdminDashboard.Configuration;
+
 namespace FP_CS26_2025.ModernDesign
 {
     /// <summary>
@@ -15,23 +17,50 @@ namespace FP_CS26_2025.ModernDesign
     {
         private readonly IBookingService _bookingService;
         private readonly IRoomService _roomService;
+        private readonly IConfigService _configService;
 
-        public ModernHomeView(IBookingService bookingService, IRoomService roomService)
+        public ModernHomeView(IBookingService bookingService, IRoomService roomService, IConfigService configService)
         {
             _bookingService = bookingService ?? throw new ArgumentNullException(nameof(bookingService));
             _roomService = roomService ?? throw new ArgumentNullException(nameof(roomService));
+            _configService = configService ?? throw new ArgumentNullException(nameof(configService));
             InitializeComponent();
             
             this.modernNavbar.ActivePage = "Home";
         }
 
-        public ModernHomeView() : this(new BookingService(), new RoomService())
+        public ModernHomeView() : this(new BookingService(), new RoomService(), new XmlConfigService())
         {
         }
 
         private void ModernHomeView_Load(object sender, EventArgs e)
         {
             btnCheck.Click += SafeBtnCheck_Click;
+            LoadHotelConfiguration();
+        }
+
+        private void LoadHotelConfiguration()
+        {
+            try
+            {
+                var config = _configService.LoadConfig();
+                
+                // Update Hotel Name
+                lblLogo.Text = config.HotelName.ToUpper();
+                lblWelcome.Text = $"WELCOME TO {config.HotelName.ToUpper()}";
+
+                // Update Footer
+                footerControl.UpdateInfo(
+                    config.HotelAddress,
+                    $"{config.HotelEmail} | {config.HotelPhone}",
+                    config.CopyrightText
+                );
+            }
+            catch (Exception ex)
+            {
+                // Fallback or silent fail
+                System.Diagnostics.Debug.WriteLine($"Failed to load config: {ex.Message}");
+            }
         }
 
         private void SafeBtnCheck_Click(object sender, EventArgs e)

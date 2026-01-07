@@ -21,12 +21,12 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard.Configuration
             return _configService.LoadConfig();
         }
 
-        public void SaveGeneralSettings(string name, string address, string phone, string email, decimal taxRate)
+        public void SaveGeneralSettings(string name, string address, string phone, string email, string copyright)
         {
             // Business logic validation could go here
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Hotel Name cannot be empty.");
             
-            _configService.UpdateGeneralSettings(name, address, phone, email, taxRate);
+            _configService.UpdateGeneralSettings(name, address, phone, email, copyright);
         }
 
         public void SavePolicies(string policyText)

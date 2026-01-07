@@ -10,7 +10,7 @@ namespace FP_CS26_2025
         public string HotelAddress { get; set; } = "123 Main St, City, Country";
         public string HotelPhone { get; set; } = "+1 234 567 890";
         public string HotelEmail { get; set; } = "info@grandnexus.com";
-        public decimal TaxRate { get; set; } = 12.0m;
+        public string CopyrightText { get; set; } = "© 2025 Grand Nexus. All rights reserved.";
         public string BackupPath { get; set; } = @"C:\Backups";
 
         // Policies

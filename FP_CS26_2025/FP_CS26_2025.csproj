@@ -283,8 +283,16 @@
     <Compile Include="ModernDesign\ModernHomeView.Designer.cs">
       <DependentUpon>ModernHomeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModernDesign\FooterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModernDesign\FooterControl.Designer.cs">
+      <DependentUpon>FooterControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ILogoutService.cs" />
     <Compile Include="Services\LogoutService.cs" />
+    <Compile Include="Services\Validation\IValidator.cs" />
+    <Compile Include="Services\Validation\BookingValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\RoomRatesControl.resx">

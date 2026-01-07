@@ -31,6 +31,7 @@ namespace FP_CS26_2025.ModernDesign
             this.dtpArrival = new System.Windows.Forms.DateTimePicker();
             this.lblArrival = new System.Windows.Forms.Label();
             this.lblSubtitle = new System.Windows.Forms.Label();
+            this.footerControl = new FP_CS26_2025.ModernDesign.FooterControl();
             this.mainBackgroundPanel.SuspendLayout();
             this.panelBooking.SuspendLayout();
             this.SuspendLayout();
@@ -41,6 +42,7 @@ namespace FP_CS26_2025.ModernDesign
             this.mainBackgroundPanel.ColorBottom = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(30)))), ((int)(((byte)(50)))));
             this.mainBackgroundPanel.ColorTop = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(88)))), ((int)(((byte)(118)))));
             this.mainBackgroundPanel.Controls.Add(this.lblSubtitle);
+            this.mainBackgroundPanel.Controls.Add(this.footerControl); // Added FooterControl
             this.mainBackgroundPanel.Controls.Add(this.lblLogo);
             this.mainBackgroundPanel.Controls.Add(this.modernNavbar);
             this.mainBackgroundPanel.Controls.Add(this.lblWelcome);
@@ -213,6 +215,15 @@ namespace FP_CS26_2025.ModernDesign
             this.lblSubtitle.TabIndex = 7;
             this.lblSubtitle.Text = "EXPERIENCE LUXURY AT ITS FINEST";
             // 
+            // footerControl
+            // 
+            this.footerControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.footerControl.BackColor = System.Drawing.Color.Transparent;
+            this.footerControl.Location = new System.Drawing.Point(50, 750);
+            this.footerControl.Name = "footerControl";
+            this.footerControl.Size = new System.Drawing.Size(500, 80);
+            this.footerControl.TabIndex = 8;
+            // 
             // ModernHomeView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -248,5 +259,6 @@ namespace FP_CS26_2025.ModernDesign
         private System.Windows.Forms.TextBox txtPromo;
         private FP_CS26_2025.ModernDesign.ModernButton btnCheck;
         private System.Windows.Forms.Label lblSubtitle;
+        private FP_CS26_2025.ModernDesign.FooterControl footerControl;
     }
 }

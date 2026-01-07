@@ -9,21 +9,24 @@ using FP_CS26_2025;
 using FP_CS26_2025.HotelManager_AdminDashboard;
 
 using FP_CS26_2025.Services;
+using FP_CS26_2025.HotelManager_AdminDashboard.Configuration;
 
 namespace FP_CS26_2025
 {
     public partial class LoginForm : Form
     {
         private readonly IAuthService _authService;
+        private readonly IConfigService _configService;
 
-        public LoginForm() : this(new DatabaseAuthService())
+        public LoginForm() : this(new DatabaseAuthService(), new FP_CS26_2025.HotelManager_AdminDashboard.Configuration.XmlConfigService())
         {
         }
 
-        public LoginForm(IAuthService authService)
+        public LoginForm(IAuthService authService, IConfigService configService)
         {
             InitializeComponent();
             _authService = authService;
+            _configService = configService;
             this.DoubleBuffered = true;
             this.modernNavbar.ActivePage = "Login";
         }
@@ -33,6 +36,14 @@ namespace FP_CS26_2025
             roleComboBox1.Items.Clear();
             roleComboBox1.Items.Add("Super Admin");
             roleComboBox1.Items.Add("Front Desk");
+            
+            // Sync Hotel Name
+            if (_configService != null)
+            {
+                var config = _configService.LoadConfig();
+                lblLogo.Text = config.HotelName.ToUpper();
+                lblCopyright.Text = config.CopyrightText;
+            }
         }
 
         private void loginFormBtn_Click(object sender, EventArgs e)

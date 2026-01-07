@@ -53,7 +53,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             txtAddress.Text = config.HotelAddress;
             txtPhone.Text = config.HotelPhone;
             txtEmail.Text = config.HotelEmail;
-            numTaxRate.Value = config.TaxRate;
+            txtCopyright.Text = config.CopyrightText;
             
             // Policies
             txtPolicyConfig.Text = config.PolicyText;
@@ -73,7 +73,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                     txtAddress.Text,
                     txtPhone.Text,
                     txtEmail.Text,
-                    numTaxRate.Value
+                    txtCopyright.Text
                 );
                 MessageBox.Show("General settings saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

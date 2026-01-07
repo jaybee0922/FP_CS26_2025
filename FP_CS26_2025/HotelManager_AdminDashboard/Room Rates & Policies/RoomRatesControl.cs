@@ -9,12 +9,14 @@ using System.Windows.Forms;
 using System.Data;
 using FP_CS26_2025.HotelManager_AdminDashboard;
 using FP_CS26_2025.FrontDesk_MVC;
+using FP_CS26_2025.HotelManager_AdminDashboard.Configuration;
 
 namespace FP_CS26_2025.Room_Rates___Policies
 {
     public partial class RoomRatesControl : UserControl
     {
         private DataManager _dataManager;
+        private IConfigService _configService;
         private readonly string _baseImagePath;
         private bool _isInventoryView = false;
         private readonly IHotelDataService _dataService = new SqlHotelDataService();
@@ -29,6 +31,11 @@ namespace FP_CS26_2025.Room_Rates___Policies
         {
             _dataManager = manager;
             RefreshCurrentView();
+        }
+
+        public void SetConfigService(IConfigService service)
+        {
+            _configService = service;
         }
 
         private void RoomRatesControl_Load(object sender, EventArgs e)
@@ -46,9 +53,17 @@ namespace FP_CS26_2025.Room_Rates___Policies
             btnChangePrice.Visible = !_isInventoryView;
             btnAddRoom.Visible = _isInventoryView;
             
-            // Toggle "Active" button styles
-            btnRoomCategories.BackColor = _isInventoryView ? Color.FromArgb(189, 195, 199) : Color.FromArgb(41, 128, 185);
-            btnRoomInventory.BackColor = _isInventoryView ? Color.FromArgb(41, 128, 185) : Color.FromArgb(189, 195, 199);
+            // Dynamic Button State
+            if (_isInventoryView)
+            {
+                btnRoomInventory.Text = "Back to Rates";
+                btnRoomInventory.BackColor = Color.FromArgb(41, 128, 185); // Match blue
+            }
+            else
+            {
+                btnRoomInventory.Text = "Room Inventory";
+                btnRoomInventory.BackColor = Color.FromArgb(41, 128, 185); // Constant blue as requested
+            }
             
             RefreshCurrentView();
         }
@@ -107,15 +122,9 @@ namespace FP_CS26_2025.Room_Rates___Policies
             }
         }
 
-        private void btnRoomCategories_Click(object sender, EventArgs e)
-        {
-            _isInventoryView = false;
-            UpdateView();
-        }
-
         private void btnRoomInventory_Click(object sender, EventArgs e)
         {
-            _isInventoryView = true;
+            _isInventoryView = !_isInventoryView; // Toggle
             UpdateView();
         }
 

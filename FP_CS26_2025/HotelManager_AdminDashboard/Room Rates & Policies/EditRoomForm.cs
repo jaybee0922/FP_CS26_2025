@@ -73,9 +73,9 @@ namespace FP_CS26_2025.Room_Rates___Policies
                 return;
             }
 
-            if (!decimal.TryParse(txtPrice.Text, out decimal price))
+            if (!decimal.TryParse(txtPrice.Text, out decimal price) || price <= 0)
             {
-                MessageBox.Show("Invalid Price.");
+                MessageBox.Show("Price must be greater than 0.");
                 return;
             }
 

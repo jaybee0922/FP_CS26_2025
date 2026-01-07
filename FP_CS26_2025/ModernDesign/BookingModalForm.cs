@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using FP_CS26_2025.Rooms;
 using FP_CS26_2025.Services;
 using FP_CS26_2025.Services.Models;
+using FP_CS26_2025.Services.Validation;
 
 namespace FP_CS26_2025.ModernDesign
 {
@@ -27,12 +28,15 @@ namespace FP_CS26_2025.ModernDesign
         public BookingResultData BookingResult { get; private set; }
 
         // Dependency Inversion: Injecting services and stay context
+        private readonly IValidator<BookingRequestData> _validator;
+
         public BookingModalForm(IRoomService roomService, IBookingService bookingService, DateTime checkIn, DateTime checkOut)
         {
             InitializeComponent();
             _roomService = roomService ?? throw new ArgumentNullException(nameof(roomService));
             _bookingService = bookingService ?? throw new ArgumentNullException(nameof(bookingService));
-            
+            _validator = new BookingValidator(); // specific implementation, but decoupled via interface usage elsewhere
+
             // Precision Date Handling
             _checkIn = checkIn.Date;
             _checkOut = checkOut.Date;
@@ -44,6 +48,36 @@ namespace FP_CS26_2025.ModernDesign
             this.numRooms.ValueChanged += (s, e) => UpdateLiveTotalSafely();
             
             this.Load += (s, e) => LoadRoomsDataSafely();
+
+            // Input Restrictions (Real-time Validation)
+            SetupInputRestrictions();
+        }
+
+        private void SetupInputRestrictions()
+        {
+            // First/Last Name: Letters, Control keys, and Space only.
+            this.txtFirstName.KeyPress += (s, e) => RestrictToLetters(e);
+            this.txtLastName.KeyPress += (s, e) => RestrictToLetters(e);
+
+            // Phone: Numbers and Control keys only.
+            this.txtPhone.MaxLength = 11;
+            this.txtPhone.KeyPress += (s, e) => RestrictToNumbers(e);
+        }
+
+        private void RestrictToLetters(KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void RestrictToNumbers(KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
 
         private void LoadRoomsDataSafely()
@@ -140,25 +174,23 @@ namespace FP_CS26_2025.ModernDesign
 
         private bool ValidateInputs()
         {
-            if (string.IsNullOrWhiteSpace(txtFirstName.Text) || string.IsNullOrWhiteSpace(txtLastName.Text))
+            // Construct a temporary DTO for validation purposes
+            var tempBookingData = new BookingRequestData
             {
-                MessageBox.Show("Precision Error: Please enter your full name.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                FirstName = txtFirstName.Text.Trim(),
+                LastName = txtLastName.Text.Trim(),
+                Email = txtEmail.Text.Trim(),
+                Phone = txtPhone.Text.Trim()
+            };
+
+            if (!_validator.Validate(tempBookingData, out List<string> errors))
+            {
+                string errorMessage = string.Join("\n", errors);
+                MessageBox.Show("Validation Error:\n" + errorMessage, "Input Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(txtEmail.Text) || !txtEmail.Text.Contains("@"))
-            {
-                MessageBox.Show("Security Alert: Please enter a valid email address.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtPhone.Text))
-            {
-                MessageBox.Show("Validation Error: Phone number is required for verification.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            // Room Capacity Validation
+            // Additional Contextual Validation (Capacity)
             var selectedRoomName = cmbRoomType.SelectedItem.ToString();
             var selectedRoom = _allRooms.FirstOrDefault(r => r.Name == selectedRoomName);
             if (selectedRoom != null)

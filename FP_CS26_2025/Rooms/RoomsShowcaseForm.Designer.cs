@@ -21,7 +21,9 @@ namespace FP_CS26_2025.Rooms
             this.lblSubtitle = new System.Windows.Forms.Label();
             this.lblLogo = new System.Windows.Forms.Label();
             this.modernNavbar1 = new FP_CS26_2025.ModernDesign.ModernNavbar();
+            this.modernNavbar1 = new FP_CS26_2025.ModernDesign.ModernNavbar();
             this.roomGalleryView1 = new FP_CS26_2025.Rooms.RoomGalleryView();
+            this.footerControl = new FP_CS26_2025.ModernDesign.FooterControl();
             this.mainBackgroundPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -34,6 +36,7 @@ namespace FP_CS26_2025.Rooms
             this.mainBackgroundPanel.Controls.Add(this.lblLogo);
             this.mainBackgroundPanel.Controls.Add(this.modernNavbar1);
             this.mainBackgroundPanel.Controls.Add(this.roomGalleryView1);
+            this.mainBackgroundPanel.Controls.Add(this.footerControl); // Added FooterControl
             this.mainBackgroundPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainBackgroundPanel.Location = new System.Drawing.Point(0, 0);
             this.mainBackgroundPanel.Name = "mainBackgroundPanel";
@@ -52,6 +55,15 @@ namespace FP_CS26_2025.Rooms
             this.lblSubtitle.TabIndex = 3;
             this.lblSubtitle.Text = "EXPERIENCE LUXURY AT ITS FINEST";
             // 
+            // footerControl
+            // 
+            this.footerControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.footerControl.BackColor = System.Drawing.Color.Transparent;
+            this.footerControl.Location = new System.Drawing.Point(50, 750); // Kept similar, but BringToFront should help
+            this.footerControl.Name = "footerControl";
+            this.footerControl.Size = new System.Drawing.Size(500, 100); // Increased height just in case
+            this.footerControl.TabIndex = 8;
+            // 
             // lblLogo
             // 
             this.lblLogo.AutoSize = true;
@@ -64,6 +76,8 @@ namespace FP_CS26_2025.Rooms
             this.lblLogo.Size = new System.Drawing.Size(395, 54);
             this.lblLogo.TabIndex = 2;
             this.lblLogo.Text = "THE NEXUS GRAND";
+
+
             // 
             // modernNavbar1
             // 
@@ -105,5 +119,6 @@ namespace FP_CS26_2025.Rooms
         private FP_CS26_2025.ModernDesign.GradientPanel mainBackgroundPanel;
         private FP_CS26_2025.ModernDesign.ModernNavbar modernNavbar1;
         private System.Windows.Forms.Label lblLogo;
+        private FP_CS26_2025.ModernDesign.FooterControl footerControl;
     }
 }

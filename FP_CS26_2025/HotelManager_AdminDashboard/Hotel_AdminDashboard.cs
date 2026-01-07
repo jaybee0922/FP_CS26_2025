@@ -103,6 +103,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 _roomRatesControl.Visible = true;
                 _roomRatesControl.BringToFront();
                 _roomRatesControl.SetDataManager(dataManager);
+                _roomRatesControl.SetConfigService(new FP_CS26_2025.HotelManager_AdminDashboard.Configuration.XmlConfigService());
             };
 
             sidebarManager1.SystemConfigClicked += (s, e) =>

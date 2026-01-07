@@ -30,6 +30,8 @@ namespace FP_CS26_2025
         {
             this.mainBackgroundPanel = new FP_CS26_2025.ModernDesign.GradientPanel();
             this.lblLogo = new System.Windows.Forms.Label();
+            this.lblSubtitle = new System.Windows.Forms.Label();
+            this.lblCopyright = new System.Windows.Forms.Label();
             this.modernNavbar = new FP_CS26_2025.ModernDesign.ModernNavbar();
             this.loginFormContainer1 = new FP_CS26_2025.LoginFormDesign.LoginFormContainer();
             this.roleComboBox1 = new FP_CS26_2025.LoginFormDesign.RoleComboBox();
@@ -40,12 +42,15 @@ namespace FP_CS26_2025
             this.loginFormContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
+            //
             // mainBackgroundPanel
-            // 
+            //
             this.mainBackgroundPanel.Angle = 60F;
             this.mainBackgroundPanel.ColorBottom = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(30)))), ((int)(((byte)(50)))));
             this.mainBackgroundPanel.ColorTop = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(88)))), ((int)(((byte)(118)))));
             this.mainBackgroundPanel.Controls.Add(this.lblLogo);
+            this.mainBackgroundPanel.Controls.Add(this.lblSubtitle);
+            this.mainBackgroundPanel.Controls.Add(this.lblCopyright);
             this.mainBackgroundPanel.Controls.Add(this.modernNavbar);
             this.mainBackgroundPanel.Controls.Add(this.loginFormContainer1);
             this.mainBackgroundPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -66,6 +71,31 @@ namespace FP_CS26_2025
             this.lblLogo.Size = new System.Drawing.Size(395, 54);
             this.lblLogo.TabIndex = 0;
             this.lblLogo.Text = "THE NEXUS GRAND";
+            // 
+            // lblSubtitle
+            // 
+            this.lblSubtitle.AutoSize = true;
+            this.lblSubtitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI Semilight", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.lblSubtitle.Location = new System.Drawing.Point(70, 91);
+            this.lblSubtitle.Name = "lblSubtitle";
+            this.lblSubtitle.Size = new System.Drawing.Size(378, 32);
+            this.lblSubtitle.TabIndex = 9;
+            this.lblSubtitle.Text = "EXPERIENCE LUXURY AT ITS FINEST";
+            // 
+            // lblCopyright
+            // 
+            this.lblCopyright.AutoSize = true;
+            this.lblCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblCopyright.BackColor = System.Drawing.Color.Transparent;
+            this.lblCopyright.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCopyright.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.lblCopyright.Location = new System.Drawing.Point(50, 820);
+            this.lblCopyright.Name = "lblCopyright";
+            this.lblCopyright.Size = new System.Drawing.Size(100, 15);
+            this.lblCopyright.TabIndex = 8;
+            this.lblCopyright.Text = "Copyright 2025";
             // 
             // modernNavbar
             // 
@@ -185,7 +215,9 @@ namespace FP_CS26_2025
 
         private FP_CS26_2025.ModernDesign.GradientPanel mainBackgroundPanel;
         private System.Windows.Forms.Label lblLogo;
+        private System.Windows.Forms.Label lblSubtitle;
         private FP_CS26_2025.ModernDesign.ModernNavbar modernNavbar;
+        private System.Windows.Forms.Label lblCopyright;
         private LoginFormDesign.LoginFormContainer loginFormContainer1;
         private LoginFormDesign.LoginBtn loginBtn1;
         private LoginFormDesign.PasswordInputField passwordInputField2;

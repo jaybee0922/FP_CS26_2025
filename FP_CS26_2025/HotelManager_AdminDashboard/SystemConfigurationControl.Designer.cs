@@ -32,8 +32,8 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.txtPhone = new System.Windows.Forms.TextBox();
             this.lblEmail = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.lblTaxRate = new System.Windows.Forms.Label();
-            this.numTaxRate = new System.Windows.Forms.NumericUpDown();
+            this.lblCopyright = new System.Windows.Forms.Label();
+            this.txtCopyright = new System.Windows.Forms.TextBox();
             this.btnSaveSettings = new System.Windows.Forms.Button();
             
             // Policy Controls
@@ -51,7 +51,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.tabGeneral.SuspendLayout();
             this.tabPolicies.SuspendLayout();
             this.tabDatabase.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numTaxRate)).BeginInit();
+            this.tabDatabase.SuspendLayout();
             this.SuspendLayout();
 
             // 
@@ -71,10 +71,10 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             // tabGeneral
             // 
             this.tabGeneral.Controls.Add(this.btnSaveSettings);
-            this.tabGeneral.Controls.Add(this.numTaxRate);
-            this.tabGeneral.Controls.Add(this.lblTaxRate);
             this.tabGeneral.Controls.Add(this.txtEmail);
             this.tabGeneral.Controls.Add(this.lblEmail);
+            this.tabGeneral.Controls.Add(this.txtCopyright);
+            this.tabGeneral.Controls.Add(this.lblCopyright);
             this.tabGeneral.Controls.Add(this.txtPhone);
             this.tabGeneral.Controls.Add(this.lblPhone);
             this.tabGeneral.Controls.Add(this.txtAddress);
@@ -171,26 +171,30 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.txtEmail.TabIndex = 7;
 
             // 
-            // lblTaxRate
+            // lblCopyright
             // 
-            this.lblTaxRate.AutoSize = true;
-            this.lblTaxRate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTaxRate.Location = new System.Drawing.Point(30, 345);
-            this.lblTaxRate.Name = "lblTaxRate";
-            this.lblTaxRate.Size = new System.Drawing.Size(92, 19);
-            this.lblTaxRate.TabIndex = 8;
-            this.lblTaxRate.Text = "Tax Rate (%)";
+            this.lblCopyright.AutoSize = true;
+            this.lblCopyright.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblCopyright.Location = new System.Drawing.Point(30, 345);
+            this.lblCopyright.Name = "lblCopyright";
+            this.lblCopyright.Size = new System.Drawing.Size(76, 19);
+            this.lblCopyright.TabIndex = 8;
+            this.lblCopyright.Text = "Copyright";
 
             // 
-            // numTaxRate
+            // txtCopyright
             // 
-            this.numTaxRate.DecimalPlaces = 2;
-            this.numTaxRate.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.numTaxRate.Location = new System.Drawing.Point(30, 370);
-            this.numTaxRate.Name = "numTaxRate";
-            this.numTaxRate.Size = new System.Drawing.Size(120, 25);
-            this.numTaxRate.TabIndex = 9;
+            this.txtCopyright.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtCopyright.Location = new System.Drawing.Point(30, 370);
+            this.txtCopyright.Name = "txtCopyright";
+            this.txtCopyright.Size = new System.Drawing.Size(400, 25);
+            this.txtCopyright.TabIndex = 9;
 
+
+
+            // 
+            // btnSaveSettings
+            // 
             // 
             // btnSaveSettings
             // 
@@ -201,7 +205,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.btnSaveSettings.Location = new System.Drawing.Point(30, 420);
             this.btnSaveSettings.Name = "btnSaveSettings";
             this.btnSaveSettings.Size = new System.Drawing.Size(150, 40);
-            this.btnSaveSettings.TabIndex = 10;
+            this.btnSaveSettings.TabIndex = 12;
             this.btnSaveSettings.Text = "Save Settings";
             this.btnSaveSettings.UseVisualStyleBackColor = false;
 
@@ -335,7 +339,6 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             this.tabPolicies.PerformLayout();
             this.tabDatabase.ResumeLayout(false);
             this.tabDatabase.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numTaxRate)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -354,8 +357,8 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         private System.Windows.Forms.TextBox txtPhone;
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.Label lblTaxRate;
-        private System.Windows.Forms.NumericUpDown numTaxRate;
+        private System.Windows.Forms.Label lblCopyright;
+        private System.Windows.Forms.TextBox txtCopyright;
         private System.Windows.Forms.Button btnSaveSettings;
 
         // Policies
