@@ -7,7 +7,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
         Available,
         Occupied,
         Reserved,
-        Maintenance,
+        UnderMaintenance,
         Cleaning,
         OutOfService,
         ReadyForCheckIn
@@ -19,6 +19,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
         string RoomType { get; }
         decimal BasePrice { get; }
         int Capacity { get; }
+        int Floor { get; set; }
         RoomStatus Status { get; set; }
         
         decimal CalculateTotalPrice(int nights);

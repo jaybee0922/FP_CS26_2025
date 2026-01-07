@@ -17,6 +17,10 @@ namespace FP_CS26_2025.FrontDesk_MVC
         bool IsRoomAvailable(int roomNumber, DateTime start, DateTime end);
         IEnumerable<PaymentRecord> GetAllPayments();
         System.Data.DataTable GetArchivedReports();
+        System.Data.DataTable GetAllPhysicalRooms();
+        void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status);
+        void DeletePhysicalRoom(string roomNumber);
+        System.Data.DataTable GetAllRoomTypes();
     }
 
     public class InMemoryHotelService : IHotelDataService
@@ -58,5 +62,9 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public bool IsRoomAvailable(int roomNumber, DateTime start, DateTime end) => true;
         public IEnumerable<PaymentRecord> GetAllPayments() => new List<PaymentRecord>();
         public System.Data.DataTable GetArchivedReports() => new System.Data.DataTable();
+        public System.Data.DataTable GetAllPhysicalRooms() => new System.Data.DataTable();
+        public void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status) { }
+        public void DeletePhysicalRoom(string roomNumber) { }
+        public System.Data.DataTable GetAllRoomTypes() => new System.Data.DataTable();
     }
 }

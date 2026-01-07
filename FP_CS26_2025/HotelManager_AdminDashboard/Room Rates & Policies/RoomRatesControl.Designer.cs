@@ -11,6 +11,10 @@ namespace FP_CS26_2025.Room_Rates___Policies
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label lblSearch;
+        private System.Windows.Forms.Button btnRoomCategories;
+        private System.Windows.Forms.Button btnRoomInventory;
+        private System.Windows.Forms.Button btnAddRoom;
+        private System.Windows.Forms.DataGridView dgvRoomInventory;
         private System.Windows.Forms.GroupBox gbPolicies;
         private System.Windows.Forms.Label lblPolicyText;
         private System.Windows.Forms.DataGridViewImageColumn colImage;
@@ -46,6 +50,10 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.btnRefresh = new System.Windows.Forms.Button();
             this.gbPolicies = new System.Windows.Forms.GroupBox();
             this.lblPolicyText = new System.Windows.Forms.Label();
+            this.btnRoomCategories = new System.Windows.Forms.Button();
+            this.btnRoomInventory = new System.Windows.Forms.Button();
+            this.btnAddRoom = new System.Windows.Forms.Button();
+            this.dgvRoomInventory = new System.Windows.Forms.DataGridView();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoomRates)).BeginInit();
             this.gbPolicies.SuspendLayout();
@@ -61,6 +69,10 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.panelMain.Controls.Add(this.btnChangePrice);
             this.panelMain.Controls.Add(this.btnRefresh);
             this.panelMain.Controls.Add(this.gbPolicies);
+            this.panelMain.Controls.Add(this.btnRoomCategories);
+            this.panelMain.Controls.Add(this.btnRoomInventory);
+            this.panelMain.Controls.Add(this.btnAddRoom);
+            this.panelMain.Controls.Add(this.dgvRoomInventory);
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMain.Location = new System.Drawing.Point(0, 0);
             this.panelMain.Name = "panelMain";
@@ -210,6 +222,65 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.lblPolicyText.TabIndex = 0;
             this.lblPolicyText.Text = "• Check-in: 2:00 PM\n• Check-out: 12:00 PM\n• No smoking inside rooms\n• Pets allowe" +
     "d only in designated rooms\n• Free cancellation up to 24 hours";
+            // 
+            // btnRoomCategories
+            // 
+            this.btnRoomCategories.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
+            this.btnRoomCategories.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRoomCategories.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnRoomCategories.ForeColor = System.Drawing.Color.White;
+            this.btnRoomCategories.Location = new System.Drawing.Point(530, 20);
+            this.btnRoomCategories.Name = "btnRoomCategories";
+            this.btnRoomCategories.Size = new System.Drawing.Size(140, 35);
+            this.btnRoomCategories.TabIndex = 7;
+            this.btnRoomCategories.Text = "Room Categories";
+            this.btnRoomCategories.UseVisualStyleBackColor = false;
+            this.btnRoomCategories.Click += new System.EventHandler(this.btnRoomCategories_Click);
+            // 
+            // btnRoomInventory
+            // 
+            this.btnRoomInventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(195)))), ((int)(((byte)(199)))));
+            this.btnRoomInventory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRoomInventory.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnRoomInventory.ForeColor = System.Drawing.Color.White;
+            this.btnRoomInventory.Location = new System.Drawing.Point(680, 20);
+            this.btnRoomInventory.Name = "btnRoomInventory";
+            this.btnRoomInventory.Size = new System.Drawing.Size(140, 35);
+            this.btnRoomInventory.TabIndex = 8;
+            this.btnRoomInventory.Text = "Room Inventory";
+            this.btnRoomInventory.UseVisualStyleBackColor = false;
+            this.btnRoomInventory.Click += new System.EventHandler(this.btnRoomInventory_Click);
+            // 
+            // btnAddRoom
+            // 
+            this.btnAddRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddRoom.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnAddRoom.Location = new System.Drawing.Point(310, 580);
+            this.btnAddRoom.Name = "btnAddRoom";
+            this.btnAddRoom.Size = new System.Drawing.Size(120, 40);
+            this.btnAddRoom.TabIndex = 9;
+            this.btnAddRoom.Text = "Add Room";
+            this.btnAddRoom.UseVisualStyleBackColor = true;
+            this.btnAddRoom.Visible = false;
+            this.btnAddRoom.Click += new System.EventHandler(this.btnAddRoom_Click);
+            // 
+            // dgvRoomInventory
+            // 
+            this.dgvRoomInventory.AllowUserToAddRows = false;
+            this.dgvRoomInventory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRoomInventory.BackgroundColor = System.Drawing.Color.White;
+            this.dgvRoomInventory.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvRoomInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRoomInventory.Location = new System.Drawing.Point(20, 110);
+            this.dgvRoomInventory.MultiSelect = false;
+            this.dgvRoomInventory.Name = "dgvRoomInventory";
+            this.dgvRoomInventory.ReadOnly = true;
+            this.dgvRoomInventory.RowHeadersVisible = false;
+            this.dgvRoomInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRoomInventory.Size = new System.Drawing.Size(800, 450);
+            this.dgvRoomInventory.TabIndex = 10;
+            this.dgvRoomInventory.Visible = false;
+            this.dgvRoomInventory.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRoomInventory_CellDoubleClick);
             // 
             // RoomRatesControl
             // 

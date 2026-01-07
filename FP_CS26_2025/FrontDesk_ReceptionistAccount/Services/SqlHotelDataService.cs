@@ -29,7 +29,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
                 {
                     conn.Open();
                     const string query = @"
-                        SELECT TRIM(r.RoomNumber), TRIM(rt.TypeName), rt.BasePrice, rt.Capacity, TRIM(r.Status) 
+                        SELECT TRIM(r.RoomNumber), TRIM(rt.TypeName), rt.BasePrice, rt.Capacity, TRIM(r.Status), r.Floor 
                         FROM Rooms r
                         JOIN RoomTypes rt ON r.RoomTypeID = rt.RoomTypeID";
                     
@@ -46,10 +46,11 @@ namespace FP_CS26_2025.FrontDesk_MVC
                             string type = reader.GetString(1);
                             decimal price = reader.GetDecimal(2);
                             int cap = reader.GetInt32(3);
+                            int floor = (reader[5] != DBNull.Value) ? reader.GetInt32(5) : 1;
                             string statusStr = reader.GetString(4);
 
                             RoomStatus status = MapStatus(statusStr);
-                            rooms.Add(new GenericRoom(num, type, price, cap) { Status = status });
+                            rooms.Add(new GenericRoom(num, type, price, cap, floor) { Status = status });
                         }
                     }
                 }
@@ -222,7 +223,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
                     const string query = "UPDATE Rooms SET Status = @Status WHERE TRIM(RoomNumber) = TRIM(@Num)";
                     using (var cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@Status", status.ToString());
+                        cmd.Parameters.AddWithValue("@Status", StatusToString(status));
                         cmd.Parameters.AddWithValue("@Num", roomNumber.ToString());
                         cmd.ExecuteNonQuery();
                     }
@@ -428,8 +429,23 @@ namespace FP_CS26_2025.FrontDesk_MVC
 
         private RoomStatus MapStatus(string status)
         {
-            if (Enum.TryParse(status, out RoomStatus result)) return result;
+            if (status == "Under Maintenance") return RoomStatus.UnderMaintenance;
+            if (status == "Out of Service") return RoomStatus.OutOfService;
+            if (Enum.TryParse(status.Replace(" ", ""), out RoomStatus result)) return result;
             return RoomStatus.Available;
+        }
+
+        private string StatusToString(RoomStatus status)
+        {
+            switch (status)
+            {
+                case RoomStatus.UnderMaintenance:
+                    return "Under Maintenance";
+                case RoomStatus.OutOfService:
+                    return "Out of Service";
+                default:
+                    return status.ToString();
+            }
         }
 
         public void SaveMonthlyReport(int month, int year, decimal revenue, int count)
@@ -489,6 +505,108 @@ namespace FP_CS26_2025.FrontDesk_MVC
             }
             return dt;
         }
+
+        public DataTable GetAllPhysicalRooms()
+        {
+            var dt = new DataTable();
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    const string query = @"
+                        SELECT r.RoomNumber, rt.TypeName as RoomType, r.Floor, r.Status, r.RoomTypeID
+                        FROM Rooms r
+                        JOIN RoomTypes rt ON r.RoomTypeID = rt.RoomTypeID
+                        ORDER BY r.Floor, r.RoomNumber";
+                    using (var adapter = new SqlDataAdapter(query, conn))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching physical rooms: " + ex.Message, ex);
+            }
+            return dt;
+        }
+
+        public void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    const string query = @"
+                        IF EXISTS (SELECT 1 FROM Rooms WHERE RoomNumber = @Num)
+                        BEGIN
+                            UPDATE Rooms SET RoomTypeID = @TypeId, Floor = @Floor, Status = @Status WHERE RoomNumber = @Num
+                        END
+                        ELSE
+                        BEGIN
+                            INSERT INTO Rooms (RoomNumber, RoomTypeID, Floor, Status) VALUES (@Num, @TypeId, @Floor, @Status)
+                        END";
+                    
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Num", roomNumber);
+                        cmd.Parameters.AddWithValue("@TypeId", roomTypeId);
+                        cmd.Parameters.AddWithValue("@Floor", floor);
+                        cmd.Parameters.AddWithValue("@Status", status);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error saving physical room: " + ex.Message, ex);
+            }
+        }
+
+        public void DeletePhysicalRoom(string roomNumber)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    const string query = "DELETE FROM Rooms WHERE RoomNumber = @Num";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Num", roomNumber);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error deleting room: " + ex.Message, ex);
+            }
+        }
+
+        public DataTable GetAllRoomTypes()
+        {
+            var dt = new DataTable();
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    const string query = "SELECT RoomTypeID, TypeName, BasePrice, Capacity FROM RoomTypes ORDER BY TypeName";
+                    using (var adapter = new SqlDataAdapter(query, conn))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching room types: " + ex.Message, ex);
+            }
+            return dt;
+        }
     }
 
     /// <summary>
@@ -497,7 +615,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
     /// </summary>
     public class GenericRoom : Room
     {
-        public GenericRoom(int roomNumber, string type, decimal price, int cap) 
-            : base(roomNumber, type, price, cap) { }
+        public GenericRoom(int roomNumber, string type, decimal price, int cap, int floor = 1) 
+            : base(roomNumber, type, price, cap, floor) { }
     }
 }

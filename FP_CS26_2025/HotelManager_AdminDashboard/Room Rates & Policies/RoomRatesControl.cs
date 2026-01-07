@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FP_CS26_2025.HotelManager_AdminDashboard;
+using FP_CS26_2025.FrontDesk_MVC;
 
 namespace FP_CS26_2025.Room_Rates___Policies
 {
@@ -14,6 +15,8 @@ namespace FP_CS26_2025.Room_Rates___Policies
     {
         private DataManager _dataManager;
         private readonly string _baseImagePath;
+        private bool _isInventoryView = false;
+        private readonly IHotelDataService _dataService = new SqlHotelDataService();
 
         public RoomRatesControl()
         {
@@ -24,14 +27,94 @@ namespace FP_CS26_2025.Room_Rates___Policies
         public void SetDataManager(DataManager manager)
         {
             _dataManager = manager;
-            LoadRoomData();
+            RefreshCurrentView();
         }
 
         private void RoomRatesControl_Load(object sender, EventArgs e)
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
-                LoadRoomData();
+                RefreshCurrentView();
+            }
+        }
+
+        private void UpdateView()
+        {
+            dgvRoomRates.Visible = !_isInventoryView;
+            dgvRoomInventory.Visible = _isInventoryView;
+            btnChangePrice.Visible = !_isInventoryView;
+            btnAddRoom.Visible = _isInventoryView;
+            
+            // Toggle "Active" button styles
+            btnRoomCategories.BackColor = _isInventoryView ? Color.FromArgb(189, 195, 199) : Color.FromArgb(41, 128, 185);
+            btnRoomInventory.BackColor = _isInventoryView ? Color.FromArgb(41, 128, 185) : Color.FromArgb(189, 195, 199);
+            
+            RefreshCurrentView();
+        }
+
+        private void RefreshCurrentView()
+        {
+            if (_isInventoryView) LoadInventoryData();
+            else LoadRoomData();
+        }
+
+        private void LoadInventoryData()
+        {
+            try
+            {
+                dgvRoomInventory.DataSource = _dataService.GetAllPhysicalRooms();
+                if (dgvRoomInventory.Columns.Contains("RoomTypeID"))
+                    dgvRoomInventory.Columns["RoomTypeID"].Visible = false;
+                
+                // Color rows based on status
+                foreach (DataGridViewRow row in dgvRoomInventory.Rows)
+                {
+                    string status = row.Cells["Status"].Value?.ToString();
+                    if (status == "Under Maintenance") row.DefaultCellStyle.ForeColor = Color.OrangeRed;
+                    else if (status == "Out of Service") row.DefaultCellStyle.ForeColor = Color.Red;
+                    else if (status == "Available") row.DefaultCellStyle.ForeColor = Color.Green;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading inventory: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnRoomCategories_Click(object sender, EventArgs e)
+        {
+            _isInventoryView = false;
+            UpdateView();
+        }
+
+        private void btnRoomInventory_Click(object sender, EventArgs e)
+        {
+            _isInventoryView = true;
+            UpdateView();
+        }
+
+        private void btnAddRoom_Click(object sender, EventArgs e)
+        {
+            using (var form = new ManageRoomForm(_dataService))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadInventoryData();
+                }
+            }
+        }
+
+        private void dgvRoomInventory_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            
+            string roomNum = dgvRoomInventory.Rows[e.RowIndex].Cells["RoomNumber"].Value.ToString();
+            using (var form = new ManageRoomForm(_dataService, roomNum))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadInventoryData();
+                }
             }
         }
 
@@ -176,12 +259,12 @@ namespace FP_CS26_2025.Room_Rates___Policies
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             txtSearch.Clear();
-            LoadRoomData();
+            RefreshCurrentView();
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            LoadRoomData();
+            RefreshCurrentView();
         }
     }
 }
