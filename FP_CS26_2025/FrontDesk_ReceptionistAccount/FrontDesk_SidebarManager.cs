@@ -12,7 +12,7 @@ namespace FP_CS26_2025
     public class FrontDesk_SidebarManager : UserControl
     {
         private Label lblFrontDesk;
-        private Button btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling, btnLogout;
+        private Button btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling, btnArchiveReports, btnLogout;
         private Action<Button> navigationHandler;
 
         // Events for navigation
@@ -22,6 +22,7 @@ namespace FP_CS26_2025
         public event EventHandler CheckOutClicked;
         public event EventHandler RoomAssignmentsClicked;
         public event EventHandler BillingClicked;
+        public event EventHandler ArchiveReportsClicked;
         public event EventHandler LogoutClicked;
 
         public FrontDesk_SidebarManager()
@@ -63,6 +64,7 @@ namespace FP_CS26_2025
             btnCheckOut = CreateNavButton("Check-Out Guests", startY + (btnHeight + gap) * 2);
             btnRoomAssignments = CreateNavButton("Room Assignments", startY + (btnHeight + gap) * 3);
             btnBilling = CreateNavButton("Billing", startY + (btnHeight + gap) * 4);
+            btnArchiveReports = CreateNavButton("Archive Reports", startY + (btnHeight + gap) * 5);
 
             btnLogout = CreateNavButton("Logout", 0); 
             btnLogout.BackColor = Color.FromArgb(192, 57, 43); 
@@ -71,7 +73,7 @@ namespace FP_CS26_2025
             
             this.Controls.Add(lblFrontDesk);
             this.Controls.AddRange(new Control[] {
-                btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling, btnLogout
+                btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling, btnArchiveReports, btnLogout
             });
         }
 
@@ -120,6 +122,9 @@ namespace FP_CS26_2025
                     case "Billing":
                         BillingClicked?.Invoke(this, EventArgs.Empty);
                         break;
+                    case "Archive Reports":
+                        ArchiveReportsClicked?.Invoke(this, EventArgs.Empty);
+                        break;
                     case "Logout":
                         LogoutClicked?.Invoke(this, EventArgs.Empty);
                         break;
@@ -154,11 +159,12 @@ namespace FP_CS26_2025
             else if (buttonText == "Check-Out") SelectButton(btnCheckOut);
             else if (buttonText == "Rooms") SelectButton(btnRoomAssignments);
             else if (buttonText == "Billing") SelectButton(btnBilling);
+            else if (buttonText == "Archive") SelectButton(btnArchiveReports);
         }
 
         public void ResetButtonColors()
         {
-             var buttons = new[] { btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling };
+             var buttons = new[] { btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling, btnArchiveReports };
              foreach(var btn in buttons)
              {
                  if(btn != null)
@@ -203,7 +209,7 @@ namespace FP_CS26_2025
 
         private void SetButtonProperty(Action<Button> action)
         {
-            var buttons = new[] { btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling };
+            var buttons = new[] { btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling, btnArchiveReports };
             foreach (var button in buttons)
             {
                 if (button != null) action(button);
@@ -212,7 +218,7 @@ namespace FP_CS26_2025
 
         private void SetButtonsEnabled(bool enabled)
         {
-            var buttons = new[] { btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling };
+            var buttons = new[] { btnReservations, btnCheckIn, btnCheckOut, btnRoomAssignments, btnBilling, btnArchiveReports };
             foreach (var button in buttons)
             {
                 if (button != null)
