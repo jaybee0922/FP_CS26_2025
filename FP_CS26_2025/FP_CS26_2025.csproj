@@ -183,6 +183,9 @@
     <Compile Include="FrontDesk_ReceptionistAccount\BillingPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="FrontDesk_ReceptionistAccount\ArchiveReportsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="FrontDesk_ReceptionistAccount\Controllers\FrontDeskController.cs" />
     <Compile Include="FrontDesk_ReceptionistAccount\Models\IRoom.cs" />
     <Compile Include="FrontDesk_ReceptionistAccount\Models\Room.cs" />

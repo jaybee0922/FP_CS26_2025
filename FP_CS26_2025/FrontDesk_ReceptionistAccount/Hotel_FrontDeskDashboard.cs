@@ -77,6 +77,11 @@ namespace FP_CS26_2025
                 SwitchView(new BillingPanel(_controller));
             };
 
+            sidebarManager1.ArchiveReportsClicked += (s, e) => {
+                sidebarManager1.SelectButtonByText("Archive");
+                SwitchView(new ArchiveReportsPanel(_controller));
+            };
+
             sidebarManager1.LogoutClicked += (s, e) => {
                 _logoutService.HandleLogout(this);
             };

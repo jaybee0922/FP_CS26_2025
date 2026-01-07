@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using FP_CS26_2025.Data;
@@ -429,6 +430,64 @@ namespace FP_CS26_2025.FrontDesk_MVC
         {
             if (Enum.TryParse(status, out RoomStatus result)) return result;
             return RoomStatus.Available;
+        }
+
+        public void SaveMonthlyReport(int month, int year, decimal revenue, int count)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    // Upsert Logic: Update if exists, Insert if new
+                    const string query = @"
+                        MERGE MonthlyReports AS target
+                        USING (SELECT @Month AS Month, @Year AS Year) AS source
+                        ON (target.Month = source.Month AND target.Year = source.Year)
+                        WHEN MATCHED THEN
+                            UPDATE SET TotalRevenue = @Revenue, TransactionCount = @Count, GeneratedDate = GETDATE()
+                        WHEN NOT MATCHED THEN
+                            INSERT ([Month], [Year], TotalRevenue, TransactionCount, GeneratedDate)
+                            VALUES (@Month, @Year, @Revenue, @Count, GETDATE());";
+
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Month", month);
+                        cmd.Parameters.AddWithValue("@Year", year);
+                        cmd.Parameters.AddWithValue("@Revenue", revenue);
+                        cmd.Parameters.AddWithValue("@Count", count);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error saving monthly report: " + ex.Message);
+                throw new Exception("Failed to save annual report to database.", ex);
+            }
+        }
+
+        public System.Data.DataTable GetArchivedReports()
+        {
+            var dt = new System.Data.DataTable();
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT [Month], [Year], TotalRevenue, TransactionCount, GeneratedDate FROM MonthlyReports ORDER BY [Year] DESC, [Month] DESC";
+                    using (var adapter = new SqlDataAdapter(query, conn))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error fetching archived reports: " + ex.Message);
+                throw new Exception("Data Access Error: Could not retrieve archived reports. Please check your connection.", ex);
+            }
+            return dt;
         }
     }
 

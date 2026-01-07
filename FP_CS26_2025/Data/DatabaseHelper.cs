@@ -142,6 +142,24 @@ namespace FP_CS26_2025.Data
                         var updateImgCmd = new SqlCommand("UPDATE RoomTypes SET ImageFilename = TypeName WHERE ImageFilename IS NULL", conn);
                         updateImgCmd.ExecuteNonQuery();
                     }
+
+                    // Check if MonthlyReports table exists
+                    var checkTableCmd = new SqlCommand("SELECT OBJECT_ID('dbo.MonthlyReports', 'U')", conn);
+                    if (checkTableCmd.ExecuteScalar() == DBNull.Value)
+                    {
+                        const string createTableQuery = @"
+                            CREATE TABLE MonthlyReports (
+                                ReportID INT IDENTITY(1,1) PRIMARY KEY,
+                                [Month] INT NOT NULL,
+                                [Year] INT NOT NULL,
+                                TotalRevenue DECIMAL(18, 2) NOT NULL,
+                                TransactionCount INT NOT NULL,
+                                GeneratedDate DATETIME DEFAULT GETDATE(),
+                                CONSTRAINT UQ_Report_MonthYear UNIQUE ([Month], [Year])
+                            )";
+                        var createCmd = new SqlCommand(createTableQuery, conn);
+                        createCmd.ExecuteNonQuery();
+                    }
                 }
                 catch (Exception ex)
                 {

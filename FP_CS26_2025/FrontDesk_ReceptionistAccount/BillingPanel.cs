@@ -15,13 +15,21 @@ namespace FP_CS26_2025
         private DateTimePicker dtStart, dtEnd;
         private ComboBox cmbStatus;
         private ModernShadowPanel shadowPanel;
+        
+        // Pagination
+        private Button btnPrevious, btnNext;
+        private Label lblPageInfo;
+        private int _currentPage = 1;
+        private int _pageSize = 20;
+        private int _totalRecords = 0;
 
         public BillingPanel() : base() { InitializeComponents(); }
 
         public BillingPanel(FrontDeskController controller) : base(controller, "Billing & Transactions")
         {
             InitializeComponents();
-            // LoadDummyData(); // Placeholder
+            dtStart.Value = DateTime.Today.AddDays(-30); // Default to last 30 days
+            dtEnd.Value = DateTime.Today;
         }
 
         private void InitializeComponents()
@@ -40,7 +48,6 @@ namespace FP_CS26_2025
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F)); 
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F)); 
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F)); 
-
             // Filters Panel
             Panel filterPanel = new Panel { Dock = DockStyle.Fill, Margin = new Padding(0, 0, 0, 10) };
             
@@ -52,11 +59,11 @@ namespace FP_CS26_2025
             
             Label lblStatus = new Label { Text = "Status:", Location = new Point(320, 8), AutoSize = true, Font = new Font("Segoe UI", 10) };
             cmbStatus = new ComboBox { Location = new Point(370, 5), Width = 120, DropDownStyle = ComboBoxStyle.DropDownList, Font = new Font("Segoe UI", 10) };
-            cmbStatus.Items.AddRange(new object[] { "All", "Paid", "Pending", "Refused" });
+            cmbStatus.Items.AddRange(new object[] { "All", "Paid", "Pending" });
             cmbStatus.SelectedIndex = 0;
 
             Button btnFilter = new Button { Text = "Apply Filter", Location = new Point(510, 3), Size = new Size(100, 30), BackColor = Color.FromArgb(41, 128, 185), ForeColor = Color.White, FlatStyle = FlatStyle.Flat };
-            btnFilter.Click += (s, e) => MessageBox.Show("Filter logic pending API integration");
+            btnFilter.Click += (s, e) => { _currentPage = 1; RefreshData(); };
 
             filterPanel.Controls.AddRange(new Control[] { lblFrom, dtStart, lblTo, dtEnd, lblStatus, cmbStatus, btnFilter });
 
@@ -102,13 +109,30 @@ namespace FP_CS26_2025
                 RowTemplate = { Height = 35 }
             };
 
-            // Add columns manually for placeholder
-            dgvBilling.Columns.Add("Date", "Date");
-            dgvBilling.Columns.Add("Guest", "Guest");
-            dgvBilling.Columns.Add("Amount", "Amount");
-            dgvBilling.Columns.Add("Status", "Status");
-
             shadowPanel.Controls.Add(dgvBilling);
+
+            // Footer Panel (Pagination + Report)
+            var footerPanel = new Panel { Dock = DockStyle.Fill, Margin = new Padding(0) };
+
+            // Create a container for pagination to keep them together and centered/spaced
+            var paginationCont = new FlowLayoutPanel
+            {
+                Location = new Point(0, 5),
+                Size = new Size(450, 45),
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                Padding = new Padding(0, 5, 0, 0)
+            };
+
+            btnPrevious = new Button { Text = "< Previous", Size = new Size(100, 35), FlatStyle = FlatStyle.Flat, Margin = new Padding(0, 0, 10, 0) };
+            btnPrevious.Click += (s, e) => { if (_currentPage > 1) { _currentPage--; RefreshData(); } };
+
+            lblPageInfo = new Label { Text = "Page 1 of 1", AutoSize = true, Font = new Font("Segoe UI", 10), Margin = new Padding(0, 8, 10, 0) };
+
+            btnNext = new Button { Text = "Next >", Size = new Size(100, 35), FlatStyle = FlatStyle.Flat, Margin = new Padding(0) };
+            btnNext.Click += (s, e) => { if (_currentPage * _pageSize < _totalRecords) { _currentPage++; RefreshData(); } };
+
+            paginationCont.Controls.AddRange(new Control[] { btnPrevious, lblPageInfo, btnNext });
 
             btnGenerateReport = new Button
             {
@@ -118,17 +142,18 @@ namespace FP_CS26_2025
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 10f, FontStyle.Bold),
-                Cursor = Cursors.Hand,
-                Anchor = AnchorStyles.Right
+                Cursor = Cursors.Hand
             };
             btnGenerateReport.FlatAppearance.BorderSize = 0;
-            btnGenerateReport.Click += (s, e) => MessageBox.Show("Report generation feature coming soon.");
+            btnGenerateReport.Location = new Point(footerPanel.Width - btnGenerateReport.Width, 5);
+            btnGenerateReport.Click += BtnGenerateReport_Click;
 
-            
-            // Footer Panel
-            var footerPanel = new Panel { Dock = DockStyle.Fill, Margin = new Padding(0) };
-            footerPanel.Controls.Add(btnGenerateReport);
-            btnGenerateReport.Location = new Point(footerPanel.Width - btnGenerateReport.Width, 10);
+            // Handle Resize for Report Button
+            footerPanel.Resize += (s, e) => {
+                btnGenerateReport.Location = new Point(footerPanel.Width - btnGenerateReport.Width, 5);
+            };
+
+            footerPanel.Controls.AddRange(new Control[] { paginationCont, btnGenerateReport });
 
             mainLayout.Padding = new Padding(20, 60, 20, 20); 
             mainLayout.Controls.Add(filterPanel, 0, 1);
@@ -141,11 +166,66 @@ namespace FP_CS26_2025
             this.ResumeLayout(false);
         }
 
+        private void BtnGenerateReport_Click(object sender, EventArgs e)
+        {
+            // Set Filters to Current Month
+            var now = DateTime.Now;
+            var startOfMonth = new DateTime(now.Year, now.Month, 1);
+            var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+
+            dtStart.Value = startOfMonth;
+            dtEnd.Value = endOfMonth;
+            cmbStatus.SelectedItem = "All"; // Report usually covers all valid payments
+
+            // Refresh to show data
+            _currentPage = 1;
+            RefreshData();
+
+            // Calculate Summary of ALL matching records
+            int totalRecs;
+            var reportData = _controller.GetFilteredPayments(startOfMonth, endOfMonth, "All", "", 1, 100000, out totalRecs);
+            
+            decimal totalRevenue = reportData.Sum(p => p.Amount);
+            int count = reportData.Count();
+
+            string message = $"Monthly Report ({startOfMonth:MMM yyyy})\n\n" +
+                             $"Total Transactions: {count}\n" +
+                             $"Total Revenue: P {totalRevenue:N2}\n\n" +
+                             $"Do you want to ARCHIVE this report to the database?";
+
+            var result = MessageBox.Show(message, "Monthly Report", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    _controller.SaveMonthlyReport(now.Month, now.Year, totalRevenue, count);
+                    MessageBox.Show("Report successfully archived!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                   MessageBox.Show("Failed to archive report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         public override void RefreshData()
         {
-            if (_controller == null) return;
+            if (_controller == null || dgvBilling == null) return;
             
-            var payments = _controller.GetPaymentHistory().Select(p => new {
+            // Capture Filters
+            DateTime start = dtStart.Value;
+            DateTime end = dtEnd.Value;
+            string status = cmbStatus.SelectedItem?.ToString() ?? "All";
+            string query = ""; // Add SearchBox if needed, currently using Base functionality?
+            
+            // Base class text search if available (BaseFrontDeskPanel often has a search box, check usage)
+            // But we don't have access to the base search box text directly here unless exposed.
+            // We will just assume empty query for refresh, or if PerformSearch calls this.
+            
+            var payments = _controller.GetFilteredPayments(start, end, status, query, _currentPage, _pageSize, out _totalRecords);
+            
+            var displayList = payments.Select(p => new {
                 ID = p.PaymentId,
                 Date = p.PaymentDate.ToString("MM/dd HH:mm"),
                 Guest = p.GuestName,
@@ -154,28 +234,46 @@ namespace FP_CS26_2025
                 Method = p.PaymentMethod
             }).ToList();
             
-            dgvBilling.DataSource = payments;
+            dgvBilling.DataSource = displayList;
+
+            // Update Pagination Controls
+            int totalPages = (int)Math.Ceiling((double)_totalRecords / _pageSize);
+            if (totalPages < 1) totalPages = 1;
+            
+            lblPageInfo.Text = $"Page {_currentPage} of {totalPages} (Total: {_totalRecords})";
+            btnPrevious.Enabled = _currentPage > 1;
+            btnNext.Enabled = _currentPage < totalPages;
         }
 
         public override void PerformSearch(string query)
         {
             if (_controller == null) return;
-            if (string.IsNullOrWhiteSpace(query)) { RefreshData(); return; }
+            _currentPage = 1; // Reset to page 1 on search
+            
+            DateTime start = dtStart.Value;
+            DateTime end = dtEnd.Value;
+            string status = cmbStatus.SelectedItem?.ToString() ?? "All";
+            
+            var payments = _controller.GetFilteredPayments(start, end, status, query, _currentPage, _pageSize, out _totalRecords);
 
-            var filtered = _controller.GetPaymentHistory()
-                .Where(p => p.GuestName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                            p.ReservationId.Contains(query) ||
-                            p.PaymentMethod.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
-                .Select(p => new {
-                    ID = p.PaymentId,
-                    Date = p.PaymentDate.ToString("MM/dd HH:mm"),
-                    Guest = p.GuestName,
-                    Reservation = p.ReservationId,
-                    Amount = $"P {p.Amount:N2}",
-                    Method = p.PaymentMethod
-                }).ToList();
-
-            dgvBilling.DataSource = filtered;
+            var displayList = payments.Select(p => new {
+                ID = p.PaymentId,
+                Date = p.PaymentDate.ToString("MM/dd HH:mm"),
+                Guest = p.GuestName,
+                Reservation = p.ReservationId,
+                Amount = $"P {p.Amount:N2}",
+                Method = p.PaymentMethod
+            }).ToList();
+            
+            dgvBilling.DataSource = displayList;
+            
+            // Update Pagination Controls
+            int totalPages = (int)Math.Ceiling((double)_totalRecords / _pageSize);
+            if (totalPages < 1) totalPages = 1;
+            
+            lblPageInfo.Text = $"Page {_currentPage} of {totalPages} (Total: {_totalRecords})";
+            btnPrevious.Enabled = _currentPage > 1;
+            btnNext.Enabled = _currentPage < totalPages;
         }
     }
 }

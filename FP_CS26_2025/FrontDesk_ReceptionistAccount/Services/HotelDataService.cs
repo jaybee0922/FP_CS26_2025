@@ -16,6 +16,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
         void UpdateReservationStatus(string reservationId, string status);
         bool IsRoomAvailable(int roomNumber, DateTime start, DateTime end);
         IEnumerable<PaymentRecord> GetAllPayments();
+        System.Data.DataTable GetArchivedReports();
     }
 
     public class InMemoryHotelService : IHotelDataService
@@ -56,5 +57,6 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public void UpdateReservationStatus(string reservationId, string status) { }
         public bool IsRoomAvailable(int roomNumber, DateTime start, DateTime end) => true;
         public IEnumerable<PaymentRecord> GetAllPayments() => new List<PaymentRecord>();
+        public System.Data.DataTable GetArchivedReports() => new System.Data.DataTable();
     }
 }
