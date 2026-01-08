@@ -70,8 +70,21 @@ namespace FP_CS26_2025.Room_Rates___Policies
 
         private void RefreshCurrentView()
         {
+            LoadPolicies();
             if (_isInventoryView) LoadInventoryData();
             else LoadRoomData();
+        }
+
+        private void LoadPolicies()
+        {
+            if (_configService != null)
+            {
+                var config = _configService.LoadConfig();
+                if (config != null)
+                {
+                    lblPolicyText.Text = config.PolicyText;
+                }
+            }
         }
 
         private void LoadInventoryData()

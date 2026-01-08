@@ -17,6 +17,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
     {
         private readonly ILogoutService _logoutService;
         private RoomRatesControl _roomRatesControl;
+        private FP_CS26_2025.HotelManager_AdminDashboard.Reports.ReportsControl _reportsControl;
 
         public Hotel_AdminDashboard()
         {
@@ -28,9 +29,15 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             _roomRatesControl.Dock = DockStyle.Fill;
             _roomRatesControl.Visible = false;
             mainContentPanel.Controls.Add(_roomRatesControl);
+
+            // Initialize ReportsControl
+            _reportsControl = new FP_CS26_2025.HotelManager_AdminDashboard.Reports.ReportsControl();
+            _reportsControl.Dock = DockStyle.Fill;
+            _reportsControl.Visible = false;
+            mainContentPanel.Controls.Add(_reportsControl);
+
             this.DoubleBuffered = true;
             
-            // Initial data load
             // Initial data load
             // Data Manager Setup
             var dataManager = new DataManager(); // Central data manager
@@ -81,6 +88,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 tableLayoutPanelContent.Visible = true;
                 userManagementControl1.Visible = false;
                 _roomRatesControl.Visible = false;
+                _reportsControl.Visible = false;
                 systemConfigurationControl1.Visible = false;
             };
 
@@ -90,6 +98,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 tableLayoutPanelContent.Visible = false;
                 userManagementControl1.Visible = true;
                 _roomRatesControl.Visible = false;
+                _reportsControl.Visible = false;
                 systemConfigurationControl1.Visible = false;
                 userManagementControl1.BringToFront();
             };
@@ -100,10 +109,22 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 tableLayoutPanelContent.Visible = false;
                 userManagementControl1.Visible = false;
                 systemConfigurationControl1.Visible = false;
+                _reportsControl.Visible = false;
                 _roomRatesControl.Visible = true;
                 _roomRatesControl.BringToFront();
                 _roomRatesControl.SetDataManager(dataManager);
                 _roomRatesControl.SetConfigService(new FP_CS26_2025.HotelManager_AdminDashboard.Configuration.XmlConfigService());
+            };
+
+            sidebarManager1.ReportsClicked += (s, e) =>
+            {
+                sidebarManager1.SelectButtonByText("Reports");
+                tableLayoutPanelContent.Visible = false;
+                userManagementControl1.Visible = false;
+                _roomRatesControl.Visible = false;
+                systemConfigurationControl1.Visible = false;
+                _reportsControl.Visible = true;
+                _reportsControl.BringToFront();
             };
 
             sidebarManager1.SystemConfigClicked += (s, e) =>
@@ -112,6 +133,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 tableLayoutPanelContent.Visible = false;
                 userManagementControl1.Visible = false;
                 _roomRatesControl.Visible = false;
+                _reportsControl.Visible = false;
                 systemConfigurationControl1.Visible = true;
                 systemConfigurationControl1.BringToFront();
                 systemConfigurationControl1.SetDataManager(dataManager);

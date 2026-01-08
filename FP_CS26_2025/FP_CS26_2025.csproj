@@ -91,6 +91,12 @@
     <Compile Include="HotelManager_AdminDashboard\Hotel_AdminDashboard.Designer.cs">
       <DependentUpon>Hotel_AdminDashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="HotelManager_AdminDashboard\Reports\ReportsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HotelManager_AdminDashboard\Reports\ReportsControl.Designer.cs">
+      <DependentUpon>ReportsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="HotelManager_AdminDashboard\MainContentManager.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -291,6 +297,8 @@
     </Compile>
     <Compile Include="Services\ILogoutService.cs" />
     <Compile Include="Services\LogoutService.cs" />
+    <Compile Include="Services\IReportService.cs" />
+    <Compile Include="Services\ReportService.cs" />
     <Compile Include="Services\Validation\IValidator.cs" />
     <Compile Include="Services\Validation\BookingValidator.cs" />
   </ItemGroup>
