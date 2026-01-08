@@ -11,6 +11,7 @@ namespace FP_CS26_2025
     {
         private DataGridView dgvReservations;
         private Button btnCheckIn;
+        private Button btnDelete;
         private TableLayoutPanel mainLayout;
         private ModernTextBox txtSearch;
         private ModernShadowPanel shadowPanel;
@@ -173,8 +174,32 @@ namespace FP_CS26_2025
 
             // Button Panel
             var buttonPanel = new Panel { Dock = DockStyle.Fill, Margin = new Padding(0) };
-            buttonPanel.Controls.Add(btnCheckIn);
+            
+            // Delete Button
+            btnDelete = new Button 
+            { 
+                Text = "Delete Check In", 
+                Size = new Size(180, 40),
+                BackColor = Color.FromArgb(231, 76, 60), // Red color
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 10f, FontStyle.Bold),
+                Cursor = Cursors.Hand,
+                Anchor = AnchorStyles.Right
+            };
+            btnDelete.FlatAppearance.BorderSize = 0;
+            btnDelete.Click += BtnDelete_Click;
+
+            // Position Buttons
             btnCheckIn.Location = new Point(buttonPanel.Width - btnCheckIn.Width, 10);
+            btnDelete.Location = new Point(btnCheckIn.Left - btnDelete.Width - 10, 10); // Left of CheckIn button
+            
+            buttonPanel.Controls.Add(btnCheckIn);
+            buttonPanel.Controls.Add(btnDelete); // Add Delete Button
+            buttonPanel.Resize += (s, e) => {
+                 btnCheckIn.Location = new Point(buttonPanel.Width - btnCheckIn.Width, 10);
+                 btnDelete.Location = new Point(btnCheckIn.Left - btnDelete.Width - 10, 10);
+            };
 
             mainLayout.Padding = new Padding(20, 60, 20, 20); 
             mainLayout.Controls.Add(searchWrapper, 0, 1);
@@ -250,6 +275,50 @@ namespace FP_CS26_2025
                 if (!isChecked) dgvReservations.Rows[e.RowIndex].Selected = true;
                 
                 dgvReservations.EndEdit();
+            }
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            if (_controller == null) return;
+            
+            DataGridViewRow selectedRow = null;
+            foreach (DataGridViewRow row in dgvReservations.Rows)
+            {
+                if ((row.Cells["colSelect"].Value as bool?) == true)
+                {
+                    selectedRow = row;
+                    break;
+                }
+            }
+
+            if (selectedRow == null)
+            {
+                MessageBox.Show("Please check the box for the reservation you want to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string reservationId = selectedRow.Cells["ReservationID"].Value.ToString();
+            string guestName = selectedRow.Cells["GuestName"].Value.ToString();
+
+            var confirmResult = MessageBox.Show(
+                $"Are you sure you want to delete the check-in record for {guestName} (ID: {reservationId})?\n\nThis will remove the reservation and payment data permanently.",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                try
+                {
+                    _controller.DeleteReservation(reservationId);
+                    MessageBox.Show("Check-in record deleted successfully.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting record: {ex.Message}", "Delete Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

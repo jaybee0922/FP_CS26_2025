@@ -607,6 +607,72 @@ namespace FP_CS26_2025.FrontDesk_MVC
             }
             return dt;
         }
+
+        public void DeleteReservation(string reservationId)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+                    using (var trans = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            // 1. Get Room Number to free it up
+                            string roomNumber = null;
+                            const string getRoomQuery = "SELECT RoomNumber FROM Reservations WHERE ReservationID = @ResId";
+                            using (var cmd = new SqlCommand(getRoomQuery, conn, trans))
+                            {
+                                cmd.Parameters.AddWithValue("@ResId", reservationId);
+                                var result = cmd.ExecuteScalar();
+                                if (result != null) roomNumber = result.ToString();
+                            }
+
+                            // 2. Delete Payments (Constraint)
+                            const string deletePayQuery = "DELETE FROM Payments WHERE ReservationID = @ResId";
+                            using (var cmd = new SqlCommand(deletePayQuery, conn, trans))
+                            {
+                                cmd.Parameters.AddWithValue("@ResId", reservationId);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            // 3. Delete Reservation
+                            const string deleteResQuery = "DELETE FROM Reservations WHERE ReservationID = @ResId";
+                            using (var cmd = new SqlCommand(deleteResQuery, conn, trans))
+                            {
+                                cmd.Parameters.AddWithValue("@ResId", reservationId);
+                                int rows = cmd.ExecuteNonQuery();
+                                if (rows == 0) throw new Exception("Reservation not found.");
+                            }
+
+                            // 4. Update Room Status to Available
+                            if (!string.IsNullOrEmpty(roomNumber))
+                            {
+                                const string updateRoomQuery = "UPDATE Rooms SET Status = 'Available' WHERE TRIM(RoomNumber) = TRIM(@Num)";
+                                using (var cmd = new SqlCommand(updateRoomQuery, conn, trans))
+                                {
+                                    cmd.Parameters.AddWithValue("@Num", roomNumber);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+
+                            trans.Commit();
+                        }
+                        catch
+                        {
+                            trans.Rollback();
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error deleting reservation: " + ex.Message);
+                throw new Exception("Failed to delete reservation.", ex);
+            }
+        }
     }
 
     /// <summary>

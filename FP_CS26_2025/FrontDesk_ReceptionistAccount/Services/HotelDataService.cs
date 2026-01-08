@@ -21,6 +21,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
         void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status);
         void DeletePhysicalRoom(string roomNumber);
         System.Data.DataTable GetAllRoomTypes();
+        void DeleteReservation(string reservationId);
     }
 
     public class InMemoryHotelService : IHotelDataService
@@ -66,5 +67,10 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status) { }
         public void DeletePhysicalRoom(string roomNumber) { }
         public System.Data.DataTable GetAllRoomTypes() => new System.Data.DataTable();
+        public void DeleteReservation(string reservationId) 
+        { 
+            var res = _reservations.FirstOrDefault(r => r.ReservationId == reservationId);
+            if (res != null) _reservations.Remove(res);
+        }
     }
 }

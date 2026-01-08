@@ -195,5 +195,13 @@ namespace FP_CS26_2025.FrontDesk_MVC
         {
             return ((SqlHotelDataService)_dataService).GetArchivedReports();
         }
+
+        public void DeleteReservation(string reservationId)
+        {
+            if (string.IsNullOrWhiteSpace(reservationId))
+                throw new ArgumentException("Reservation ID cannot be empty.", nameof(reservationId));
+            
+            _dataService.DeleteReservation(reservationId);
+        }
     }
 }
