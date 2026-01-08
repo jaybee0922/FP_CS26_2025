@@ -300,7 +300,9 @@
     <Compile Include="Services\Validation\IValidator.cs" />
     <Compile Include="Services\Validation\BookingValidator.cs" />
     <Compile Include="Services\SalesService.cs" />
-    <Compile Include="HotelManager_AdminDashboard\SalesProfitsControl.cs" />
+    <Compile Include="HotelManager_AdminDashboard\SalesProfitsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="HotelManager_AdminDashboard\SalesProfitsControl.Designer.cs">
       <DependentUpon>SalesProfitsControl.cs</DependentUpon>
     </Compile>
