@@ -106,6 +106,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 sidebarManager.UserManagementClicked += (s, e) => HandleUserManagementNavigation();
                 sidebarManager.RoomRatesClicked += (s, e) => HandleRoomRatesNavigation();
                 sidebarManager.ReportsClicked += (s, e) => HandleReportsNavigation();
+                sidebarManager.SalesProfitsClicked += (s, e) => HandleSalesProfitsNavigation();
                 sidebarManager.SystemConfigClicked += (s, e) => HandleSystemConfigNavigation();
             }
         }
@@ -153,6 +154,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 mainContentManager.ShowStatsSection(true);
                 mainContentManager.ShowBookingsSection(true);
                 mainContentManager.ShowQuickAccessSection(true);
+                mainContentManager.ShowSalesProfitsSection(false);
             }
         }
 
@@ -164,6 +166,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 mainContentManager.ShowStatsSection(false);
                 mainContentManager.ShowBookingsSection(false);
                 mainContentManager.ShowQuickAccessSection(false);
+                mainContentManager.ShowSalesProfitsSection(false);
                 // You can add user management specific content here
             }
         }
@@ -176,6 +179,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 mainContentManager.ShowStatsSection(false);
                 mainContentManager.ShowBookingsSection(false);
                 mainContentManager.ShowQuickAccessSection(false);
+                mainContentManager.ShowSalesProfitsSection(false);
                 
                 // You can add room rates specific content here
             }
@@ -189,6 +193,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 mainContentManager.ShowStatsSection(false);
                 mainContentManager.ShowBookingsSection(false);
                 mainContentManager.ShowQuickAccessSection(false);
+                mainContentManager.ShowSalesProfitsSection(false);
                 // You can add reports specific content here
             }
         }
@@ -201,7 +206,21 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 mainContentManager.ShowStatsSection(false);
                 mainContentManager.ShowBookingsSection(false);
                 mainContentManager.ShowQuickAccessSection(false);
+                mainContentManager.ShowSalesProfitsSection(false);
                 // You can add system config specific content here
+            }
+        }
+
+        private void HandleSalesProfitsNavigation()
+        {
+            // Show sales and profits content
+            if (mainContentManager != null)
+            {
+                mainContentManager.ShowStatsSection(false);
+                mainContentManager.ShowBookingsSection(false);
+                mainContentManager.ShowQuickAccessSection(false);
+                mainContentManager.ShowSalesProfitsSection(true);
+                mainContentManager.RefreshSalesData();
             }
         }
 
@@ -246,7 +265,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
         public void UpdateStatistics(int totalGuests, int availableRooms, int occupancyRate, int revenue)
         {
-            mainContentManager?.UpdateStatistics(totalGuests, availableRooms, occupancyRate, revenue);
+            // mainContentManager?.UpdateStatistics(totalGuests, availableRooms, occupancyRate, revenue);
         }
 
         private void CreateUpdateTimer()

@@ -12,6 +12,7 @@ namespace FP_CS26_2025.Rooms
         string Category { get; }
         decimal Price { get; }
         string Description { get; }
+        string Amenities { get; }
         int Capacity { get; }
     }
 }

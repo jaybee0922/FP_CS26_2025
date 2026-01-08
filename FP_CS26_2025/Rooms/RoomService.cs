@@ -25,23 +25,55 @@ namespace FP_CS26_2025.Rooms
             var activeRoomTypes = GetActiveTypesFromDb();
 
             // 2. Metadata for rooms - Default fallbacks if DB description is empty
-            var metadata = new Dictionary<string, (string Cat, string Desc)>
+            // 2. Metadata for rooms - Default fallbacks if DB description is empty
+            // Format: (Category, Description, Amenities)
+            var metadata = new Dictionary<string, (string Cat, string Desc, string Amenities)>
             {
-                { "Celebrity Suite", ("Luxe", "Experience the ultimate luxury in our most prestigious suite, featuring panoramic views and bespoke service.") },
-                { "Club Room", ("Premium", "Modern elegance meets comfort, with exclusive access to the Club Lounge and premium amenities.") },
-                { "Deluxe King", ("standard", "A spacious retreat with a plush King-sized bed, perfect for business or leisure travelers.") },
-                { "Deluxe Twin", ("standard", "Comfortably designed with twin beds and contemporary decor, ideal for friends or family.") },
-                { "Executive Suite Double", ("Executive", "Combining sophistication with functionality, featuring two double beds and a separate living area.") },
-                { "Executive Suite King", ("Executive", "Our premier suite for executives, offering a King bed, work-friendly space, and luxury bathroom.") },
-                { "Garden Suite", ("Nature", "Tranquil and serene, this suite offers direct views of our lush tropical gardens.") },
-                { "Grand Deluxe Family", ("Family", "Perfectly sized for families, featuring multiple bedding options and child-friendly features.") },
-                { "Grand Deluxe King", ("standard+", "An elevated stay with extra space and stunning views of the city skyline.") },
-                { "Grand Deluxe Twin", ("standard+", "Spacious and modern, designed for those who value both style and shared comfort.") },
-                { "Junior Suite", ("Luxe", "A seamless blend of living and sleeping areas with a touch of modern artistic design.") },
-                { "Manila Bay Suite", ("Luxe", "Breathtaking floor-to-ceiling views of the iconic Manila Bay sunset.") },
-                { "Premium Suite Double", ("Premium", "Two double beds and premium furnishings make this an excellent choice for groups.") },
-                { "Premium Suite King", ("Premium", "Unmatched comfort with a King bed, premium linens, and a dedicated workspace.") },
-                { "Presidential Suite", ("Imperial", "The pinnacle of opulence, offering sprawling space, a private dining room, and 24/7 butler service.") }
+                { "Celebrity Suite", ("Luxe", 
+                    "A luxurious suite designed for VIP guests, featuring a spacious living area, elegant bedroom, private dining space, premium furnishings, and panoramic views.",
+                    "King bed, separate living room, minibar, luxury bathroom, smart TV, high-speed Wi-Fi") },
+                { "Club Room", ("Premium", 
+                    "A stylish room offering comfort and exclusivity, with access to club-level services and a relaxing atmosphere ideal for business or leisure stays.",
+                    "King or twin bed, work desk, flat-screen TV, coffee/tea maker, Wi-Fi") },
+                { "Deluxe King", ("standard", 
+                    "A well-appointed room with a king-sized bed, perfect for couples seeking comfort and modern convenience.",
+                    "King bed, air conditioning, flat-screen TV, minibar, private bathroom, Wi-Fi") },
+                { "Deluxe Twin", ("standard", 
+                    "A comfortable room with two single beds, ideal for friends or colleagues traveling together.",
+                    "Twin beds, air conditioning, flat-screen TV, minibar, private bathroom, Wi-Fi") },
+                { "Executive Suite Double", ("Executive", 
+                    "A spacious suite featuring a double bed and a separate sitting area, ideal for extended stays or business travelers.",
+                    "Double bed, living area, work desk, minibar, flat-screen TV, Wi-Fi") },
+                { "Executive Suite King", ("Executive", 
+                    "An executive-level suite offering a king bed and elegant living space for enhanced comfort and privacy.",
+                    "King bed, separate living room, work desk, luxury bathroom, minibar, Wi-Fi") },
+                { "Garden Suite", ("Nature", 
+                    "A relaxing suite with garden views, providing a peaceful and nature-inspired ambiance.",
+                    "King bed, private terrace or garden view, living area, minibar, flat-screen TV, Wi-Fi") },
+                { "Grand Deluxe Family", ("Family", 
+                    "A spacious room designed for families, offering extra beds and ample space for comfort.",
+                    "King bed and additional bed(s), family seating area, flat-screen TV, minibar, Wi-Fi") },
+                { "Grand Deluxe King", ("standard+", 
+                    "An upgraded deluxe room with a king bed and enhanced space for a more luxurious stay.",
+                    "King bed, seating area, flat-screen TV, minibar, private bathroom, Wi-Fi") },
+                { "Grand Deluxe Twin", ("standard+", 
+                    "A larger deluxe room with twin beds, offering added space and comfort.",
+                    "Twin beds, seating area, flat-screen TV, minibar, private bathroom, Wi-Fi") },
+                { "Junior Suite", ("Luxe", 
+                    "A cozy suite offering a semi-separate living space, ideal for guests wanting extra room without a full suite.",
+                    "King bed, sitting area, flat-screen TV, minibar, Wi-Fi") },
+                { "Manila Bay Suite", ("Luxe", 
+                    "An elegant suite featuring breathtaking views of Manila Bay, ideal for romantic or relaxing stays.",
+                    "King bed, living area, panoramic bay view, minibar, luxury bathroom, Wi-Fi") },
+                { "Premium Suite Double", ("Premium", 
+                    "A refined suite with a double bed, offering upgraded amenities and stylish interiors.",
+                    "Double bed, separate living area, minibar, flat-screen TV, Wi-Fi") },
+                { "Premium Suite King", ("Premium", 
+                    "A premium suite with a king bed and spacious living area for ultimate comfort.",
+                    "King bed, living room, luxury bathroom, minibar, flat-screen TV, Wi-Fi") },
+                { "Presidential Suite", ("Imperial", 
+                    "The most exclusive and luxurious suite, designed for high-profile guests, with expansive space and top-tier amenities.",
+                    "Master bedroom, private living and dining areas, luxury bathroom, minibar, premium entertainment system, Wi-Fi") }
             };
 
             // 3. Populate services with ONLY rooms that exist in the DB
@@ -50,6 +82,7 @@ namespace FP_CS26_2025.Rooms
                 string name = dbType.Name;
                 string cat = "standard";
                 string desc = "A high-quality room offering modern comfort and essential amenities.";
+                string amenities = "Standard amenities available.";
                 decimal price = dbType.Price;
                 string imgName = dbType.ImageFilename ?? name;
 
@@ -58,25 +91,25 @@ namespace FP_CS26_2025.Rooms
                 {
                     desc = dbType.Description;
                 }
-                else
+                
+                // Always try to fetch metadata for accurate category and amenities
+                var matchKey = metadata.Keys.FirstOrDefault(k => k.Equals(name, StringComparison.OrdinalIgnoreCase));
+                if (matchKey != null)
                 {
-                    var match = metadata.Keys.FirstOrDefault(k => k.Equals(name, StringComparison.OrdinalIgnoreCase));
-                    if (match != null)
+                    var meta = metadata[matchKey];
+                    cat = meta.Cat;
+                    amenities = meta.Amenities;
+                    
+                    // If DB desc is empty, use metadata desc
+                    if (string.IsNullOrWhiteSpace(dbType.Description))
                     {
-                        desc = metadata[match].Desc;
+                        desc = meta.Desc;
                     }
                 }
                 
-                // Category fallback to hardcoded or inference
-                var catMatch = metadata.Keys.FirstOrDefault(k => k.Equals(name, StringComparison.OrdinalIgnoreCase));
-                if (catMatch != null)
-                {
-                    cat = metadata[catMatch].Cat;
-                }
-
                 // Use Image Filename from DB
                 string imagePath = GetImagePath(imgName);
-                _rooms.Add(new Room(name, imagePath, category: cat, price: price, description: desc, capacity: dbType.Capacity));
+                _rooms.Add(new Room(name, imagePath, category: cat, price: price, description: desc, amenities: amenities, capacity: dbType.Capacity));
             }
         }
 

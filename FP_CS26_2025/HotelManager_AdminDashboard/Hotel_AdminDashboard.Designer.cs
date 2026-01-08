@@ -33,7 +33,6 @@
             this.mainContentPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanelContent = new System.Windows.Forms.TableLayoutPanel();
             this.bookingManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.BookingManager();
-            this.statsPanelManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.StatsPanelManager();
             this.sidebarManager1 = new FP_CS26_2025.HotelManager_AdminDashboard.SidebarManager();
             this.userManagementControl1 = new FP_CS26_2025.HotelManager_AdminDashboard.UserManagementControl();
             this.systemConfigurationControl1 = new FP_CS26_2025.HotelManager_AdminDashboard.SystemConfigurationControl();
@@ -97,17 +96,14 @@
             // 
             // tableLayoutPanelContent
             // 
-            this.tableLayoutPanelContent.ColumnCount = 2;
-            this.tableLayoutPanelContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
-            this.tableLayoutPanelContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanelContent.ColumnCount = 1;
+            this.tableLayoutPanelContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelContent.Controls.Add(this.bookingManager1, 0, 0);
-            this.tableLayoutPanelContent.Controls.Add(this.statsPanelManager1, 1, 0);
             this.tableLayoutPanelContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelContent.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanelContent.Name = "tableLayoutPanelContent";
             this.tableLayoutPanelContent.RowCount = 1;
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelContent.Size = new System.Drawing.Size(1153, 621);
-            this.tableLayoutPanelContent.Size = new System.Drawing.Size(1153, 621);
-            this.tableLayoutPanelContent.Size = new System.Drawing.Size(1153, 621);
             this.tableLayoutPanelContent.Size = new System.Drawing.Size(1153, 621);
             this.tableLayoutPanelContent.TabIndex = 0;
             // 
@@ -119,36 +115,8 @@
             this.bookingManager1.Location = new System.Drawing.Point(8, 8);
             this.bookingManager1.Margin = new System.Windows.Forms.Padding(8);
             this.bookingManager1.Name = "bookingManager1";
-            this.bookingManager1.Size = new System.Drawing.Size(733, 387);
+            this.bookingManager1.Size = new System.Drawing.Size(1137, 605);
             this.bookingManager1.TabIndex = 6;
-            // 
-            // statsPanelManager1
-            // 
-            this.statsPanelManager1.AvailableRooms = 20;
-            this.statsPanelManager1.BackColor = System.Drawing.Color.White;
-            this.statsPanelManager1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.statsPanelManager1.CurrentBookings = 124;
-            this.statsPanelManager1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statsPanelManager1.Location = new System.Drawing.Point(757, 8);
-            this.statsPanelManager1.Margin = new System.Windows.Forms.Padding(8);
-            this.statsPanelManager1.Name = "statsPanelManager1";
-            this.statsPanelManager1.OccupancyRate = 86;
-            this.statsPanelManager1.Padding = new System.Windows.Forms.Padding(15);
-            this.statsPanelManager1.Revenue = new decimal(new int[] {
-            3450,
-            0,
-            0,
-            0});
-            this.statsPanelManager1.Size = new System.Drawing.Size(388, 387);
-            this.statsPanelManager1.StatPanelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
-            this.statsPanelManager1.StatValueColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
-            this.statsPanelManager1.StatValueFontSize = 16;
-            this.statsPanelManager1.TabIndex = 4;
-            this.statsPanelManager1.Target = new decimal(new int[] {
-            4000,
-            0,
-            0,
-            0});
             // 
             // userManagementControl1
             // 
@@ -213,7 +181,7 @@
         #endregion
         private SidebarManager sidebarManager1;
         
-        private StatsPanelManager statsPanelManager1;
+        // private StatsPanelManager statsPanelManager1;
         private BookingManager bookingManager1;
         private System.Windows.Forms.TableLayoutPanel mainLayout;
         private System.Windows.Forms.Panel dashboardContainer;
