@@ -8,12 +8,16 @@ namespace FP_CS26_2025.Rooms
     public partial class RoomCard : UserControl
     {
         private IRoom _room;
+        public event EventHandler<string> BookNowClicked;
 
         public RoomCard()
         {
             InitializeComponent();
             SetupModernDesign();
             AttachHoverEvents();
+            
+            // Wire up the button
+            _btnLearnMore.Click += (s, e) => BookNowClicked?.Invoke(this, _room?.Name);
         }
 
         private void AttachHoverEvents()

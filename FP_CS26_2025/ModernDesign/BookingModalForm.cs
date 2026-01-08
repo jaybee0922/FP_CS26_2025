@@ -29,13 +29,15 @@ namespace FP_CS26_2025.ModernDesign
 
         // Dependency Inversion: Injecting services and stay context
         private readonly IValidator<BookingRequestData> _validator;
+        private readonly string _preSelectedRoom;
 
-        public BookingModalForm(IRoomService roomService, IBookingService bookingService, DateTime checkIn, DateTime checkOut)
+        public BookingModalForm(IRoomService roomService, IBookingService bookingService, DateTime checkIn, DateTime checkOut, string preSelectedRoom = null)
         {
             InitializeComponent();
             _roomService = roomService ?? throw new ArgumentNullException(nameof(roomService));
             _bookingService = bookingService ?? throw new ArgumentNullException(nameof(bookingService));
-            _validator = new BookingValidator(); // specific implementation, but decoupled via interface usage elsewhere
+            _validator = new BookingValidator(); 
+            _preSelectedRoom = preSelectedRoom;
 
             // Precision Date Handling
             _checkIn = checkIn.Date;
@@ -94,7 +96,15 @@ namespace FP_CS26_2025.ModernDesign
 
                 if (cmbRoomType.Items.Count > 0)
                 {
-                    cmbRoomType.SelectedIndex = 0;
+                    if (!string.IsNullOrEmpty(_preSelectedRoom) && cmbRoomType.Items.Contains(_preSelectedRoom))
+                    {
+                        cmbRoomType.SelectedItem = _preSelectedRoom;
+                        cmbRoomType.Enabled = false; // Lock selection
+                    }
+                    else
+                    {
+                        cmbRoomType.SelectedIndex = 0;
+                    }
                 }
             }
             catch (Exception ex)

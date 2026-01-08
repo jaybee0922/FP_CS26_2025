@@ -11,6 +11,8 @@ namespace FP_CS26_2025.Rooms
         private int _currentPage = 1;
         private const int PageSize = 3; 
 
+        public event EventHandler<string> RoomBookRequested;
+
         public RoomGalleryView() : this(new RoomService())
         {
         }
@@ -41,6 +43,7 @@ namespace FP_CS26_2025.Rooms
                 var card = new RoomCard();
                 card.SetRoom(room);
                 card.Anchor = AnchorStyles.None; // Center within table cell
+                card.BookNowClicked += (s, roomName) => RoomBookRequested?.Invoke(this, roomName);
                 this.roomTableLayoutPanel.Controls.Add(card, column++, 0);
             }
         }

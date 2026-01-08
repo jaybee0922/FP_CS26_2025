@@ -73,10 +73,29 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
             // Password
             startY += gap;
+            // Password
+            startY += gap;
             var lblPassword = new Label { Text = "Password:", Location = new Point(30, startY), AutoSize = true };
             txtPassword = new TextBox { Location = new Point(30 + labelWidth, startY - 3), Width = inputWidth, UseSystemPasswordChar = true };
+            
+            // Eye Icon Button
+            var btnTogglePass = new Button 
+            { 
+                Text = "👁", 
+                Location = new Point(30 + labelWidth + inputWidth + 5, startY - 5), 
+                Size = new Size(30, 25),
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand
+            };
+            btnTogglePass.FlatAppearance.BorderSize = 0;
+            btnTogglePass.Click += (s, e) => {
+                txtPassword.UseSystemPasswordChar = !txtPassword.UseSystemPasswordChar;
+                btnTogglePass.Text = txtPassword.UseSystemPasswordChar ? "👁" : "🚫";
+            };
+
             this.Controls.Add(lblPassword);
             this.Controls.Add(txtPassword);
+            this.Controls.Add(btnTogglePass);
 
             // Birthday
             startY += gap;

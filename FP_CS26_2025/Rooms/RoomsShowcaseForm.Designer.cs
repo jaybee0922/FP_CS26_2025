@@ -5,6 +5,10 @@ namespace FP_CS26_2025.Rooms
         private System.ComponentModel.IContainer components = null;
         private RoomGalleryView roomGalleryView1;
         private System.Windows.Forms.Label lblSubtitle;
+        private System.Windows.Forms.Label lblArrival;
+        private System.Windows.Forms.Label lblDeparture;
+        private System.Windows.Forms.DateTimePicker dtpArrival;
+        private System.Windows.Forms.DateTimePicker dtpDeparture;
 
         protected override void Dispose(bool disposing)
         {
@@ -36,7 +40,14 @@ namespace FP_CS26_2025.Rooms
             this.mainBackgroundPanel.Controls.Add(this.lblLogo);
             this.mainBackgroundPanel.Controls.Add(this.modernNavbar1);
             this.mainBackgroundPanel.Controls.Add(this.roomGalleryView1);
-            this.mainBackgroundPanel.Controls.Add(this.footerControl); // Added FooterControl
+            this.mainBackgroundPanel.Controls.Add(this.footerControl);
+            
+            // Date Pickers
+            this.mainBackgroundPanel.Controls.Add(this.lblArrival);
+            this.mainBackgroundPanel.Controls.Add(this.dtpArrival);
+            this.mainBackgroundPanel.Controls.Add(this.lblDeparture);
+            this.mainBackgroundPanel.Controls.Add(this.dtpDeparture);
+            
             this.mainBackgroundPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainBackgroundPanel.Location = new System.Drawing.Point(0, 0);
             this.mainBackgroundPanel.Name = "mainBackgroundPanel";
@@ -54,6 +65,46 @@ namespace FP_CS26_2025.Rooms
             this.lblSubtitle.Size = new System.Drawing.Size(378, 32);
             this.lblSubtitle.TabIndex = 3;
             this.lblSubtitle.Text = "EXPERIENCE LUXURY AT ITS FINEST";
+            // 
+            // lblArrival
+            // 
+            this.lblArrival = new System.Windows.Forms.Label();
+            this.lblArrival.AutoSize = true;
+            this.lblArrival.BackColor = System.Drawing.Color.Transparent;
+            this.lblArrival.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblArrival.ForeColor = System.Drawing.Color.White;
+            this.lblArrival.Location = new System.Drawing.Point(866, 110);
+            this.lblArrival.Name = "lblArrival";
+            this.lblArrival.Size = new System.Drawing.Size(98, 28);
+            this.lblArrival.Text = "ARRIVAL:";
+            // 
+            // dtpArrival
+            // 
+            this.dtpArrival = new System.Windows.Forms.DateTimePicker();
+            this.dtpArrival.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpArrival.Location = new System.Drawing.Point(940, 108);
+            this.dtpArrival.Name = "dtpArrival";
+            this.dtpArrival.Size = new System.Drawing.Size(120, 25);
+            // 
+            // lblDeparture
+            // 
+            this.lblDeparture = new System.Windows.Forms.Label();
+            this.lblDeparture.AutoSize = true;
+            this.lblDeparture.BackColor = System.Drawing.Color.Transparent;
+            this.lblDeparture.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDeparture.ForeColor = System.Drawing.Color.White;
+            this.lblDeparture.Location = new System.Drawing.Point(1080, 110);
+            this.lblDeparture.Name = "lblDeparture";
+            this.lblDeparture.Size = new System.Drawing.Size(125, 28);
+            this.lblDeparture.Text = "DEPARTURE:";
+            // 
+            // dtpDeparture
+            // 
+            this.dtpDeparture = new System.Windows.Forms.DateTimePicker();
+            this.dtpDeparture.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDeparture.Location = new System.Drawing.Point(1180, 108);
+            this.dtpDeparture.Name = "dtpDeparture";
+            this.dtpDeparture.Size = new System.Drawing.Size(120, 25);
             // 
             // footerControl
             // 
