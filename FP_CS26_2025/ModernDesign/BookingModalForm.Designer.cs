@@ -37,6 +37,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblPricePerNight = new System.Windows.Forms.Label();
             this.lblRoomSelectTitle = new System.Windows.Forms.Label();
             this.lblRoomDesc = new System.Windows.Forms.Label();
+            this.lblRoomAmenities = new System.Windows.Forms.Label();
             this.picRoom = new System.Windows.Forms.PictureBox();
             this.lblLiveTotal = new System.Windows.Forms.Label();
             this.lblStayDuration = new System.Windows.Forms.Label();
@@ -259,6 +260,7 @@ namespace FP_CS26_2025.ModernDesign
             this.pnlVisual.Controls.Add(this.lblPricePerNight);
             this.pnlVisual.Controls.Add(this.lblRoomSelectTitle);
             this.pnlVisual.Controls.Add(this.lblRoomDesc);
+            this.pnlVisual.Controls.Add(this.lblRoomAmenities);
             this.pnlVisual.Controls.Add(this.picRoom);
             this.pnlVisual.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlVisual.Location = new System.Drawing.Point(0, 0);
@@ -294,9 +296,19 @@ namespace FP_CS26_2025.ModernDesign
             this.lblRoomDesc.ForeColor = System.Drawing.Color.FromArgb(200, 200, 200);
             this.lblRoomDesc.Location = new System.Drawing.Point(20, 320);
             this.lblRoomDesc.Name = "lblRoomDesc";
-            this.lblRoomDesc.Size = new System.Drawing.Size(330, 180);
+            this.lblRoomDesc.Size = new System.Drawing.Size(330, 80);
             this.lblRoomDesc.TabIndex = 1;
             this.lblRoomDesc.Text = "Please select a room type to see its unique features and luxurious amenities.";
+            // 
+            // lblRoomAmenities
+            // 
+            this.lblRoomAmenities.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
+            this.lblRoomAmenities.ForeColor = System.Drawing.Color.FromArgb(150, 200, 150);
+            this.lblRoomAmenities.Location = new System.Drawing.Point(20, 410);
+            this.lblRoomAmenities.Name = "lblRoomAmenities";
+            this.lblRoomAmenities.Size = new System.Drawing.Size(330, 100);
+            this.lblRoomAmenities.TabIndex = 18;
+            this.lblRoomAmenities.Text = "Amenities...";
             // 
             // picRoom
             // 
@@ -394,6 +406,7 @@ namespace FP_CS26_2025.ModernDesign
         private System.Windows.Forms.TextBox txtLastName;
         private System.Windows.Forms.Panel pnlVisual;
         private System.Windows.Forms.Label lblRoomDesc;
+        private System.Windows.Forms.Label lblRoomAmenities;
         private System.Windows.Forms.PictureBox picRoom;
         private System.Windows.Forms.Label lblRoomSelectTitle;
         private System.Windows.Forms.Label lblPricePerNight;

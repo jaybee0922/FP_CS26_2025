@@ -9,9 +9,9 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
     [ToolboxBitmap(typeof(Panel))]
     public class MainContentManager : Panel, IDisposable
     {
-        private StatsPanelManager statsManager;
         private BookingManager bookingsManager;
         private QuickAccessManager quickAccessManager;
+        private SalesProfitsControl salesProfitsControl;
         private Label lblLastUpdated;
 
         // Events
@@ -42,14 +42,14 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             CreateLastUpdatedLabel();
 
             // Initialize sub-managers with parameterless constructors
-            statsManager = new StatsPanelManager();
             bookingsManager = new BookingManager();
             quickAccessManager = new QuickAccessManager();
+            salesProfitsControl = new SalesProfitsControl();
 
             // Add the sub-components to this panel
-            this.Controls.Add(statsManager);
             this.Controls.Add(bookingsManager);
             this.Controls.Add(quickAccessManager);
+            this.Controls.Add(salesProfitsControl);
 
             // Position the sub-components
             PositionComponents();
@@ -57,17 +57,10 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
         private void PositionComponents()
         {
-            // Position stats manager at top
-            if (statsManager != null)
-            {
-                statsManager.Location = new Point(25, 20);
-                statsManager.BringToFront();
-            }
-
-            // Position bookings manager below stats
+            // Position bookings manager at top (took previous stats place, or just main place)
             if (bookingsManager != null)
             {
-                bookingsManager.Location = new Point(25, 220); // Increased spacing
+                bookingsManager.Location = new Point(25, 20); 
                 bookingsManager.BringToFront();
             }
 
@@ -78,37 +71,29 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 quickAccessManager.BringToFront();
             }
 
+            if (salesProfitsControl != null)
+            {
+                salesProfitsControl.Dock = DockStyle.Fill;
+                salesProfitsControl.Visible = false;
+            }
+
             // Position last updated label at bottom
             UpdateLastUpdatedLabelPosition();
         }
+        
+        // ... (methods continuing)
 
-        private void CreateLastUpdatedLabel()
-        {
-            lblLastUpdated = new Label
-            {
-                Text = "Updated 5 minutes ago.",
-                Size = new Size(200, 20),
-                ForeColor = Color.Gray,
-                Font = new Font("Segoe UI", 8)
-            };
-            UpdateLastUpdatedLabelPosition();
-            this.Controls.Add(lblLastUpdated);
-        }
+        // Public methods for external control
 
-        private void UpdateLastUpdatedLabelPosition()
-        {
-            if (lblLastUpdated != null)
-            {
-                lblLastUpdated.Location = new Point(25, this.Height - 40);
-            }
-        }
 
+        // ... existing code ...
+        
         // Public methods for external control
         public void LoadSampleData()
         {
-            statsManager?.LoadSampleData();
             bookingsManager?.LoadSampleData();
             quickAccessManager?.LoadSampleData();
+            salesProfitsControl?.LoadData();
 
             ContentLoaded?.Invoke(this, EventArgs.Empty);
         }
@@ -120,7 +105,6 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             {
                 lblLastUpdated.Text = newTime;
             }
-            statsManager?.UpdateStats();
 
             LastUpdatedTimeChanged?.Invoke(this, EventArgs.Empty);
         }
@@ -152,73 +136,20 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
         // Properties for external access
         [Browsable(false)]
-        public StatsPanelManager StatsManager => statsManager;
-
-        [Browsable(false)]
         public BookingManager BookingsManager => bookingsManager;
 
         [Browsable(false)]
         public QuickAccessManager QuickAccessManager => quickAccessManager;
 
-        [Category("Appearance")]
-        [Description("Text of the last updated label")]
-        public string LastUpdatedText
-        {
-            get => lblLastUpdated?.Text ?? string.Empty;
-            set
-            {
-                if (lblLastUpdated != null)
-                    lblLastUpdated.Text = value;
-            }
-        }
-
-        [Category("Appearance")]
-        [Description("Color of the last updated label")]
-        public Color LastUpdatedColor
-        {
-            get => lblLastUpdated?.ForeColor ?? Color.Gray;
-            set
-            {
-                if (lblLastUpdated != null)
-                    lblLastUpdated.ForeColor = value;
-            }
-        }
-
-        [Category("Behavior")]
-        [Description("Gets the number of bookings currently displayed")]
-        [Browsable(false)]
-        public int BookingCount => GetBookingCount();
-
+        // ... existing properties ...
+        
         // Hide inherited properties that don't make sense for this control
-        [Browsable(false)]
-        public new bool AutoSize => base.AutoSize;
-
-        [Browsable(false)]
-        public new AutoSizeMode AutoSizeMode => base.AutoSizeMode;
-
-        [Browsable(false)]
-        public override string Text => base.Text;
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            UpdateLastUpdatedLabelPosition();
-            PositionComponents();
-        }
-
-        protected override void OnLayout(LayoutEventArgs levent)
-        {
-            base.OnLayout(levent);
-            PositionComponents();
-        }
-
+        // ...
+        
         // Method to show/hide specific sections
         public void ShowStatsSection(bool show)
         {
-            if (statsManager != null)
-            {
-                statsManager.Visible = show;
-            }
+            // Stats section removed, so this is a no-op
         }
 
         public void ShowBookingsSection(bool show)
@@ -237,10 +168,18 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             }
         }
 
-        // Method to update stats with custom data
-        public void UpdateStatistics(int totalGuests, int availableRooms, int occupancyRate, int revenue)
+        public void ShowSalesProfitsSection(bool show)
         {
-            statsManager?.UpdateStatistics(totalGuests, availableRooms, occupancyRate, revenue);
+            if (salesProfitsControl != null)
+            {
+                salesProfitsControl.Visible = show;
+                if(show) salesProfitsControl.BringToFront();
+            }
+        }
+
+        public void RefreshSalesData()
+        {
+            salesProfitsControl?.LoadData();
         }
 
         // Method to handle quick access button clicks
@@ -287,12 +226,33 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         {
             if (disposing)
             {
-                statsManager?.Dispose();
                 bookingsManager?.Dispose();
                 quickAccessManager?.Dispose();
+                salesProfitsControl?.Dispose();
                 lblLastUpdated?.Dispose();
             }
             base.Dispose(disposing);
+        }
+        private void CreateLastUpdatedLabel()
+        {
+            lblLastUpdated = new Label
+            {
+                Text = "Updated 5 minutes ago.",
+                Size = new Size(200, 20),
+                ForeColor = Color.Gray,
+                Font = new Font("Segoe UI", 8),
+                Visible = false 
+            };
+            UpdateLastUpdatedLabelPosition();
+            this.Controls.Add(lblLastUpdated);
+        }
+
+        private void UpdateLastUpdatedLabelPosition()
+        {
+            if (lblLastUpdated != null)
+            {
+                lblLastUpdated.Location = new Point(25, this.Height - 40);
+            }
         }
     }
 }

@@ -8,6 +8,15 @@ namespace FP_CS26_2025.Services
         IEnumerable<SalesReportItem> GetSalesReport(DateTime startDate, DateTime endDate);
         decimal GetTotalRevenue(DateTime startDate, DateTime endDate);
         int GetTransactionCount(DateTime startDate, DateTime endDate);
+        Dictionary<string, decimal> GetRevenueData(string period);
+        List<GraphDataPoint> GetGraphData(string period);
+    }
+
+    public class GraphDataPoint
+    {
+        public string Label { get; set; }
+        public decimal Revenue { get; set; }
+        public int Count { get; set; }
     }
 
     public class SalesReportItem
