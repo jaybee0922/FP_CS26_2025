@@ -44,6 +44,21 @@ namespace FP_CS26_2025
                 lblLogo.Text = config.HotelName.ToUpper();
                 lblCopyright.Text = config.CopyrightText;
             }
+
+            try
+            {
+                // Load background image
+                string imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "homepage_bg.jpg");
+                if (System.IO.File.Exists(imagePath))
+                {
+                    this.mainBackgroundPanel.BackgroundImage = Image.FromFile(imagePath);
+                    this.mainBackgroundPanel.BackgroundImageLayout = ImageLayout.Zoom;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to load background image: {ex.Message}");
+            }
         }
 
         private void loginFormBtn_Click(object sender, EventArgs e)

@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace FP_CS26_2025.Rooms
@@ -16,6 +17,22 @@ namespace FP_CS26_2025.Rooms
             
             // Subscribe to Booking Event
             roomGalleryView1.RoomBookRequested += RoomGalleryView1_RoomBookRequested;
+
+            try
+            {
+                // Load background image
+                string imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "homepage_bg.jpg");
+                if (System.IO.File.Exists(imagePath))
+                {
+                    this.mainBackgroundPanel.BackgroundImage = Image.FromFile(imagePath);
+                    this.mainBackgroundPanel.BackgroundImageLayout = ImageLayout.Zoom;
+                    // Ensure controls are transparent where needed or panel is visible through
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to load background image: {ex.Message}");
+            }
         }
 
         private void RoomGalleryView1_RoomBookRequested(object sender, string roomName)
