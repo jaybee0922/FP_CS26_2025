@@ -148,6 +148,17 @@ namespace FP_CS26_2025.ModernDesign
         {
             lblRoomDesc.Text = room.Description;
             
+            // Dynamic Amenities Update
+            if (!string.IsNullOrEmpty(room.Amenities))
+            {
+                lblRoomAmenities.Text = $"Amenities:\n{room.Amenities}";
+                lblRoomAmenities.Visible = true;
+            }
+            else
+            {
+                lblRoomAmenities.Visible = false;
+            }
+            
             if (!string.IsNullOrEmpty(room.ImagePath) && File.Exists(room.ImagePath))
             {
                 try

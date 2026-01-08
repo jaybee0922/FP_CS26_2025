@@ -10,15 +10,17 @@ namespace FP_CS26_2025.Rooms
         public string Category { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
+        public string Amenities { get; set; }
         public int Capacity { get; set; }
 
-        public Room(string name, string imagePath, string category = "Hotel", decimal price = 0, string description = "", int capacity = 0)
+        public Room(string name, string imagePath, string category = "Hotel", decimal price = 0, string description = "", string amenities = "", int capacity = 0)
         {
             Name = name;
             ImagePath = imagePath;
             Category = category;
             Price = price;
             Description = description;
+            Amenities = amenities;
             Capacity = capacity;
         }
     }

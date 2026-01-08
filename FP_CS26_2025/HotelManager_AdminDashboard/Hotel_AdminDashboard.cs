@@ -18,6 +18,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         private readonly ILogoutService _logoutService;
         private RoomRatesControl _roomRatesControl;
         private FP_CS26_2025.HotelManager_AdminDashboard.Reports.ReportsControl _reportsControl;
+        private FP_CS26_2025.HotelManager_AdminDashboard.SalesProfitsControl _salesProfitsControl;
 
         public Hotel_AdminDashboard()
         {
@@ -36,12 +37,20 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             _reportsControl.Visible = false;
             mainContentPanel.Controls.Add(_reportsControl);
 
+            // Initialize SalesProfitsControl
+            _salesProfitsControl = new FP_CS26_2025.HotelManager_AdminDashboard.SalesProfitsControl();
+            _salesProfitsControl.Dock = DockStyle.Fill;
+            _salesProfitsControl.Visible = false;
+            mainContentPanel.Controls.Add(_salesProfitsControl);
+
             this.DoubleBuffered = true;
             
             // Initial data load
             // Data Manager Setup
             var dataManager = new DataManager(); // Central data manager
             userManagementControl1.SetDataManager(dataManager);
+
+            // statsPanelManager1 usage removed
 
             // Load Recent Bookings from Database
             try
@@ -89,6 +98,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 userManagementControl1.Visible = false;
                 _roomRatesControl.Visible = false;
                 _reportsControl.Visible = false;
+                _salesProfitsControl.Visible = false;
                 systemConfigurationControl1.Visible = false;
             };
 
@@ -99,6 +109,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 userManagementControl1.Visible = true;
                 _roomRatesControl.Visible = false;
                 _reportsControl.Visible = false;
+                _salesProfitsControl.Visible = false;
                 systemConfigurationControl1.Visible = false;
                 userManagementControl1.BringToFront();
             };
@@ -110,6 +121,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 userManagementControl1.Visible = false;
                 systemConfigurationControl1.Visible = false;
                 _reportsControl.Visible = false;
+                _salesProfitsControl.Visible = false;
                 _roomRatesControl.Visible = true;
                 _roomRatesControl.BringToFront();
                 _roomRatesControl.SetDataManager(dataManager);
@@ -123,8 +135,22 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 userManagementControl1.Visible = false;
                 _roomRatesControl.Visible = false;
                 systemConfigurationControl1.Visible = false;
+                _salesProfitsControl.Visible = false;
                 _reportsControl.Visible = true;
                 _reportsControl.BringToFront();
+            };
+
+            sidebarManager1.SalesProfitsClicked += (s, e) =>
+            {
+                sidebarManager1.SelectButtonByText("Sales and Profits");
+                tableLayoutPanelContent.Visible = false;
+                userManagementControl1.Visible = false;
+                _roomRatesControl.Visible = false;
+                systemConfigurationControl1.Visible = false;
+                _reportsControl.Visible = false;
+                _salesProfitsControl.Visible = true;
+                _salesProfitsControl.BringToFront();
+                _salesProfitsControl.LoadData();
             };
 
             sidebarManager1.SystemConfigClicked += (s, e) =>
@@ -134,6 +160,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 userManagementControl1.Visible = false;
                 _roomRatesControl.Visible = false;
                 _reportsControl.Visible = false;
+                _salesProfitsControl.Visible = false;
                 systemConfigurationControl1.Visible = true;
                 systemConfigurationControl1.BringToFront();
                 systemConfigurationControl1.SetDataManager(dataManager);
