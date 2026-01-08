@@ -160,11 +160,57 @@ namespace FP_CS26_2025.Data
                         var createCmd = new SqlCommand(createTableQuery, conn);
                         createCmd.ExecuteNonQuery();
                     }
+
+                    // Update Room Status Constraint to allow new enum values
+                    UpdateRoomStatusConstraint(conn);
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine("Schema Update Error: " + ex.Message);
                 }
+            }
+        }
+
+        private static void UpdateRoomStatusConstraint(SqlConnection conn)
+        {
+            try
+            {
+                // Find existing constraint name
+                string sqlFind = @"SELECT name FROM sys.check_constraints 
+                                   WHERE parent_object_id = OBJECT_ID('Rooms') 
+                                   AND parent_column_id = (SELECT column_id FROM sys.columns WHERE name = 'Status' AND object_id = OBJECT_ID('Rooms'))";
+
+                using (var cmd = new SqlCommand(sqlFind, conn))
+                {
+                    var result = cmd.ExecuteScalar();
+                    string constraintName = result as string;
+
+                    // If existing constraint provides different logic or we just want to enforce 'CK_Rooms_Status_Final'
+                    if (!string.IsNullOrEmpty(constraintName) && constraintName != "CK_Rooms_Status_Final")
+                    {
+                        // Drop old constraint
+                        var dropCmd = new SqlCommand($"ALTER TABLE Rooms DROP CONSTRAINT [{constraintName}]", conn);
+                        dropCmd.ExecuteNonQuery();
+                        
+                        // Add new corrected constraint
+                        // Allowed values: Available, Occupied, Reserved, UnderMaintenance, OutOfService, Cleaning, ReadyForCheckIn
+                        // Note: Using 'UnderMaintenance' (no space) matching the code fixes.
+                        string addSql = @"ALTER TABLE Rooms ADD CONSTRAINT [CK_Rooms_Status_Final] CHECK (Status IN ('Available', 'Occupied', 'Reserved', 'UnderMaintenance', 'OutOfService', 'Cleaning', 'ReadyForCheckIn'))";
+                        var addCmd = new SqlCommand(addSql, conn);
+                        addCmd.ExecuteNonQuery();
+                    }
+                    else if (string.IsNullOrEmpty(constraintName))
+                    {
+                        // Add if missing
+                        string addSql = @"ALTER TABLE Rooms ADD CONSTRAINT [CK_Rooms_Status_Final] CHECK (Status IN ('Available', 'Occupied', 'Reserved', 'UnderMaintenance', 'OutOfService', 'Cleaning', 'ReadyForCheckIn'))";
+                        var addCmd = new SqlCommand(addSql, conn);
+                        addCmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Constraint Update Warning: " + ex.Message);
             }
         }
     }

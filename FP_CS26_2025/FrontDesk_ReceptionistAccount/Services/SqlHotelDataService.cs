@@ -440,9 +440,9 @@ namespace FP_CS26_2025.FrontDesk_MVC
             switch (status)
             {
                 case RoomStatus.UnderMaintenance:
-                    return "Under Maintenance";
+                    return "UnderMaintenance";
                 case RoomStatus.OutOfService:
-                    return "Out of Service";
+                    return "OutOfService";
                 default:
                     return status.ToString();
             }

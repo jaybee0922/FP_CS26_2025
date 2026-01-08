@@ -110,6 +110,10 @@ namespace FP_CS26_2025.Room_Rates___Policies
                 int typeId = (int)cmbRoomType.SelectedValue;
                 int floor = (int)numFloor.Value;
                 string status = cmbStatus.SelectedItem.ToString();
+                
+                // Sanitize for DB Constraint (No spaces allowed in Enum-mapped constraints)
+                if (status == "Under Maintenance") status = "UnderMaintenance";
+                if (status == "Out of Service") status = "OutOfService";
 
                 _dataService.SavePhysicalRoom(rNum, typeId, floor, status);
                 
