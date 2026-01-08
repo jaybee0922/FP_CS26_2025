@@ -33,6 +33,18 @@ namespace FP_CS26_2025.Room_Rates___Policies
                 LoadRoomData();
                 txtRoomNumber.ReadOnly = true;
             }
+
+            // Input Validation
+            txtRoomNumber.KeyPress += RestrictToNumbers;
+        }
+
+        private void RestrictToNumbers(object sender, KeyPressEventArgs e)
+        {
+            // Allow digits and backspace only
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
 
         private void LoadRoomTypes()

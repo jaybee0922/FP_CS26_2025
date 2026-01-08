@@ -1,21 +1,27 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using FP_CS26_2025.FrontDesk_MVC;
+using FP_CS26_2025.Services.Validation;
+using FP_CS26_2025.Services.Models;
 
 namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
 {
     public partial class NewReservationForm : Form
     {
         private readonly FrontDeskController _controller;
+        private readonly IValidator<BookingRequestData> _validator;
         
         public NewReservationForm(FrontDeskController controller)
         {
             InitializeComponent();
             _controller = controller;
+            _validator = new BookingValidator();
             
             LoadRoomTypes();
             InitializeValidation();
+            SetupInputRestrictions();
             
             // Event Wiring
             cmbRoomType.SelectedIndexChanged += (s, e) => UpdateAvailableRooms();
@@ -42,6 +48,32 @@ namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
         {
             dtpCheckIn.MinDate = DateTime.Today;
             dtpCheckOut.MinDate = DateTime.Today.AddDays(1);
+            txtPhone.MaxLength = 11;
+        }
+
+        private void SetupInputRestrictions()
+        {
+            txtFirstName.KeyPress += RestrictToLetters;
+            txtLastName.KeyPress += RestrictToLetters;
+            txtPhone.KeyPress += RestrictToNumbers;
+        }
+
+        private void RestrictToLetters(object sender, KeyPressEventArgs e)
+        {
+            // Allow letters, backspace, and space
+            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void RestrictToNumbers(object sender, KeyPressEventArgs e)
+        {
+            // Allow digits and backspace only
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
 
         private void LoadRoomTypes()
@@ -152,10 +184,27 @@ namespace FP_CS26_2025.FrontDesk_ReceptionistAccount
 
         private bool ValidateForm()
         {
-            if (string.IsNullOrWhiteSpace(txtFirstName.Text)) { ShowError("First Name is required."); return false; }
-            if (string.IsNullOrWhiteSpace(txtLastName.Text)) { ShowError("Last Name is required."); return false; }
+            // 1. Selection Validation (UI level, not covered by DTO validator usually)
             if (cmbRoomType.SelectedItem == null) { ShowError("Please select a Room Type."); return false; }
             if (cmbRoomNumber.SelectedItem == null) { ShowError("Please select a Room Number."); return false; }
+
+            // 2. Data Validation using IValidator
+            var request = new BookingRequestData
+            {
+                FirstName = txtFirstName.Text,
+                LastName = txtLastName.Text,
+                Email = txtEmail.Text,
+                Phone = txtPhone.Text
+            };
+
+            List<string> errors;
+            if (!_validator.Validate(request, out errors))
+            {
+                // Show first error or all
+                string errorMessage = string.Join("\n", errors);
+                ShowError(errorMessage);
+                return false;
+            }
             
             return true;
         }
