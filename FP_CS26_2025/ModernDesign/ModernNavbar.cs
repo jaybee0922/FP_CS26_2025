@@ -48,7 +48,7 @@ namespace FP_CS26_2025.ModernDesign
             this.btnLogin.Click += (s, e) => _navigationService.NavigateToLogin(this.FindForm());
 
             this.Height = 50;
-            this.Width = 400;
+            this.Width = 450; // Increased to prevent clipping
         }
 
         private Button CreateNavButton(string text, int xOffset, bool isPrimary = false)
@@ -65,8 +65,8 @@ namespace FP_CS26_2025.ModernDesign
                 Cursor = Cursors.Hand
             };
             btn.FlatAppearance.BorderSize = 0;
-            btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(50, 255, 255, 255);
-            btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(20, 255, 255, 255);
+            btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(20, 255, 255, 255); // Subtle white on click
+            btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(10, 255, 255, 255); // Subtle white on hover
             
             return btn;
         }

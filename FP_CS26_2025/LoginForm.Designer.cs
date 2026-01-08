@@ -42,9 +42,8 @@ namespace FP_CS26_2025
             this.loginFormContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
-            //
             // mainBackgroundPanel
-            //
+            // 
             this.mainBackgroundPanel.Angle = 60F;
             this.mainBackgroundPanel.ColorBottom = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(30)))), ((int)(((byte)(50)))));
             this.mainBackgroundPanel.ColorTop = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(88)))), ((int)(((byte)(118)))));
@@ -55,8 +54,9 @@ namespace FP_CS26_2025
             this.mainBackgroundPanel.Controls.Add(this.loginFormContainer1);
             this.mainBackgroundPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainBackgroundPanel.Location = new System.Drawing.Point(0, 0);
+            this.mainBackgroundPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.mainBackgroundPanel.Name = "mainBackgroundPanel";
-            this.mainBackgroundPanel.Size = new System.Drawing.Size(1600, 862);
+            this.mainBackgroundPanel.Size = new System.Drawing.Size(1200, 700);
             this.mainBackgroundPanel.TabIndex = 0;
             // 
             // lblLogo
@@ -65,10 +65,9 @@ namespace FP_CS26_2025
             this.lblLogo.BackColor = System.Drawing.Color.Transparent;
             this.lblLogo.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLogo.ForeColor = System.Drawing.Color.White;
-            this.lblLogo.Location = new System.Drawing.Point(67, 37);
-            this.lblLogo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLogo.Location = new System.Drawing.Point(50, 30);
             this.lblLogo.Name = "lblLogo";
-            this.lblLogo.Size = new System.Drawing.Size(395, 54);
+            this.lblLogo.Size = new System.Drawing.Size(320, 45);
             this.lblLogo.TabIndex = 0;
             this.lblLogo.Text = "THE NEXUS GRAND";
             // 
@@ -78,22 +77,24 @@ namespace FP_CS26_2025
             this.lblSubtitle.BackColor = System.Drawing.Color.Transparent;
             this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI Semilight", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.lblSubtitle.Location = new System.Drawing.Point(70, 91);
+            this.lblSubtitle.Location = new System.Drawing.Point(52, 74);
+            this.lblSubtitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSubtitle.Name = "lblSubtitle";
-            this.lblSubtitle.Size = new System.Drawing.Size(378, 32);
+            this.lblSubtitle.Size = new System.Drawing.Size(306, 25);
             this.lblSubtitle.TabIndex = 9;
             this.lblSubtitle.Text = "EXPERIENCE LUXURY AT ITS FINEST";
             // 
             // lblCopyright
             // 
-            this.lblCopyright.AutoSize = true;
             this.lblCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblCopyright.AutoSize = true;
             this.lblCopyright.BackColor = System.Drawing.Color.Transparent;
             this.lblCopyright.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCopyright.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.lblCopyright.Location = new System.Drawing.Point(50, 820);
+            this.lblCopyright.Location = new System.Drawing.Point(38, 666);
+            this.lblCopyright.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCopyright.Name = "lblCopyright";
-            this.lblCopyright.Size = new System.Drawing.Size(100, 15);
+            this.lblCopyright.Size = new System.Drawing.Size(86, 15);
             this.lblCopyright.TabIndex = 8;
             this.lblCopyright.Text = "Copyright 2025";
             // 
@@ -102,9 +103,10 @@ namespace FP_CS26_2025
             this.modernNavbar.ActivePage = "Login";
             this.modernNavbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.modernNavbar.BackColor = System.Drawing.Color.Transparent;
-            this.modernNavbar.Location = new System.Drawing.Point(866, 49);
+            this.modernNavbar.Location = new System.Drawing.Point(700, 55);
+            this.modernNavbar.Margin = new System.Windows.Forms.Padding(2);
             this.modernNavbar.Name = "modernNavbar";
-            this.modernNavbar.Size = new System.Drawing.Size(600, 50);
+            this.modernNavbar.Size = new System.Drawing.Size(450, 50);
             this.modernNavbar.TabIndex = 1;
             // 
             // loginFormContainer1
@@ -116,8 +118,8 @@ namespace FP_CS26_2025
             this.loginFormContainer1.Controls.Add(this.usernameInputField2);
             this.loginFormContainer1.Controls.Add(this.passwordInputField2);
             this.loginFormContainer1.Controls.Add(this.loginBtn1);
-            this.loginFormContainer1.Location = new System.Drawing.Point(505, 181);
-            this.loginFormContainer1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.loginFormContainer1.Location = new System.Drawing.Point(379, 147);
+            this.loginFormContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.loginFormContainer1.Name = "loginFormContainer1";
             this.loginFormContainer1.PanelColor = System.Drawing.Color.White;
             this.loginFormContainer1.ShadowBlur = 28;
@@ -125,8 +127,11 @@ namespace FP_CS26_2025
             this.loginFormContainer1.ShadowDepth = 7;
             this.loginFormContainer1.ShadowOffsetX = 0;
             this.loginFormContainer1.ShadowOffsetY = 7;
-            this.loginFormContainer1.Size = new System.Drawing.Size(589, 500);
+            this.loginFormContainer1.Size = new System.Drawing.Size(442, 406);
             this.loginFormContainer1.TabIndex = 0;
+            this.loginFormContainer1.Title = "LOGIN";
+            this.loginFormContainer1.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(52)))), ((int)(((byte)(71)))));
+            this.loginFormContainer1.TitleFont = new System.Drawing.Font("Segoe UI Semibold", 22F);
             // 
             // roleComboBox1
             // 
@@ -135,13 +140,13 @@ namespace FP_CS26_2025
             this.roleComboBox1.BorderFocusColor = System.Drawing.Color.DeepSkyBlue;
             this.roleComboBox1.BorderRadius = 20;
             this.roleComboBox1.BorderSize = 1;
-            this.roleComboBox1.Location = new System.Drawing.Point(76, 280);
-            this.roleComboBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.roleComboBox1.Location = new System.Drawing.Point(57, 228);
+            this.roleComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.roleComboBox1.Name = "roleComboBox1";
             this.roleComboBox1.SelectedIndex = 0;
             this.roleComboBox1.SelectedItem = "Super Admin";
             this.roleComboBox1.SelectedText = "";
-            this.roleComboBox1.Size = new System.Drawing.Size(432, 46);
+            this.roleComboBox1.Size = new System.Drawing.Size(324, 37);
             this.roleComboBox1.TabIndex = 7;
             this.roleComboBox1.TextLeftMargin = 12;
             // 
@@ -152,11 +157,11 @@ namespace FP_CS26_2025
             this.usernameInputField2.BorderFocusColor = System.Drawing.Color.DeepSkyBlue;
             this.usernameInputField2.BorderRadius = 20;
             this.usernameInputField2.BorderSize = 1;
-            this.usernameInputField2.Location = new System.Drawing.Point(76, 110);
-            this.usernameInputField2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.usernameInputField2.Location = new System.Drawing.Point(57, 89);
+            this.usernameInputField2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.usernameInputField2.Name = "usernameInputField2";
             this.usernameInputField2.PlaceholderText = "Enter username";
-            this.usernameInputField2.Size = new System.Drawing.Size(432, 50);
+            this.usernameInputField2.Size = new System.Drawing.Size(324, 41);
             this.usernameInputField2.TabIndex = 6;
             this.usernameInputField2.TextLeftMargin = 20;
             // 
@@ -168,11 +173,11 @@ namespace FP_CS26_2025
             this.passwordInputField2.BorderRadius = 20;
             this.passwordInputField2.BorderSize = 1;
             this.passwordInputField2.IconRightMargin = 12;
-            this.passwordInputField2.Location = new System.Drawing.Point(76, 195);
-            this.passwordInputField2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.passwordInputField2.Location = new System.Drawing.Point(57, 158);
+            this.passwordInputField2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.passwordInputField2.Name = "passwordInputField2";
             this.passwordInputField2.PlaceholderText = "Enter password";
-            this.passwordInputField2.Size = new System.Drawing.Size(432, 50);
+            this.passwordInputField2.Size = new System.Drawing.Size(324, 41);
             this.passwordInputField2.TabIndex = 5;
             this.passwordInputField2.TextLeftMargin = 20;
             // 
@@ -183,10 +188,10 @@ namespace FP_CS26_2025
             this.loginBtn1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.loginBtn1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loginBtn1.ForeColor = System.Drawing.Color.White;
-            this.loginBtn1.Location = new System.Drawing.Point(76, 360);
-            this.loginBtn1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.loginBtn1.Location = new System.Drawing.Point(57, 292);
+            this.loginBtn1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.loginBtn1.Name = "loginBtn1";
-            this.loginBtn1.Size = new System.Drawing.Size(432, 54);
+            this.loginBtn1.Size = new System.Drawing.Size(324, 44);
             this.loginBtn1.TabIndex = 0;
             this.loginBtn1.Text = "Login";
             this.loginBtn1.UseVisualStyleBackColor = true;
@@ -194,11 +199,11 @@ namespace FP_CS26_2025
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1600, 862);
+            this.ClientSize = new System.Drawing.Size(1200, 700);
             this.Controls.Add(this.mainBackgroundPanel);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hotel Management System - Login";

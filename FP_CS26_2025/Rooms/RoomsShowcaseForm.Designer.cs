@@ -135,9 +135,9 @@ namespace FP_CS26_2025.Rooms
             this.modernNavbar1.ActivePage = "Rooms";
             this.modernNavbar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.modernNavbar1.BackColor = System.Drawing.Color.Transparent;
-            this.modernNavbar1.Location = new System.Drawing.Point(866, 49);
+            this.modernNavbar1.Location = new System.Drawing.Point(700, 55);
             this.modernNavbar1.Name = "modernNavbar1";
-            this.modernNavbar1.Size = new System.Drawing.Size(600, 50);
+            this.modernNavbar1.Size = new System.Drawing.Size(450, 50);
             this.modernNavbar1.TabIndex = 1;
             // 
             // roomGalleryView1

@@ -18,6 +18,8 @@ namespace FP_CS26_2025.ModernDesign
         private void InitializeComponent()
         {
             this.mainBackgroundPanel = new FP_CS26_2025.ModernDesign.GradientPanel();
+            this.lblSubtitle = new System.Windows.Forms.Label();
+            this.footerControl = new FP_CS26_2025.ModernDesign.FooterControl();
             this.lblLogo = new System.Windows.Forms.Label();
             this.modernNavbar = new FP_CS26_2025.ModernDesign.ModernNavbar();
             this.lblWelcome = new System.Windows.Forms.Label();
@@ -30,8 +32,6 @@ namespace FP_CS26_2025.ModernDesign
             this.lblDeparture = new System.Windows.Forms.Label();
             this.dtpArrival = new System.Windows.Forms.DateTimePicker();
             this.lblArrival = new System.Windows.Forms.Label();
-            this.lblSubtitle = new System.Windows.Forms.Label();
-            this.footerControl = new FP_CS26_2025.ModernDesign.FooterControl();
             this.mainBackgroundPanel.SuspendLayout();
             this.panelBooking.SuspendLayout();
             this.SuspendLayout();
@@ -42,7 +42,7 @@ namespace FP_CS26_2025.ModernDesign
             this.mainBackgroundPanel.ColorBottom = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(30)))), ((int)(((byte)(50)))));
             this.mainBackgroundPanel.ColorTop = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(88)))), ((int)(((byte)(118)))));
             this.mainBackgroundPanel.Controls.Add(this.lblSubtitle);
-            this.mainBackgroundPanel.Controls.Add(this.footerControl); // Added FooterControl
+            this.mainBackgroundPanel.Controls.Add(this.footerControl);
             this.mainBackgroundPanel.Controls.Add(this.lblLogo);
             this.mainBackgroundPanel.Controls.Add(this.modernNavbar);
             this.mainBackgroundPanel.Controls.Add(this.lblWelcome);
@@ -50,10 +50,32 @@ namespace FP_CS26_2025.ModernDesign
             this.mainBackgroundPanel.Controls.Add(this.panelBooking);
             this.mainBackgroundPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainBackgroundPanel.Location = new System.Drawing.Point(0, 0);
-            this.mainBackgroundPanel.Margin = new System.Windows.Forms.Padding(4);
             this.mainBackgroundPanel.Name = "mainBackgroundPanel";
-            this.mainBackgroundPanel.Size = new System.Drawing.Size(1600, 862);
+            this.mainBackgroundPanel.Size = new System.Drawing.Size(1200, 700);
             this.mainBackgroundPanel.TabIndex = 0;
+            // 
+            // lblSubtitle
+            // 
+            this.lblSubtitle.AutoSize = true;
+            this.lblSubtitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI Semilight", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubtitle.ForeColor = System.Drawing.Color.White;
+            this.lblSubtitle.Location = new System.Drawing.Point(52, 74);
+            this.lblSubtitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSubtitle.Name = "lblSubtitle";
+            this.lblSubtitle.Size = new System.Drawing.Size(306, 25);
+            this.lblSubtitle.TabIndex = 7;
+            this.lblSubtitle.Text = "EXPERIENCE LUXURY AT ITS FINEST";
+            // 
+            // footerControl
+            // 
+            this.footerControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.footerControl.BackColor = System.Drawing.Color.Transparent;
+            this.footerControl.Location = new System.Drawing.Point(38, 609);
+            this.footerControl.Margin = new System.Windows.Forms.Padding(2);
+            this.footerControl.Name = "footerControl";
+            this.footerControl.Size = new System.Drawing.Size(375, 65);
+            this.footerControl.TabIndex = 8;
             // 
             // lblLogo
             // 
@@ -61,10 +83,9 @@ namespace FP_CS26_2025.ModernDesign
             this.lblLogo.BackColor = System.Drawing.Color.Transparent;
             this.lblLogo.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLogo.ForeColor = System.Drawing.Color.White;
-            this.lblLogo.Location = new System.Drawing.Point(67, 37);
-            this.lblLogo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLogo.Location = new System.Drawing.Point(50, 30);
             this.lblLogo.Name = "lblLogo";
-            this.lblLogo.Size = new System.Drawing.Size(395, 54);
+            this.lblLogo.Size = new System.Drawing.Size(320, 45);
             this.lblLogo.TabIndex = 0;
             this.lblLogo.Text = "THE NEXUS GRAND";
             this.lblLogo.Click += new System.EventHandler(this.lblLogo_Click);
@@ -74,21 +95,22 @@ namespace FP_CS26_2025.ModernDesign
             this.modernNavbar.ActivePage = "Home";
             this.modernNavbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.modernNavbar.BackColor = System.Drawing.Color.Transparent;
-            this.modernNavbar.Location = new System.Drawing.Point(1066, 49);
+            this.modernNavbar.ForeColor = System.Drawing.Color.White;
+            this.modernNavbar.Location = new System.Drawing.Point(700, 55);
+            this.modernNavbar.Margin = new System.Windows.Forms.Padding(2);
             this.modernNavbar.Name = "modernNavbar";
-            this.modernNavbar.Size = new System.Drawing.Size(400, 50);
+            this.modernNavbar.Size = new System.Drawing.Size(450, 50);
             this.modernNavbar.TabIndex = 1;
             // 
             // lblWelcome
             // 
             this.lblWelcome.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblWelcome.BackColor = System.Drawing.Color.Transparent;
-            this.lblWelcome.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWelcome.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lblWelcome.Location = new System.Drawing.Point(267, 271);
-            this.lblWelcome.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblWelcome.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWelcome.ForeColor = System.Drawing.Color.White;
+            this.lblWelcome.Location = new System.Drawing.Point(200, 220);
             this.lblWelcome.Name = "lblWelcome";
-            this.lblWelcome.Size = new System.Drawing.Size(1067, 49);
+            this.lblWelcome.Size = new System.Drawing.Size(800, 40);
             this.lblWelcome.TabIndex = 4;
             this.lblWelcome.Text = "WELCOME TO THE NEXUS GRAND";
             this.lblWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -99,10 +121,9 @@ namespace FP_CS26_2025.ModernDesign
             this.lblMainTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblMainTitle.Font = new System.Drawing.Font("Segoe UI Light", 56F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMainTitle.ForeColor = System.Drawing.Color.White;
-            this.lblMainTitle.Location = new System.Drawing.Point(133, 320);
-            this.lblMainTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblMainTitle.Location = new System.Drawing.Point(100, 260);
             this.lblMainTitle.Name = "lblMainTitle";
-            this.lblMainTitle.Size = new System.Drawing.Size(1333, 185);
+            this.lblMainTitle.Size = new System.Drawing.Size(1000, 150);
             this.lblMainTitle.TabIndex = 5;
             this.lblMainTitle.Text = "SIMPLY HEARTFELT";
             this.lblMainTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -118,10 +139,9 @@ namespace FP_CS26_2025.ModernDesign
             this.panelBooking.Controls.Add(this.lblDeparture);
             this.panelBooking.Controls.Add(this.dtpArrival);
             this.panelBooking.Controls.Add(this.lblArrival);
-            this.panelBooking.Location = new System.Drawing.Point(200, 615);
-            this.panelBooking.Margin = new System.Windows.Forms.Padding(4);
+            this.panelBooking.Location = new System.Drawing.Point(150, 500);
             this.panelBooking.Name = "panelBooking";
-            this.panelBooking.Size = new System.Drawing.Size(1200, 123);
+            this.panelBooking.Size = new System.Drawing.Size(900, 100);
             this.panelBooking.TabIndex = 6;
             // 
             // btnCheck
@@ -133,10 +153,9 @@ namespace FP_CS26_2025.ModernDesign
             this.btnCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCheck.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnCheck.ForeColor = System.Drawing.Color.White;
-            this.btnCheck.Location = new System.Drawing.Point(867, 31);
-            this.btnCheck.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCheck.Location = new System.Drawing.Point(650, 25);
             this.btnCheck.Name = "btnCheck";
-            this.btnCheck.Size = new System.Drawing.Size(267, 62);
+            this.btnCheck.Size = new System.Drawing.Size(200, 50);
             this.btnCheck.TabIndex = 6;
             this.btnCheck.Text = "BOOK NOW";
             this.btnCheck.UseVisualStyleBackColor = false;
@@ -144,20 +163,18 @@ namespace FP_CS26_2025.ModernDesign
             // txtPromo
             // 
             this.txtPromo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtPromo.Location = new System.Drawing.Point(564, 49);
-            this.txtPromo.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPromo.Location = new System.Drawing.Point(423, 40);
             this.txtPromo.Name = "txtPromo";
-            this.txtPromo.Size = new System.Drawing.Size(199, 30);
+            this.txtPromo.Size = new System.Drawing.Size(150, 25);
             this.txtPromo.TabIndex = 5;
             // 
             // lblPromo
             // 
             this.lblPromo.AutoSize = true;
             this.lblPromo.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblPromo.Location = new System.Drawing.Point(560, 25);
-            this.lblPromo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPromo.Location = new System.Drawing.Point(420, 20);
             this.lblPromo.Name = "lblPromo";
-            this.lblPromo.Size = new System.Drawing.Size(92, 20);
+            this.lblPromo.Size = new System.Drawing.Size(74, 15);
             this.lblPromo.TabIndex = 4;
             this.lblPromo.Text = "Promo Code";
             // 
@@ -165,20 +182,18 @@ namespace FP_CS26_2025.ModernDesign
             // 
             this.dtpDeparture.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.dtpDeparture.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDeparture.Location = new System.Drawing.Point(297, 49);
-            this.dtpDeparture.Margin = new System.Windows.Forms.Padding(4);
+            this.dtpDeparture.Location = new System.Drawing.Point(223, 40);
             this.dtpDeparture.Name = "dtpDeparture";
-            this.dtpDeparture.Size = new System.Drawing.Size(199, 30);
+            this.dtpDeparture.Size = new System.Drawing.Size(150, 25);
             this.dtpDeparture.TabIndex = 3;
             // 
             // lblDeparture
             // 
             this.lblDeparture.AutoSize = true;
             this.lblDeparture.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblDeparture.Location = new System.Drawing.Point(293, 25);
-            this.lblDeparture.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDeparture.Location = new System.Drawing.Point(220, 20);
             this.lblDeparture.Name = "lblDeparture";
-            this.lblDeparture.Size = new System.Drawing.Size(112, 20);
+            this.lblDeparture.Size = new System.Drawing.Size(86, 15);
             this.lblDeparture.TabIndex = 2;
             this.lblDeparture.Text = "Departure Date";
             // 
@@ -186,51 +201,27 @@ namespace FP_CS26_2025.ModernDesign
             // 
             this.dtpArrival.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.dtpArrival.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpArrival.Location = new System.Drawing.Point(31, 49);
-            this.dtpArrival.Margin = new System.Windows.Forms.Padding(4);
+            this.dtpArrival.Location = new System.Drawing.Point(23, 40);
             this.dtpArrival.Name = "dtpArrival";
-            this.dtpArrival.Size = new System.Drawing.Size(199, 30);
+            this.dtpArrival.Size = new System.Drawing.Size(150, 25);
             this.dtpArrival.TabIndex = 1;
             // 
             // lblArrival
             // 
             this.lblArrival.AutoSize = true;
             this.lblArrival.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblArrival.Location = new System.Drawing.Point(27, 25);
-            this.lblArrival.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblArrival.Location = new System.Drawing.Point(20, 20);
             this.lblArrival.Name = "lblArrival";
-            this.lblArrival.Size = new System.Drawing.Size(88, 20);
+            this.lblArrival.Size = new System.Drawing.Size(68, 15);
             this.lblArrival.TabIndex = 0;
             this.lblArrival.Text = "Arrival Date";
             // 
-            // lblSubtitle
-            // 
-            this.lblSubtitle.AutoSize = true;
-            this.lblSubtitle.BackColor = System.Drawing.Color.Transparent;
-            this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI Semilight", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.lblSubtitle.Location = new System.Drawing.Point(70, 91);
-            this.lblSubtitle.Name = "lblSubtitle";
-            this.lblSubtitle.Size = new System.Drawing.Size(378, 32);
-            this.lblSubtitle.TabIndex = 7;
-            this.lblSubtitle.Text = "EXPERIENCE LUXURY AT ITS FINEST";
-            // 
-            // footerControl
-            // 
-            this.footerControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.footerControl.BackColor = System.Drawing.Color.Transparent;
-            this.footerControl.Location = new System.Drawing.Point(50, 750);
-            this.footerControl.Name = "footerControl";
-            this.footerControl.Size = new System.Drawing.Size(500, 80);
-            this.footerControl.TabIndex = 8;
-            // 
             // ModernHomeView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1600, 862);
+            this.ClientSize = new System.Drawing.Size(1200, 700);
             this.Controls.Add(this.mainBackgroundPanel);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ModernHomeView";
             this.Text = "ModernHomeView";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
