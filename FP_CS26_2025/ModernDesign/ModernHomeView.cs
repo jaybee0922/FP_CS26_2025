@@ -111,7 +111,7 @@ namespace FP_CS26_2025.ModernDesign
             }
 
             // Dependency Inversion: Injecting services and context securely
-            using (var modal = new BookingModalForm(_roomService, _bookingService, checkIn, checkOut))
+            using (var modal = new BookingModalForm(_roomService, _bookingService, checkIn, checkOut, txtPromo.Text.Trim()))
             {
                 if (modal.ShowDialog() == DialogResult.OK)
                 {

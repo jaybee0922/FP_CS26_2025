@@ -21,6 +21,6 @@ namespace FP_CS26_2025.Services
         /// Calculates the total price based on room type and duration.
         /// Ensures financial accuracy with decimal types.
         /// </summary>
-        decimal CalculateTotal(string roomType, int numRooms, int nights);
+        decimal CalculateTotal(string roomType, int numRooms, int nights, string promoCode = null);
     }
 }

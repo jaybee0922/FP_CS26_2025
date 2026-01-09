@@ -23,6 +23,7 @@ namespace FP_CS26_2025.ModernDesign
         private int _stayNights;
         private DateTime _checkIn;
         private DateTime _checkOut;
+        private string _promoCode;
         
         // Property Encapsulation
         public BookingResultData BookingResult { get; private set; }
@@ -31,12 +32,13 @@ namespace FP_CS26_2025.ModernDesign
         private readonly IValidator<BookingRequestData> _validator;
         private readonly string _preSelectedRoom;
 
-        public BookingModalForm(IRoomService roomService, IBookingService bookingService, DateTime checkIn, DateTime checkOut, string preSelectedRoom = null)
+        public BookingModalForm(IRoomService roomService, IBookingService bookingService, DateTime checkIn, DateTime checkOut, string promoCode = null, string preSelectedRoom = null)
         {
             InitializeComponent();
             _roomService = roomService ?? throw new ArgumentNullException(nameof(roomService));
             _bookingService = bookingService ?? throw new ArgumentNullException(nameof(bookingService));
             _validator = new BookingValidator(); 
+            _promoCode = promoCode;
             _preSelectedRoom = preSelectedRoom;
 
             // Precision Date Handling
@@ -129,12 +131,40 @@ namespace FP_CS26_2025.ModernDesign
                     UpdateRoomDetailsUI(selectedRoom);
 
                     // Financial Accuracy: Using precise types
+                    // Financial Accuracy: Using precise service-layer calculation
                     int roomCount = (int)numRooms.Value;
-                    decimal total = selectedRoom.Price * roomCount * _stayNights;
+                    decimal total = _bookingService.CalculateTotal(selectedRoomName, roomCount, _stayNights, _promoCode);
 
                     lblPricePerNight.Text = $"Price: P{selectedRoom.Price:N2}/nt";
                     lblStayDuration.Text = $"Stay Duration: {_stayNights} night(s)";
-                    lblLiveTotal.Text = $"Est. Total: P{total:N2}";
+                    
+                    if (!string.IsNullOrEmpty(_promoCode))
+                    {
+                        decimal originalTotal = selectedRoom.Price * roomCount * _stayNights;
+                        decimal discount = originalTotal - total;
+                        
+                        lblLiveTotal.Text = $"Est. Total: P{total:N2}";
+
+                        if (discount > 0)
+                        {
+                            lblSavings.Text = $"(Saved P{discount:N2}!)";
+                            lblSavings.Visible = true;
+                            // Dynamic positioning relative to the total label
+                            lblSavings.Left = lblLiveTotal.Right + 10;
+                            lblLiveTotal.ForeColor = Color.ForestGreen;
+                        }
+                        else
+                        {
+                            lblSavings.Visible = false;
+                            lblLiveTotal.ForeColor = Color.Black;
+                        }
+                    }
+                    else
+                    {
+                        lblLiveTotal.Text = $"Est. Total: P{total:N2}";
+                        lblLiveTotal.ForeColor = Color.Black;
+                        lblSavings.Visible = false;
+                    }
                 }
             }
             catch (Exception)
@@ -242,7 +272,8 @@ namespace FP_CS26_2025.ModernDesign
             }
 
             var selectedRoom = _allRooms.First(r => r.Name == selectedRoomName);
-            decimal finalPrice = selectedRoom.Price * (int)numRooms.Value * _stayNights;
+            decimal finalPrice = _bookingService.CalculateTotal(selectedRoomName, (int)numRooms.Value, _stayNights, _promoCode);
+            decimal discountApplied = (selectedRoom.Price * (int)numRooms.Value * _stayNights) - finalPrice;
 
             // Encapsulation: Creating the DTO securely
             BookingResult = new BookingResultData
@@ -257,7 +288,9 @@ namespace FP_CS26_2025.ModernDesign
                 RoomType = selectedRoomName,
                 CheckInDate = _checkIn,
                 CheckOutDate = _checkOut,
-                TotalPrice = finalPrice
+                TotalPrice = finalPrice,
+                PromoCode = string.IsNullOrEmpty(_promoCode) ? null : _promoCode.ToUpper(),
+                DiscountAmount = discountApplied
             };
 
             this.DialogResult = DialogResult.OK;

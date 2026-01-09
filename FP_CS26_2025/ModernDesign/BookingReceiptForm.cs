@@ -28,6 +28,11 @@ namespace FP_CS26_2025.ModernDesign
                                 (data.NumChildren > 0 ? $", {data.NumChildren} Children" : "");
             lblDatesInfo.Text = $"Dates: {data.CheckInDate.ToShortDateString()} to {data.CheckOutDate.ToShortDateString()}";
             lblTotalPrice.Text = $"Total Price: P{data.TotalPrice:N2}";
+
+            if (!string.IsNullOrEmpty(data.PromoCode))
+            {
+                lblTotalPrice.Text += $"\n(Discount P{data.DiscountAmount:N2} applied via {data.PromoCode})";
+            }
         }
     }
 }

@@ -161,6 +161,39 @@ namespace FP_CS26_2025.Data
                         createCmd.ExecuteNonQuery();
                     }
 
+                    // Check if PromoCodes table exists
+                    var checkPromoTableCmd = new SqlCommand("SELECT OBJECT_ID('dbo.PromoCodes', 'U')", conn);
+                    if (checkPromoTableCmd.ExecuteScalar() == DBNull.Value)
+                    {
+                        const string createPromoTableQuery = @"
+                            CREATE TABLE PromoCodes (
+                                PromoID INT IDENTITY(1,1) PRIMARY KEY,
+                                Code NVARCHAR(50) NOT NULL UNIQUE,
+                                DiscountType NVARCHAR(20) NOT NULL, -- 'Percentage' or 'Fixed'
+                                DiscountValue DECIMAL(18, 2) NOT NULL,
+                                ExpiryDate DATETIME NOT NULL,
+                                IsActive BIT DEFAULT 1,
+                                CreatedAt DATETIME DEFAULT GETDATE()
+                            )";
+                        var createCmd = new SqlCommand(createPromoTableQuery, conn);
+                        createCmd.ExecuteNonQuery();
+
+                        // Add a seed promo code for testing
+                        const string seedPromoQuery = @"
+                            INSERT INTO PromoCodes (Code, DiscountType, DiscountValue, ExpiryDate)
+                            VALUES ('WELCOME20', 'Percentage', 20.00, '2030-12-31')";
+                        var seedCmd = new SqlCommand(seedPromoQuery, conn);
+                        seedCmd.ExecuteNonQuery();
+                    }
+
+                    // Add columns to Reservations for promo tracking if they don't exist
+                    var checkPromoCodeCmd = new SqlCommand("SELECT COL_LENGTH('Reservations', 'PromoCode')", conn);
+                    if (checkPromoCodeCmd.ExecuteScalar() == DBNull.Value)
+                    {
+                        var alterPromoCodeCmd = new SqlCommand("ALTER TABLE Reservations ADD PromoCode NVARCHAR(50), DiscountAmount DECIMAL(18, 2) DEFAULT 0", conn);
+                        alterPromoCodeCmd.ExecuteNonQuery();
+                    }
+
                     // Update Room Status Constraint to allow new enum values
                     UpdateRoomStatusConstraint(conn);
                 }

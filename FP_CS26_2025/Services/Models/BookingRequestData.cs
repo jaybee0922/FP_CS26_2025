@@ -15,5 +15,7 @@ namespace FP_CS26_2025.Services.Models
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
         public decimal TotalPrice { get; set; }
+        public string PromoCode { get; set; }
+        public decimal DiscountAmount { get; set; }
     }
 }

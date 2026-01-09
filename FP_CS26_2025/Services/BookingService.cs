@@ -1,6 +1,7 @@
 using System;
 using System.Data.SqlClient;
 using FP_CS26_2025.Data;
+using FP_CS26_2025.Services;
 using FP_CS26_2025.Services.Models;
 
 namespace FP_CS26_2025.Services
@@ -12,10 +13,16 @@ namespace FP_CS26_2025.Services
     public class BookingService : IBookingService
     {
         private readonly string _connectionString;
+        private readonly IPromoService _promoService;
 
-        public BookingService()
+        public BookingService() : this(new PromoService())
+        {
+        }
+
+        public BookingService(IPromoService promoService)
         {
             _connectionString = DatabaseHelper.ConnectionString;
+            _promoService = promoService;
         }
 
         /// <summary>
@@ -66,7 +73,7 @@ namespace FP_CS26_2025.Services
             }
         }
 
-        public decimal CalculateTotal(string roomType, int numRooms, int nights)
+        public decimal CalculateTotal(string roomType, int numRooms, int nights, string promoCode = null)
         {
             if (nights <= 0) nights = 1;
             if (numRooms <= 0) numRooms = 1;
@@ -96,7 +103,19 @@ namespace FP_CS26_2025.Services
             }
 
             // Financial Accuracy: Decimals used throughout
-            return basePrice * numRooms * nights;
+            decimal total = basePrice * numRooms * nights;
+
+            // Apply Promo Discount if applicable
+            if (!string.IsNullOrWhiteSpace(promoCode))
+            {
+                var promo = _promoService?.GetPromoCode(promoCode);
+                if (promo != null && promo.IsValid())
+                {
+                    total -= promo.CalculateDiscount(total);
+                }
+            }
+
+            return total;
         }
 
         public string ProcessBookingRequest(BookingRequestData request)
@@ -205,8 +224,8 @@ namespace FP_CS26_2025.Services
         private void CreateReservationRecord(string resId, int guestId, string roomNumber, BookingRequestData request, SqlConnection conn, SqlTransaction trans)
         {
             const string insertRes = @"
-                INSERT INTO Reservations (ReservationID, GuestID, RoomNumber, CheckInDate, CheckOutDate, Status, TotalAmount, RoomType, NumAdults, NumChildren, NumRooms)
-                VALUES (@ResID, @GuestID, @RoomNum, @CheckIn, @CheckOut, 'Pending', @Total, @RoomType, @Adults, @Children, @Rooms)";
+                INSERT INTO Reservations (ReservationID, GuestID, RoomNumber, CheckInDate, CheckOutDate, Status, TotalAmount, RoomType, NumAdults, NumChildren, NumRooms, PromoCode, DiscountAmount)
+                VALUES (@ResID, @GuestID, @RoomNum, @CheckIn, @CheckOut, 'Pending', @Total, @RoomType, @Adults, @Children, @Rooms, @Promo, @Discount)";
 
             using (var cmd = new SqlCommand(insertRes, conn, trans))
             {
@@ -220,6 +239,8 @@ namespace FP_CS26_2025.Services
                 cmd.Parameters.AddWithValue("@Adults", request.NumAdults);
                 cmd.Parameters.AddWithValue("@Children", request.NumChildren);
                 cmd.Parameters.AddWithValue("@Rooms", request.NumRooms);
+                cmd.Parameters.AddWithValue("@Promo", (object)request.PromoCode ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Discount", request.DiscountAmount);
                 cmd.ExecuteNonQuery();
             }
         }

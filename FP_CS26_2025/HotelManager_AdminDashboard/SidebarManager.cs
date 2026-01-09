@@ -10,7 +10,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
     public class SidebarManager : Panel, IDisposable
     {
         private Label lblHotelManager;
-        private Button btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSalesProfits, btnSystemConfig, btnLogout;
+        private Button btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSalesProfits, btnPromoCodes, btnSystemConfig, btnLogout;
         private Action<Button> navigationHandler;
 
         // Events for navigation
@@ -20,6 +20,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         public event EventHandler RoomRatesClicked;
         public event EventHandler ReportsClicked;
         public event EventHandler SalesProfitsClicked;
+        public event EventHandler PromoCodesClicked;
         public event EventHandler SystemConfigClicked;
         public event EventHandler LogoutClicked;
 
@@ -58,7 +59,8 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             btnRoomRates = CreateNavButton("Room Rates and Policies", 180);
             btnReports = CreateNavButton("Reports", 230);
             btnSalesProfits = CreateNavButton("Sales and Profits", 280);
-            btnSystemConfig = CreateNavButton("System Configuration", 330);
+            btnPromoCodes = CreateNavButton("Promo Codes", 330);
+            btnSystemConfig = CreateNavButton("System Configuration", 380);
 
             btnLogout = CreateNavButton("Logout", 0);
             btnLogout.BackColor = Color.FromArgb(192, 57, 43); // Alizarin Red
@@ -67,7 +69,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
             this.Controls.AddRange(new Control[] {
                 lblHotelManager, btnDashboard, btnUserManagement,
-                btnRoomRates, btnReports, btnSalesProfits, btnSystemConfig, btnLogout
+                btnRoomRates, btnReports, btnSalesProfits, btnPromoCodes, btnSystemConfig, btnLogout
             });
         }
 
@@ -117,6 +119,9 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                     case "Sales and Profits":
                         SalesProfitsClicked?.Invoke(this, EventArgs.Empty);
                         break;
+                    case "Promo Codes":
+                        PromoCodesClicked?.Invoke(this, EventArgs.Empty);
+                        break;
                     case "System Configuration":
                         SystemConfigClicked?.Invoke(this, EventArgs.Empty);
                         break;
@@ -139,7 +144,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
         public Button GetButtonByText(string buttonText)
         {
-            var buttons = new[] { btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSalesProfits, btnSystemConfig };
+            var buttons = new[] { btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSalesProfits, btnPromoCodes, btnSystemConfig };
             foreach (var button in buttons)
             {
                 if (button?.Text == buttonText)
@@ -171,7 +176,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
         public void ResetButtonColors()
         {
-            var buttons = new[] { btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSalesProfits, btnSystemConfig };
+            var buttons = new[] { btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSalesProfits, btnPromoCodes, btnSystemConfig };
             foreach (var button in buttons)
             {
                 if (button != null)
@@ -194,7 +199,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
 
         private void SetButtonsEnabled(bool enabled)
         {
-            var buttons = new[] { btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSalesProfits, btnSystemConfig };
+            var buttons = new[] { btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSalesProfits, btnPromoCodes, btnSystemConfig };
             foreach (var button in buttons)
             {
                 if (button != null)
@@ -270,7 +275,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         // Helper method to set properties on all buttons
         private void SetButtonProperty(Action<Button> action)
         {
-            var buttons = new[] { btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSalesProfits, btnSystemConfig };
+            var buttons = new[] { btnDashboard, btnUserManagement, btnRoomRates, btnReports, btnSalesProfits, btnPromoCodes, btnSystemConfig };
             foreach (var button in buttons)
             {
                 if (button != null)
@@ -336,6 +341,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 btnRoomRates?.Dispose();
                 btnReports?.Dispose();
                 btnSalesProfits?.Dispose();
+                btnPromoCodes?.Dispose();
                 btnSystemConfig?.Dispose();
                 btnLogout?.Dispose();
             }

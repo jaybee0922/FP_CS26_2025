@@ -19,6 +19,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         private RoomRatesControl _roomRatesControl;
         private FP_CS26_2025.HotelManager_AdminDashboard.Reports.ReportsControl _reportsControl;
         private FP_CS26_2025.HotelManager_AdminDashboard.SalesProfitsControl _salesProfitsControl;
+        private PromoManagementControl _promoControl;
 
         public Hotel_AdminDashboard()
         {
@@ -42,6 +43,12 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             _salesProfitsControl.Dock = DockStyle.Fill;
             _salesProfitsControl.Visible = false;
             mainContentPanel.Controls.Add(_salesProfitsControl);
+
+            // Initialize PromoManagementControl
+            _promoControl = new PromoManagementControl();
+            _promoControl.Dock = DockStyle.Fill;
+            _promoControl.Visible = false;
+            mainContentPanel.Controls.Add(_promoControl);
 
             this.DoubleBuffered = true;
             
@@ -99,6 +106,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 _roomRatesControl.Visible = false;
                 _reportsControl.Visible = false;
                 _salesProfitsControl.Visible = false;
+                _promoControl.Visible = false;
                 systemConfigurationControl1.Visible = false;
             };
 
@@ -110,6 +118,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 _roomRatesControl.Visible = false;
                 _reportsControl.Visible = false;
                 _salesProfitsControl.Visible = false;
+                _promoControl.Visible = false;
                 systemConfigurationControl1.Visible = false;
                 userManagementControl1.BringToFront();
             };
@@ -122,6 +131,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 systemConfigurationControl1.Visible = false;
                 _reportsControl.Visible = false;
                 _salesProfitsControl.Visible = false;
+                _promoControl.Visible = false;
                 _roomRatesControl.Visible = true;
                 _roomRatesControl.BringToFront();
                 _roomRatesControl.SetDataManager(dataManager);
@@ -136,6 +146,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 _roomRatesControl.Visible = false;
                 systemConfigurationControl1.Visible = false;
                 _salesProfitsControl.Visible = false;
+                _promoControl.Visible = false;
                 _reportsControl.Visible = true;
                 _reportsControl.BringToFront();
             };
@@ -148,6 +159,7 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 _roomRatesControl.Visible = false;
                 systemConfigurationControl1.Visible = false;
                 _reportsControl.Visible = false;
+                _promoControl.Visible = false;
                 _salesProfitsControl.Visible = true;
                 _salesProfitsControl.BringToFront();
                 _salesProfitsControl.LoadData();
@@ -161,9 +173,23 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
                 _roomRatesControl.Visible = false;
                 _reportsControl.Visible = false;
                 _salesProfitsControl.Visible = false;
+                _promoControl.Visible = false;
                 systemConfigurationControl1.Visible = true;
                 systemConfigurationControl1.BringToFront();
                 systemConfigurationControl1.SetDataManager(dataManager);
+            };
+
+            sidebarManager1.PromoCodesClicked += (s, e) =>
+            {
+                sidebarManager1.SelectButtonByText("Promo Codes");
+                tableLayoutPanelContent.Visible = false;
+                userManagementControl1.Visible = false;
+                _roomRatesControl.Visible = false;
+                _reportsControl.Visible = false;
+                _salesProfitsControl.Visible = false;
+                systemConfigurationControl1.Visible = false;
+                _promoControl.Visible = true;
+                _promoControl.BringToFront();
             };
         }
 
@@ -173,8 +199,8 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
             base.OnPaint(e);
             using (var brush = new LinearGradientBrush(
                 this.ClientRectangle,
-                Color.FromArgb(45, 52, 71),   // Dark Blue/Gray
-                Color.FromArgb(20, 23, 30),   // Deeper Blue/Black
+                Color.FromArgb(45, 52, 71),  
+                Color.FromArgb(20, 23, 30), 
                 45f))
             {
                 e.Graphics.FillRectangle(brush, this.ClientRectangle);

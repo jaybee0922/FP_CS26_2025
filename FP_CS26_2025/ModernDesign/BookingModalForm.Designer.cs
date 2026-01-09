@@ -41,6 +41,7 @@ namespace FP_CS26_2025.ModernDesign
             this.picRoom = new System.Windows.Forms.PictureBox();
             this.lblLiveTotal = new System.Windows.Forms.Label();
             this.lblStayDuration = new System.Windows.Forms.Label();
+            this.lblSavings = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numAdults)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numChildren)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRooms)).BeginInit();
@@ -191,7 +192,7 @@ namespace FP_CS26_2025.ModernDesign
             this.cmbRoomType.FormattingEnabled = true;
             this.cmbRoomType.Location = new System.Drawing.Point(410, 250);
             this.cmbRoomType.Name = "cmbRoomType";
-            this.cmbRoomType.Size = new System.Drawing.Size(390, 31);
+            this.cmbRoomType.Size = new System.Drawing.Size(600, 31);
             this.cmbRoomType.TabIndex = 9;
             // 
             // lblEmail
@@ -213,7 +214,7 @@ namespace FP_CS26_2025.ModernDesign
             this.txtEmail.ForeColor = System.Drawing.Color.White;
             this.txtEmail.Location = new System.Drawing.Point(410, 320);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(390, 30);
+            this.txtEmail.Size = new System.Drawing.Size(600, 30);
             this.txtEmail.TabIndex = 11;
             // 
             // lblPhone
@@ -235,7 +236,7 @@ namespace FP_CS26_2025.ModernDesign
             this.txtPhone.ForeColor = System.Drawing.Color.White;
             this.txtPhone.Location = new System.Drawing.Point(410, 390);
             this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(390, 30);
+            this.txtPhone.Size = new System.Drawing.Size(600, 30);
             this.txtPhone.TabIndex = 13;
             // 
             // btnBookNow
@@ -249,7 +250,7 @@ namespace FP_CS26_2025.ModernDesign
             this.btnBookNow.ForeColor = System.Drawing.Color.White;
             this.btnBookNow.Location = new System.Drawing.Point(410, 510);
             this.btnBookNow.Name = "btnBookNow";
-            this.btnBookNow.Size = new System.Drawing.Size(390, 50);
+            this.btnBookNow.Size = new System.Drawing.Size(600, 50);
             this.btnBookNow.TabIndex = 14;
             this.btnBookNow.Text = "CONFIRM BOOKING";
             this.btnBookNow.UseVisualStyleBackColor = false;
@@ -322,14 +323,26 @@ namespace FP_CS26_2025.ModernDesign
             // 
             // lblLiveTotal
             // 
-            this.lblLiveTotal.AutoSize = true;
             this.lblLiveTotal.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblLiveTotal.ForeColor = System.Drawing.Color.FromArgb(106, 176, 76);
             this.lblLiveTotal.Location = new System.Drawing.Point(410, 460);
             this.lblLiveTotal.Name = "lblLiveTotal";
-            this.lblLiveTotal.Size = new System.Drawing.Size(252, 37);
+            this.lblLiveTotal.Size = new System.Drawing.Size(400, 37);
             this.lblLiveTotal.TabIndex = 16;
             this.lblLiveTotal.Text = "Est. Total: P0.00";
+            this.lblLiveTotal.AutoSize = true;
+            // 
+            // lblSavings
+            // 
+            this.lblSavings.AutoSize = true;
+            this.lblSavings.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Italic);
+            this.lblSavings.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lblSavings.Location = new System.Drawing.Point(650, 473);
+            this.lblSavings.Name = "lblSavings";
+            this.lblSavings.Size = new System.Drawing.Size(120, 23);
+            this.lblSavings.TabIndex = 19;
+            this.lblSavings.Text = "(Savings: P0.00)";
+            this.lblSavings.Visible = false;
             // 
             // lblStayDuration
             // 
@@ -347,7 +360,8 @@ namespace FP_CS26_2025.ModernDesign
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(25, 30, 50);
-            this.ClientSize = new System.Drawing.Size(840, 580);
+            this.ClientSize = new System.Drawing.Size(1050, 580);
+            this.Controls.Add(this.lblSavings);
             this.Controls.Add(this.lblStayDuration);
             this.Controls.Add(this.lblLiveTotal);
             this.Controls.Add(this.pnlVisual);
@@ -412,5 +426,6 @@ namespace FP_CS26_2025.ModernDesign
         private System.Windows.Forms.Label lblPricePerNight;
         private System.Windows.Forms.Label lblLiveTotal;
         private System.Windows.Forms.Label lblStayDuration;
+        private System.Windows.Forms.Label lblSavings;
     }
 }

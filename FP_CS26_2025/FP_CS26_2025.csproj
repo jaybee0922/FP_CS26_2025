@@ -306,6 +306,15 @@
     <Compile Include="HotelManager_AdminDashboard\SalesProfitsControl.Designer.cs">
       <DependentUpon>SalesProfitsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="HotelManager_AdminDashboard\PromoManagementControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HotelManager_AdminDashboard\PromoManagementControl.Designer.cs">
+      <DependentUpon>PromoManagementControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\IPromoService.cs" />
+    <Compile Include="Services\PromoService.cs" />
+    <Compile Include="Services\Models\PromoCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="HotelManager_AdminDashboard\Room Rates &amp; Policies\RoomRatesControl.resx">
