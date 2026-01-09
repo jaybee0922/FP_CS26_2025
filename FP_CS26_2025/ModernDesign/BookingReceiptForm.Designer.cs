@@ -23,6 +23,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblRoomInfo = new System.Windows.Forms.Label();
             this.lblDatesInfo = new System.Windows.Forms.Label();
             this.lblTotalPrice = new System.Windows.Forms.Label();
+            this.lblReceiptDiscount = new System.Windows.Forms.Label();
             this.lblStatusMsg = new System.Windows.Forms.Label();
             this.lblStaffContact = new System.Windows.Forms.Label();
             this.btnClose = new FP_CS26_2025.ModernDesign.ModernButton();
@@ -57,7 +58,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblLine.BackColor = System.Drawing.Color.FromArgb(106, 176, 76);
             this.lblLine.Location = new System.Drawing.Point(50, 100);
             this.lblLine.Name = "lblLine";
-            this.lblLine.Size = new System.Drawing.Size(400, 2);
+            this.lblLine.Size = new System.Drawing.Size(460, 2);
             this.lblLine.TabIndex = 2;
             // 
             // lblDetailsHeader
@@ -106,22 +107,33 @@ namespace FP_CS26_2025.ModernDesign
             // 
             // lblTotalPrice
             // 
-            this.lblTotalPrice.AutoSize = true;
             this.lblTotalPrice.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTotalPrice.ForeColor = System.Drawing.Color.FromArgb(106, 176, 76);
-            this.lblTotalPrice.Location = new System.Drawing.Point(50, 270);
+            this.lblTotalPrice.ForeColor = System.Drawing.Color.White;
+            this.lblTotalPrice.Location = new System.Drawing.Point(50, 260);
             this.lblTotalPrice.Name = "lblTotalPrice";
-            this.lblTotalPrice.Size = new System.Drawing.Size(215, 32);
+            this.lblTotalPrice.Size = new System.Drawing.Size(400, 32);
             this.lblTotalPrice.TabIndex = 7;
             this.lblTotalPrice.Text = "Total Price: P0.00";
+            // 
+            // lblReceiptDiscount
+            // 
+            this.lblReceiptDiscount.AutoSize = true;
+            this.lblReceiptDiscount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
+            this.lblReceiptDiscount.ForeColor = System.Drawing.Color.FromArgb(150, 200, 150);
+            this.lblReceiptDiscount.Location = new System.Drawing.Point(55, 295);
+            this.lblReceiptDiscount.Name = "lblReceiptDiscount";
+            this.lblReceiptDiscount.Size = new System.Drawing.Size(125, 20);
+            this.lblReceiptDiscount.TabIndex = 11;
+            this.lblReceiptDiscount.Text = "(Promo Applied)";
+            this.lblReceiptDiscount.Visible = false;
             // 
             // lblStatusMsg
             // 
             this.lblStatusMsg.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
             this.lblStatusMsg.ForeColor = System.Drawing.Color.Gold;
-            this.lblStatusMsg.Location = new System.Drawing.Point(50, 320);
+            this.lblStatusMsg.Location = new System.Drawing.Point(50, 330);
             this.lblStatusMsg.Name = "lblStatusMsg";
-            this.lblStatusMsg.Size = new System.Drawing.Size(400, 45);
+            this.lblStatusMsg.Size = new System.Drawing.Size(450, 45);
             this.lblStatusMsg.TabIndex = 8;
             this.lblStatusMsg.Text = "Your booking is a request. We will contact you within 10-12 hours to confirm.";
             // 
@@ -130,7 +142,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblStaffContact.AutoSize = true;
             this.lblStaffContact.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblStaffContact.ForeColor = System.Drawing.Color.Silver;
-            this.lblStaffContact.Location = new System.Drawing.Point(50, 370);
+            this.lblStaffContact.Location = new System.Drawing.Point(50, 385);
             this.lblStaffContact.Name = "lblStaffContact";
             this.lblStaffContact.Size = new System.Drawing.Size(220, 20);
             this.lblStaffContact.TabIndex = 9;
@@ -145,9 +157,9 @@ namespace FP_CS26_2025.ModernDesign
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(50, 410);
+            this.btnClose.Location = new System.Drawing.Point(50, 430);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(400, 40);
+            this.btnClose.Size = new System.Drawing.Size(460, 40);
             this.btnClose.TabIndex = 10;
             this.btnClose.Text = "CLOSE";
             this.btnClose.UseVisualStyleBackColor = false;
@@ -155,6 +167,7 @@ namespace FP_CS26_2025.ModernDesign
             // panelContent
             // 
             this.panelContent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelContent.Controls.Add(this.lblReceiptDiscount);
             this.panelContent.Controls.Add(this.lblHotelName);
             this.panelContent.Controls.Add(this.btnClose);
             this.panelContent.Controls.Add(this.lblAddress);
@@ -169,7 +182,7 @@ namespace FP_CS26_2025.ModernDesign
             this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelContent.Location = new System.Drawing.Point(0, 0);
             this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(500, 480);
+            this.panelContent.Size = new System.Drawing.Size(560, 500);
             this.panelContent.TabIndex = 11;
             // 
             // BookingReceiptForm
@@ -177,7 +190,7 @@ namespace FP_CS26_2025.ModernDesign
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(25, 30, 50);
-            this.ClientSize = new System.Drawing.Size(500, 480);
+            this.ClientSize = new System.Drawing.Size(560, 500);
             this.Controls.Add(this.panelContent);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "BookingReceiptForm";
@@ -197,6 +210,7 @@ namespace FP_CS26_2025.ModernDesign
         private System.Windows.Forms.Label lblRoomInfo;
         private System.Windows.Forms.Label lblDatesInfo;
         private System.Windows.Forms.Label lblTotalPrice;
+        private System.Windows.Forms.Label lblReceiptDiscount;
         private System.Windows.Forms.Label lblStatusMsg;
         private System.Windows.Forms.Label lblStaffContact;
         private FP_CS26_2025.ModernDesign.ModernButton btnClose;

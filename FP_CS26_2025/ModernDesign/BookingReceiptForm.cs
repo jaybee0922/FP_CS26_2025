@@ -31,7 +31,12 @@ namespace FP_CS26_2025.ModernDesign
 
             if (!string.IsNullOrEmpty(data.PromoCode))
             {
-                lblTotalPrice.Text += $"\n(Discount P{data.DiscountAmount:N2} applied via {data.PromoCode})";
+                lblReceiptDiscount.Text = $"(Discount P{data.DiscountAmount:N2} applied via {data.PromoCode})";
+                lblReceiptDiscount.Visible = true;
+            }
+            else
+            {
+                lblReceiptDiscount.Visible = false;
             }
         }
     }
