@@ -290,7 +290,8 @@ namespace FP_CS26_2025.ModernDesign
                 CheckOutDate = _checkOut,
                 TotalPrice = finalPrice,
                 PromoCode = string.IsNullOrEmpty(_promoCode) ? null : _promoCode.ToUpper(),
-                DiscountAmount = discountApplied
+                DiscountAmount = discountApplied,
+                RoomImagePath = selectedRoom.ImagePath
             };
 
             this.DialogResult = DialogResult.OK;

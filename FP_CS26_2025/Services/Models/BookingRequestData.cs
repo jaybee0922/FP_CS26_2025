@@ -17,5 +17,6 @@ namespace FP_CS26_2025.Services.Models
         public decimal TotalPrice { get; set; }
         public string PromoCode { get; set; }
         public decimal DiscountAmount { get; set; }
+        public string RoomImagePath { get; set; }
     }
 }
