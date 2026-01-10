@@ -58,8 +58,9 @@ namespace FP_CS26_2025.Rooms
                 new FP_CS26_2025.Rooms.RoomService(), 
                 new FP_CS26_2025.Services.BookingService(), 
                 checkIn, 
-                checkOut, 
-                roomName)) // Pass the room name to lock it
+                checkOut,
+                null,      // promoCode
+                roomName)) // preSelectedRoom - Pass the room name to lock it
             {
                 if (modal.ShowDialog() == DialogResult.OK)
                 {

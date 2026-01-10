@@ -222,6 +222,7 @@ namespace FP_CS26_2025.ModernDesign
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 700);
             this.Controls.Add(this.mainBackgroundPanel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ModernHomeView";
             this.Text = "ModernHomeView";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

@@ -33,6 +33,7 @@ namespace FP_CS26_2025.ModernDesign
             this.lblPhone = new System.Windows.Forms.Label();
             this.txtPhone = new System.Windows.Forms.TextBox();
             this.btnBookNow = new FP_CS26_2025.ModernDesign.ModernButton();
+            this.btnCancel = new FP_CS26_2025.ModernDesign.ModernButton();
             this.pnlVisual = new System.Windows.Forms.Panel();
             this.lblPricePerNight = new System.Windows.Forms.Label();
             this.lblRoomSelectTitle = new System.Windows.Forms.Label();
@@ -255,6 +256,20 @@ namespace FP_CS26_2025.ModernDesign
             this.btnBookNow.Text = "CONFIRM BOOKING";
             this.btnBookNow.UseVisualStyleBackColor = false;
             // 
+            // btnCancel
+            // 
+            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(60, 60, 70);
+            this.btnCancel.BorderColor = System.Drawing.Color.Empty;
+            this.btnCancel.BorderRadius = 8;
+            this.btnCancel.FlatAppearance.BorderSize = 0;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnCancel.ForeColor = System.Drawing.Color.White;
+            this.btnCancel.Location = new System.Drawing.Point(820, 510);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(190, 50);
+            this.btnCancel.TabIndex = 15;
+            // 
             // pnlVisual
             // 
             this.pnlVisual.BackColor = System.Drawing.Color.FromArgb(30, 35, 50);
@@ -324,7 +339,7 @@ namespace FP_CS26_2025.ModernDesign
             // lblLiveTotal
             // 
             this.lblLiveTotal.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblLiveTotal.ForeColor = System.Drawing.Color.FromArgb(106, 176, 76);
+            this.lblLiveTotal.ForeColor = System.Drawing.Color.White;
             this.lblLiveTotal.Location = new System.Drawing.Point(410, 460);
             this.lblLiveTotal.Name = "lblLiveTotal";
             this.lblLiveTotal.Size = new System.Drawing.Size(400, 37);
@@ -366,6 +381,7 @@ namespace FP_CS26_2025.ModernDesign
             this.Controls.Add(this.lblLiveTotal);
             this.Controls.Add(this.pnlVisual);
             this.Controls.Add(this.btnBookNow);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.txtPhone);
             this.Controls.Add(this.lblPhone);
             this.Controls.Add(this.txtEmail);
@@ -383,12 +399,14 @@ namespace FP_CS26_2025.ModernDesign
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.lblFirstName);
             this.Controls.Add(this.lblTitle);
+            this.ControlBox = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "BookingModalForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "The Nexus Grand - Booking";
+            this.WindowState = System.Windows.Forms.FormWindowState.Normal;
             ((System.ComponentModel.ISupportInitialize)(this.numAdults)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numChildren)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRooms)).EndInit();
@@ -414,6 +432,7 @@ namespace FP_CS26_2025.ModernDesign
         private System.Windows.Forms.Label lblPhone;
         private System.Windows.Forms.TextBox txtPhone;
         private FP_CS26_2025.ModernDesign.ModernButton btnBookNow;
+        private FP_CS26_2025.ModernDesign.ModernButton btnCancel;
         private System.Windows.Forms.Label lblFirstName;
         private System.Windows.Forms.TextBox txtFirstName;
         private System.Windows.Forms.Label lblLastName;

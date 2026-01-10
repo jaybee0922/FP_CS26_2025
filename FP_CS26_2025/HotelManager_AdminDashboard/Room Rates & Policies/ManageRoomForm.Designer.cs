@@ -11,6 +11,10 @@ namespace FP_CS26_2025.Room_Rates___Policies
         private System.Windows.Forms.ComboBox cmbRoomType;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.ComboBox cmbStatus;
+        private System.Windows.Forms.Label lblBedConfig;
+        private System.Windows.Forms.ComboBox cmbBedConfig;
+        private System.Windows.Forms.Label lblViewType;
+        private System.Windows.Forms.ComboBox cmbViewType;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
 
@@ -33,6 +37,10 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.cmbRoomType = new System.Windows.Forms.ComboBox();
             this.lblStatus = new System.Windows.Forms.Label();
             this.cmbStatus = new System.Windows.Forms.ComboBox();
+            this.lblBedConfig = new System.Windows.Forms.Label();
+            this.cmbBedConfig = new System.Windows.Forms.ComboBox();
+            this.lblViewType = new System.Windows.Forms.Label();
+            this.cmbViewType = new System.Windows.Forms.ComboBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numFloor)).BeginInit();
@@ -116,16 +124,56 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.cmbStatus.Size = new System.Drawing.Size(200, 25);
             this.cmbStatus.TabIndex = 7;
             // 
+            // lblBedConfig
+            // 
+            this.lblBedConfig.AutoSize = true;
+            this.lblBedConfig.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblBedConfig.Location = new System.Drawing.Point(30, 210);
+            this.lblBedConfig.Name = "lblBedConfig";
+            this.lblBedConfig.Size = new System.Drawing.Size(80, 19);
+            this.lblBedConfig.TabIndex = 8;
+            this.lblBedConfig.Text = "Bed Config:";
+            // 
+            // cmbBedConfig
+            // 
+            this.cmbBedConfig.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBedConfig.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbBedConfig.FormattingEnabled = true;
+            this.cmbBedConfig.Location = new System.Drawing.Point(150, 207);
+            this.cmbBedConfig.Name = "cmbBedConfig";
+            this.cmbBedConfig.Size = new System.Drawing.Size(200, 25);
+            this.cmbBedConfig.TabIndex = 9;
+            // 
+            // lblViewType
+            // 
+            this.lblViewType.AutoSize = true;
+            this.lblViewType.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblViewType.Location = new System.Drawing.Point(30, 255);
+            this.lblViewType.Name = "lblViewType";
+            this.lblViewType.Size = new System.Drawing.Size(73, 19);
+            this.lblViewType.TabIndex = 10;
+            this.lblViewType.Text = "View Type:";
+            // 
+            // cmbViewType
+            // 
+            this.cmbViewType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbViewType.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbViewType.FormattingEnabled = true;
+            this.cmbViewType.Location = new System.Drawing.Point(150, 252);
+            this.cmbViewType.Name = "cmbViewType";
+            this.cmbViewType.Size = new System.Drawing.Size(200, 25);
+            this.cmbViewType.TabIndex = 11;
+            // 
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(150, 220);
+            this.btnSave.Location = new System.Drawing.Point(150, 310);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(90, 35);
-            this.btnSave.TabIndex = 8;
+            this.btnSave.TabIndex = 12;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -136,10 +184,10 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(260, 220);
+            this.btnCancel.Location = new System.Drawing.Point(260, 310);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(90, 35);
-            this.btnCancel.TabIndex = 9;
+            this.btnCancel.TabIndex = 13;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -149,9 +197,13 @@ namespace FP_CS26_2025.Room_Rates___Policies
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(400, 300);
+            this.ClientSize = new System.Drawing.Size(400, 390);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.cmbViewType);
+            this.Controls.Add(this.lblViewType);
+            this.Controls.Add(this.cmbBedConfig);
+            this.Controls.Add(this.lblBedConfig);
             this.Controls.Add(this.cmbStatus);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.cmbRoomType);

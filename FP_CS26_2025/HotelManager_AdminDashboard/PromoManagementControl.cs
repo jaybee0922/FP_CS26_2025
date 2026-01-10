@@ -14,9 +14,13 @@ namespace FP_CS26_2025.HotelManager_AdminDashboard
         public PromoManagementControl()
         {
             InitializeComponent();
-            _promoService = new PromoService(); // Abstraction: Using interface
-            LoadPromos();
-            ResetForm();
+
+            if (!DesignMode)
+            {
+                _promoService = new PromoService(); // Abstraction: Using interface
+                LoadPromos();
+                ResetForm();
+            }
         }
 
         private void LoadPromos()

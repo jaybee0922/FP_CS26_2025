@@ -48,6 +48,8 @@ namespace FP_CS26_2025.ModernDesign
             
             // UI Event Hooks
             this.btnBookNow.Click += BtnBookNow_Click;
+            this.btnCancel.Click += (s, e) => { this.DialogResult = DialogResult.Cancel; this.Close(); };
+            
             this.cmbRoomType.SelectedIndexChanged += (s, e) => UpdateLiveTotalSafely();
             this.numRooms.ValueChanged += (s, e) => UpdateLiveTotalSafely();
             
@@ -86,6 +88,8 @@ namespace FP_CS26_2025.ModernDesign
 
         private void LoadRoomsDataSafely()
         {
+            if (DesignMode) return;
+
             try
             {
                 _allRooms = _roomService.GetAllRooms()?.ToList() ?? new List<IRoom>();
@@ -156,13 +160,13 @@ namespace FP_CS26_2025.ModernDesign
                         else
                         {
                             lblSavings.Visible = false;
-                            lblLiveTotal.ForeColor = Color.Black;
+                            lblLiveTotal.ForeColor = Color.White;
                         }
                     }
                     else
                     {
                         lblLiveTotal.Text = $"Est. Total: P{total:N2}";
-                        lblLiveTotal.ForeColor = Color.Black;
+                        lblLiveTotal.ForeColor = Color.White;
                         lblSavings.Visible = false;
                     }
                 }

@@ -26,7 +26,10 @@ namespace FP_CS26_2025.ModernDesign
             _configService = configService ?? throw new ArgumentNullException(nameof(configService));
             InitializeComponent();
             
-            this.modernNavbar.ActivePage = "Home";
+            if (!DesignMode)
+            {
+                this.modernNavbar.ActivePage = "Home";
+            }
         }
 
         public ModernHomeView() : this(new BookingService(), new RoomService(), new XmlConfigService())
@@ -35,6 +38,8 @@ namespace FP_CS26_2025.ModernDesign
 
         private void ModernHomeView_Load(object sender, EventArgs e)
         {
+            if (DesignMode) return;
+
             btnCheck.Click += SafeBtnCheck_Click;
             LoadHotelConfiguration();
 

@@ -33,6 +33,8 @@ namespace FP_CS26_2025
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
+            if (DesignMode) return;
+
             roleComboBox1.Items.Clear();
             roleComboBox1.Items.Add("Super Admin");
             roleComboBox1.Items.Add("Front Desk");

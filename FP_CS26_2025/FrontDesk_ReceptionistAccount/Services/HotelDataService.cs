@@ -18,7 +18,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
         IEnumerable<PaymentRecord> GetAllPayments();
         System.Data.DataTable GetArchivedReports();
         System.Data.DataTable GetAllPhysicalRooms();
-        void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status);
+        void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status, string bedConfig = "Standard", string viewType = "City View");
         void DeletePhysicalRoom(string roomNumber);
         System.Data.DataTable GetAllRoomTypes();
         void DeleteReservation(string reservationId);
@@ -64,7 +64,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public IEnumerable<PaymentRecord> GetAllPayments() => new List<PaymentRecord>();
         public System.Data.DataTable GetArchivedReports() => new System.Data.DataTable();
         public System.Data.DataTable GetAllPhysicalRooms() => new System.Data.DataTable();
-        public void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status) { }
+        public void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status, string bedConfig = "Standard", string viewType = "City View") { }
         public void DeletePhysicalRoom(string roomNumber) { }
         public System.Data.DataTable GetAllRoomTypes() => new System.Data.DataTable();
         public void DeleteReservation(string reservationId) 

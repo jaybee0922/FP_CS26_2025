@@ -3,12 +3,6 @@ namespace FP_CS26_2025.Rooms
     partial class RoomsShowcaseForm
     {
         private System.ComponentModel.IContainer components = null;
-        private RoomGalleryView roomGalleryView1;
-        private System.Windows.Forms.Label lblSubtitle;
-        private System.Windows.Forms.Label lblArrival;
-        private System.Windows.Forms.Label lblDeparture;
-        private System.Windows.Forms.DateTimePicker dtpArrival;
-        private System.Windows.Forms.DateTimePicker dtpDeparture;
 
         protected override void Dispose(bool disposing)
         {
@@ -24,7 +18,6 @@ namespace FP_CS26_2025.Rooms
             this.mainBackgroundPanel = new FP_CS26_2025.ModernDesign.GradientPanel();
             this.lblSubtitle = new System.Windows.Forms.Label();
             this.lblLogo = new System.Windows.Forms.Label();
-            this.modernNavbar1 = new FP_CS26_2025.ModernDesign.ModernNavbar();
             this.modernNavbar1 = new FP_CS26_2025.ModernDesign.ModernNavbar();
             this.roomGalleryView1 = new FP_CS26_2025.Rooms.RoomGalleryView();
             this.footerControl = new FP_CS26_2025.ModernDesign.FooterControl();
@@ -60,7 +53,7 @@ namespace FP_CS26_2025.Rooms
             this.lblSubtitle.BackColor = System.Drawing.Color.Transparent;
             this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI Semilight", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.lblSubtitle.Location = new System.Drawing.Point(144, 95);
+            this.lblSubtitle.Location = new System.Drawing.Point(52, 74);
             this.lblSubtitle.Name = "lblSubtitle";
             this.lblSubtitle.Size = new System.Drawing.Size(378, 32);
             this.lblSubtitle.TabIndex = 3;
@@ -121,7 +114,7 @@ namespace FP_CS26_2025.Rooms
             this.lblLogo.BackColor = System.Drawing.Color.Transparent;
             this.lblLogo.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLogo.ForeColor = System.Drawing.Color.White;
-            this.lblLogo.Location = new System.Drawing.Point(144, 45);
+            this.lblLogo.Location = new System.Drawing.Point(50, 30);
             this.lblLogo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLogo.Name = "lblLogo";
             this.lblLogo.Size = new System.Drawing.Size(395, 54);
@@ -159,6 +152,7 @@ namespace FP_CS26_2025.Rooms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1600, 862);
             this.Controls.Add(this.mainBackgroundPanel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "RoomsShowcaseForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.mainBackgroundPanel.ResumeLayout(false);
@@ -171,5 +165,11 @@ namespace FP_CS26_2025.Rooms
         private FP_CS26_2025.ModernDesign.ModernNavbar modernNavbar1;
         private System.Windows.Forms.Label lblLogo;
         private FP_CS26_2025.ModernDesign.FooterControl footerControl;
+        private FP_CS26_2025.Rooms.RoomGalleryView roomGalleryView1;
+        private System.Windows.Forms.Label lblSubtitle;
+        private System.Windows.Forms.Label lblArrival;
+        private System.Windows.Forms.Label lblDeparture;
+        private System.Windows.Forms.DateTimePicker dtpArrival;
+        private System.Windows.Forms.DateTimePicker dtpDeparture;
     }
 }

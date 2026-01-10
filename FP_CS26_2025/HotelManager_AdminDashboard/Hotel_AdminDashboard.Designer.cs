@@ -166,10 +166,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1432, 715);
             this.Controls.Add(this.mainLayout);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Hotel_AdminDashboard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hotel Manager Dashboard";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.mainLayout.ResumeLayout(false);
             this.dashboardContainer.ResumeLayout(false);
             this.mainContentPanel.ResumeLayout(false);

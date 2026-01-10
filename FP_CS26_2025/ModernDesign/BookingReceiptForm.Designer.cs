@@ -234,6 +234,7 @@ namespace FP_CS26_2025.ModernDesign
             this.Name = "BookingReceiptForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Booking Receipt";
+            this.WindowState = System.Windows.Forms.FormWindowState.Normal;
             this.panelContent.ResumeLayout(false);
             this.panelContent.PerformLayout();
             this.ResumeLayout(false);

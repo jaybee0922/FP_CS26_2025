@@ -98,10 +98,14 @@ namespace FP_CS26_2025
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1440, 715);
             this.Controls.Add(this.mainRootLayout);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Hotel_FrontDeskDashboard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Front Desk Dashboard";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.dashboardContainer.ResumeLayout(false);
             this.mainRootLayout.ResumeLayout(false);
             this.ResumeLayout(false);

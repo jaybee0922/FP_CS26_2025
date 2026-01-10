@@ -194,6 +194,48 @@ namespace FP_CS26_2025.Data
                         alterPromoCodeCmd.ExecuteNonQuery();
                     }
 
+                    // Add Room metadata columns (BedConfig, ViewType)
+                    var checkBedConfigCmd = new SqlCommand("SELECT COL_LENGTH('Rooms', 'BedConfig')", conn);
+                    if (checkBedConfigCmd.ExecuteScalar() == DBNull.Value)
+                    {
+                        var alterBedConfigCmd = new SqlCommand("ALTER TABLE Rooms ADD BedConfig NVARCHAR(50) DEFAULT 'Standard'", conn);
+                        alterBedConfigCmd.ExecuteNonQuery();
+                    }
+
+                    var checkViewTypeCmd = new SqlCommand("SELECT COL_LENGTH('Rooms', 'ViewType')", conn);
+                    if (checkViewTypeCmd.ExecuteScalar() == DBNull.Value)
+                    {
+                        var alterViewTypeCmd = new SqlCommand("ALTER TABLE Rooms ADD ViewType NVARCHAR(50) DEFAULT 'City View'", conn);
+                        alterViewTypeCmd.ExecuteNonQuery();
+                    }
+
+                    // Add Guest detail columns (IdType, IdNumber, Nationality, GuestType)
+                    var checkIdTypeCmd = new SqlCommand("SELECT COL_LENGTH('Guests', 'IdType')", conn);
+                    if (checkIdTypeCmd.ExecuteScalar() == DBNull.Value)
+                    {
+                        var alterIdTypeCmd = new SqlCommand("ALTER TABLE Guests ADD IdType NVARCHAR(50), IdNumber NVARCHAR(100), Nationality NVARCHAR(100), GuestType NVARCHAR(50) DEFAULT 'Regular'", conn);
+                        alterIdTypeCmd.ExecuteNonQuery();
+                    }
+
+                    // Create BillItems table for itemized billing
+                    var checkBillItemsTableCmd = new SqlCommand("SELECT OBJECT_ID('dbo.BillItems', 'U')", conn);
+                    if (checkBillItemsTableCmd.ExecuteScalar() == DBNull.Value)
+                    {
+                        const string createBillItemsTableQuery = @"
+                            CREATE TABLE BillItems (
+                                ItemID INT IDENTITY(1,1) PRIMARY KEY,
+                                ReservationID NVARCHAR(50) NOT NULL,
+                                Description NVARCHAR(255) NOT NULL,
+                                Quantity INT DEFAULT 1,
+                                UnitPrice DECIMAL(18, 2) NOT NULL,
+                                TotalPrice DECIMAL(18, 2) NOT NULL,
+                                CreatedAt DATETIME DEFAULT GETDATE(),
+                                FOREIGN KEY (ReservationID) REFERENCES Reservations(ReservationID)
+                            )";
+                        var createCmd = new SqlCommand(createBillItemsTableQuery, conn);
+                        createCmd.ExecuteNonQuery();
+                    }
+
                     // Update Room Status Constraint to allow new enum values
                     UpdateRoomStatusConstraint(conn);
                 }

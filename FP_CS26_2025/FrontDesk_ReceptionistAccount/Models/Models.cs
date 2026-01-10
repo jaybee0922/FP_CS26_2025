@@ -10,10 +10,15 @@ namespace FP_CS26_2025.FrontDesk_MVC
         public string FullName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public string IdType { get; set; }
+        public string IdNumber { get; set; }
+        public string Nationality { get; set; }
+        public string GuestType { get; set; } // Regular, VIP, Corporate
 
         public Guest()
         {
             GuestId = Guid.NewGuid().ToString().Substring(0, 8);
+            GuestType = "Regular"; // Default classification
         }
     }
 
@@ -94,6 +99,27 @@ namespace FP_CS26_2025.FrontDesk_MVC
             AmountPaid = amountPaid;
             Change = amountPaid - TotalAmount;
             IsPaid = true;
+        }
+
+        /// <summary>
+        /// Adds an extra charge to the bill (e.g., Mini-bar, Late Checkout).
+        /// Recalculates totals after adding the item.
+        /// </summary>
+        public void AddExtraCharge(string description, int quantity, decimal unitPrice)
+        {
+            var lineItem = new BillLineItem
+            {
+                Description = description,
+                Quantity = quantity,
+                UnitPrice = unitPrice,
+                Total = quantity * unitPrice
+            };
+
+            LineItems.Add(lineItem);
+            
+            // Recalculate totals
+            Subtotal = LineItems.Sum(item => item.Total);
+            TotalAmount = Subtotal + Tax;
         }
     }
 

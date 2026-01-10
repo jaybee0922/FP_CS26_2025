@@ -21,6 +21,8 @@ namespace FP_CS26_2025.FrontDesk_MVC
         int Capacity { get; }
         int Floor { get; set; }
         RoomStatus Status { get; set; }
+        string BedConfig { get; set; }
+        string ViewType { get; set; }
         
         decimal CalculateTotalPrice(int nights);
         string GetDetails();

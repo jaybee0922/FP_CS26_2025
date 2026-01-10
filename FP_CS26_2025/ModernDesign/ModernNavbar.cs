@@ -31,6 +31,11 @@ namespace FP_CS26_2025.ModernDesign
             _navigationService = navigationService;
             InitializeComponents();
             this.BackColor = Color.Transparent;
+
+            if (!DesignMode)
+            {
+                UpdateActiveStyles();
+            }
         }
 
         private void InitializeComponents()

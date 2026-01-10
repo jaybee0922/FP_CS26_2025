@@ -19,14 +19,19 @@ namespace FP_CS26_2025
 
         public Hotel_FrontDeskDashboard()
         {
-            // Dependency Injection: Switching to real SQL Data Service
-            IHotelDataService dataService = new SqlHotelDataService();
-            _controller = new FrontDeskController(dataService);
-            _logoutService = new LogoutService();
-
             InitializeComponent();
-            SetupDashboard();
-            SetupSidebarEvents();
+
+            if (!DesignMode)
+            {
+                // Dependency Injection: Switching to real SQL Data Service
+                IHotelDataService dataService = new SqlHotelDataService();
+                _controller = new FrontDeskController(dataService);
+                _logoutService = new LogoutService();
+
+                SetupDashboard();
+                SetupSidebarEvents();
+            }
+
             this.DoubleBuffered = true;
         }
 

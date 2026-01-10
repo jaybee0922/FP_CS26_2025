@@ -27,6 +27,8 @@ namespace FP_CS26_2025.Room_Rates___Policies
             
             LoadRoomTypes();
             LoadStatuses();
+            LoadBedConfigs();
+            LoadViewTypes();
             
             if (_isEdit)
             {
@@ -75,6 +77,29 @@ namespace FP_CS26_2025.Room_Rates___Policies
             cmbStatus.SelectedIndex = 0;
         }
 
+        private void LoadBedConfigs()
+        {
+            cmbBedConfig.Items.Clear();
+            cmbBedConfig.Items.Add("King Bed");
+            cmbBedConfig.Items.Add("Queen Bed");
+            cmbBedConfig.Items.Add("Twin Beds");
+            cmbBedConfig.Items.Add("Two Double Beds");
+            cmbBedConfig.Items.Add("Multiple Beds");
+            cmbBedConfig.Items.Add("Standard");
+            cmbBedConfig.SelectedIndex = 5; // Default to "Standard"
+        }
+
+        private void LoadViewTypes()
+        {
+            cmbViewType.Items.Clear();
+            cmbViewType.Items.Add("City View");
+            cmbViewType.Items.Add("Garden View");
+            cmbViewType.Items.Add("Sea View");
+            cmbViewType.Items.Add("Panoramic View");
+            cmbViewType.Items.Add("Mountain View");
+            cmbViewType.SelectedIndex = 0; // Default to "City View"
+        }
+
         private void LoadRoomData()
         {
             try
@@ -88,6 +113,12 @@ namespace FP_CS26_2025.Room_Rates___Policies
                     numFloor.Value = Convert.ToInt32(row["Floor"]);
                     cmbRoomType.SelectedValue = row["RoomTypeID"];
                     cmbStatus.SelectedItem = row["Status"].ToString();
+                    
+                    // Load new metadata fields
+                    if (row.Table.Columns.Contains("BedConfig") && row["BedConfig"] != DBNull.Value)
+                        cmbBedConfig.SelectedItem = row["BedConfig"].ToString();
+                    if (row.Table.Columns.Contains("ViewType") && row["ViewType"] != DBNull.Value)
+                        cmbViewType.SelectedItem = row["ViewType"].ToString();
                 }
             }
             catch (Exception ex)
@@ -110,12 +141,14 @@ namespace FP_CS26_2025.Room_Rates___Policies
                 int typeId = (int)cmbRoomType.SelectedValue;
                 int floor = (int)numFloor.Value;
                 string status = cmbStatus.SelectedItem.ToString();
+                string bedConfig = cmbBedConfig.SelectedItem?.ToString() ?? "Standard";
+                string viewType = cmbViewType.SelectedItem?.ToString() ?? "City View";
                 
                 // Sanitize for DB Constraint (No spaces allowed in Enum-mapped constraints)
                 if (status == "Under Maintenance") status = "UnderMaintenance";
                 if (status == "Out of Service") status = "OutOfService";
 
-                _dataService.SavePhysicalRoom(rNum, typeId, floor, status);
+                _dataService.SavePhysicalRoom(rNum, typeId, floor, status, bedConfig, viewType);
                 
                 this.DialogResult = DialogResult.OK;
                 this.Close();

@@ -515,7 +515,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
                 {
                     conn.Open();
                     const string query = @"
-                        SELECT r.RoomNumber, rt.TypeName as RoomType, r.Floor, r.Status, r.RoomTypeID
+                        SELECT r.RoomNumber, rt.TypeName as RoomType, r.Floor, r.Status, r.RoomTypeID, r.BedConfig, r.ViewType
                         FROM Rooms r
                         JOIN RoomTypes rt ON r.RoomTypeID = rt.RoomTypeID
                         ORDER BY r.Floor, r.RoomNumber";
@@ -532,7 +532,7 @@ namespace FP_CS26_2025.FrontDesk_MVC
             return dt;
         }
 
-        public void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status)
+        public void SavePhysicalRoom(string roomNumber, int roomTypeId, int floor, string status, string bedConfig = "Standard", string viewType = "City View")
         {
             try
             {
@@ -542,11 +542,11 @@ namespace FP_CS26_2025.FrontDesk_MVC
                     const string query = @"
                         IF EXISTS (SELECT 1 FROM Rooms WHERE RoomNumber = @Num)
                         BEGIN
-                            UPDATE Rooms SET RoomTypeID = @TypeId, Floor = @Floor, Status = @Status WHERE RoomNumber = @Num
+                            UPDATE Rooms SET RoomTypeID = @TypeId, Floor = @Floor, Status = @Status, BedConfig = @BedConfig, ViewType = @ViewType WHERE RoomNumber = @Num
                         END
                         ELSE
                         BEGIN
-                            INSERT INTO Rooms (RoomNumber, RoomTypeID, Floor, Status) VALUES (@Num, @TypeId, @Floor, @Status)
+                            INSERT INTO Rooms (RoomNumber, RoomTypeID, Floor, Status, BedConfig, ViewType) VALUES (@Num, @TypeId, @Floor, @Status, @BedConfig, @ViewType)
                         END";
                     
                     using (var cmd = new SqlCommand(query, conn))
@@ -555,6 +555,8 @@ namespace FP_CS26_2025.FrontDesk_MVC
                         cmd.Parameters.AddWithValue("@TypeId", roomTypeId);
                         cmd.Parameters.AddWithValue("@Floor", floor);
                         cmd.Parameters.AddWithValue("@Status", status);
+                        cmd.Parameters.AddWithValue("@BedConfig", bedConfig);
+                        cmd.Parameters.AddWithValue("@ViewType", viewType);
                         cmd.ExecuteNonQuery();
                     }
                 }

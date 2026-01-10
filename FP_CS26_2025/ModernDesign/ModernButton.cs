@@ -95,7 +95,10 @@ namespace FP_CS26_2025.ModernDesign
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            this.Parent.BackColorChanged += new EventHandler(Container_BackColorChanged);
+            if (this.Parent != null)
+            {
+                this.Parent.BackColorChanged += new EventHandler(Container_BackColorChanged);
+            }
         }
 
         private void Container_BackColorChanged(object sender, EventArgs e)
